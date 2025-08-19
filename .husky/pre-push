@@ -1,5 +1,4 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+
 
 echo "푸시 전 빌드 테스트 진행"
 npm run build
