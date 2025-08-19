@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "푸시 전 빌드 테스트 진행"
+npm run build
+
+if [ $? -eq 0 ]; then
+  echo "빌드 성공 - 푸시 진행.."
+else
+  echo "빌드 실패 - 푸시 취소.."
+  exit 1
+fi
