@@ -1,12 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
-// import type { Database } from './types';
+import type { Database } from '@/shared/types';
 
-// npx supabase gen types typescript --project-id mehfhzgjbfywylancalx > src/typs/supabse.ts
+// npx supabase gen types typescript --project-id mehfhzgjbfywylancalx > src/shared/types/supabase.ts
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseKey, {
+const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
