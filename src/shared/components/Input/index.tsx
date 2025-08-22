@@ -1,6 +1,5 @@
 import tw from '@/shared/utils/style';
 import TimeSvg from './assets/time.svg';
-import clsx from 'clsx';
 
 interface Props {
   className?: string;
