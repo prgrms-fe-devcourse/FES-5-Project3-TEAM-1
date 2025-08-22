@@ -5,7 +5,7 @@ import { HelmetProvider } from '@dr.pogodin/react-helmet';
 import { RouterProvider } from 'react-router';
 
 import router from './router/router.tsx';
-import './styles/global.css';
+import './shared/styles/global.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

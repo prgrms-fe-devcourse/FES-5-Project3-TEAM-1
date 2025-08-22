@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 // import type { Database } from './types';
 
-// npx supabase gen types typescript --project-id <project_ID> > src/typs/supabse.ts
+// npx supabase gen types typescript --project-id mehfhzgjbfywylancalx > src/typs/supabse.ts
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
