@@ -14,7 +14,433 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      balance: {
+        Row: {
+          created_at: string | null
+          end_date: string
+          feed_id: string
+          id: string
+          option_1: string
+          option_2: string
+          start_date: string
+          status: string
+        }
+        Insert: {
+          created_at?: string | null
+          end_date: string
+          feed_id: string
+          id?: string
+          option_1: string
+          option_2: string
+          start_date?: string
+          status?: string
+        }
+        Update: {
+          created_at?: string | null
+          end_date?: string
+          feed_id?: string
+          id?: string
+          option_1?: string
+          option_2?: string
+          start_date?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "balance_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      balance_result: {
+        Row: {
+          balance_id: string
+          created_at: string | null
+          id: string
+          option_choice: number
+          token: string
+        }
+        Insert: {
+          balance_id: string
+          created_at?: string | null
+          id?: string
+          option_choice: number
+          token: string
+        }
+        Update: {
+          balance_id?: string
+          created_at?: string | null
+          id?: string
+          option_choice?: number
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "balance_result_balance_id_fkey"
+            columns: ["balance_id"]
+            isOneToOne: false
+            referencedRelation: "balance"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      comment: {
+        Row: {
+          content: string
+          created_at: string | null
+          feed_id: string
+          id: string
+          nickname: string | null
+          token: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          feed_id: string
+          id?: string
+          nickname?: string | null
+          token: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          feed_id?: string
+          id?: string
+          nickname?: string | null
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      drawing: {
+        Row: {
+          created_at: string | null
+          feed_id: string
+          id: string
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          feed_id: string
+          id?: string
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          feed_id?: string
+          id?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drawing_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      emoji_counts: {
+        Row: {
+          counts: number
+          emoji: string
+          feed_id: string
+        }
+        Insert: {
+          counts?: number
+          emoji: string
+          feed_id: string
+        }
+        Update: {
+          counts?: number
+          emoji?: string
+          feed_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emoji_counts_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      emoji_reactions: {
+        Row: {
+          created_at: string | null
+          emoji: string
+          feed_id: string
+          id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string | null
+          emoji: string
+          feed_id: string
+          id?: string
+          token: string
+        }
+        Update: {
+          created_at?: string | null
+          emoji?: string
+          feed_id?: string
+          id?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emoji_reactions_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feeds: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          nickname: string | null
+          thread_id: string
+          token: string
+          type: number
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          nickname?: string | null
+          thread_id: string
+          token: string
+          type: number
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          nickname?: string | null
+          thread_id?: string
+          token?: string
+          type?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feeds_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      image: {
+        Row: {
+          created_at: string | null
+          feed_id: string
+          id: string
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          feed_id: string
+          id?: string
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          feed_id?: string
+          id?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "image_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      poll_options: {
+        Row: {
+          created_at: string | null
+          id: string
+          option_order: number
+          option_text: string
+          poll_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          option_order: number
+          option_text: string
+          poll_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          option_order?: number
+          option_text?: string
+          poll_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "poll_options_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      polls: {
+        Row: {
+          created_at: string | null
+          end_date: string
+          feed_id: string
+          id: string
+          multiple_choice: boolean | null
+          start_date: string
+          status: string
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          end_date: string
+          feed_id: string
+          id?: string
+          multiple_choice?: boolean | null
+          start_date?: string
+          status?: string
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          end_date?: string
+          feed_id?: string
+          id?: string
+          multiple_choice?: boolean | null
+          start_date?: string
+          status?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "polls_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      threads: {
+        Row: {
+          created_at: string | null
+          description: string
+          id: string
+          link: string
+          owner_id: string
+          password: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description: string
+          id?: string
+          link: string
+          owner_id: string
+          password?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          id?: string
+          link?: string
+          owner_id?: string
+          password?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "threads_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      votes: {
+        Row: {
+          created_at: string | null
+          id: string
+          option_id: string
+          poll_id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          option_id: string
+          poll_id: string
+          token: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          option_id?: string
+          poll_id?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_option_id_fkey"
+            columns: ["option_id"]
+            isOneToOne: false
+            referencedRelation: "poll_options"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votes_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
