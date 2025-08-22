@@ -1,10 +1,4 @@
-import Input from '@/shared/components/Input';
-
 const Home = () => {
-  return (
-    <div>
-      <Input label="제목" />
-    </div>
-  );
+  return <div className="p-4 flex flex-col gap-2"></div>;
 };
 export default Home;

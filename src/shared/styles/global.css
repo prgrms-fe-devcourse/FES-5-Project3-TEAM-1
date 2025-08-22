@@ -4,6 +4,7 @@
 
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/preflight.css' layer(base);
+@import './_utilities.css';
 @import 'tailwindcss/utilities.css' layer(utilities);
 
 /* 폰트 */
