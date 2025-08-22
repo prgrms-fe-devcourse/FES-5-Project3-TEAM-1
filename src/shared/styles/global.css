@@ -24,6 +24,19 @@
   }
 }
 
+@layer utilities {
+  .root-min-h {
+    min-height: calc(min(100vh, 100svh, 100dvh) - 14rem);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  @media (min-width: 768px) {
+    .root-min-h {
+      min-height: calc(min(100vh, 100svh, 100dvh) - 10.5rem);
+    }
+  }
+}
+
 /* colors */
 @theme {
   --color-primary: #799eff;

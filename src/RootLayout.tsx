@@ -13,10 +13,11 @@ const RootLayout = () => {
   const [tab, setTab] = useState('all')
 
   return (
-    <div>
+    <div className='flex flex-col'>
       <Header tabs={TABS} currentTab={tab} onTabChange={(tabId:string) => setTab(tabId)} />
-      <div className=''>
-        <main>
+
+      <div className='root-min-h'>
+        <main className='bg-bg-main'>
           <Outlet />
         </main>
       </div>
