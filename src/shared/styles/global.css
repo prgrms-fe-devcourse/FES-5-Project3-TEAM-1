@@ -18,6 +18,10 @@
       system-ui,
       sans-serif;
   }
+
+  button {
+    cursor: pointer;
+  }
 }
 
 /* colors */
