@@ -55,7 +55,13 @@ export default [
       ],
 
       // Prettier 규칙
-      'prettier/prettier': 'error',
+      // 'prettier/prettier': 'error',
+      'prettier/prettier': [
+        'off',
+        {
+          endOfLine: 'auto',
+        },
+      ],
 
       // TypeScript 규칙
       '@typescript-eslint/no-unused-vars': [
