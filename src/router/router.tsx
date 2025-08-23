@@ -1,4 +1,5 @@
 import Home from '@/pages/Home';
+import Showcase from '@/pages/Showcase';
 import RootLayout from '@/RootLayout';
 import { createBrowserRouter } from 'react-router';
 
@@ -11,6 +12,11 @@ const routes = [
         text: '홈',
         path: '/',
         Component: Home,
+      },
+      {
+        text: '쇼 케이스',
+        path: '/showcase',
+        Component: Showcase,
       },
     ],
   },
