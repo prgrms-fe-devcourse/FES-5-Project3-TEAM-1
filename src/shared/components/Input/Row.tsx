@@ -14,7 +14,7 @@ const Row = forwardRef<HTMLInputElement, RowProps>(
   ({ onClick, ...restProps }, ref) => {
     const DeleteRowButton = (
       <InputActionButton onClick={onClick}>
-        <DeleteIcon className="text-gray-dark hover:text-black" />
+        <DeleteIcon className="text-gray-dark hover:text-black" aria-hidden />
       </InputActionButton>
     );
 

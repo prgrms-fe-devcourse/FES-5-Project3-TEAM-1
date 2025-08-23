@@ -24,9 +24,9 @@ const Password = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
       aria-label={isPasswordVisible ? '비밀번호 숨기기' : '비밀번호 보기'}
     >
       {isPasswordVisible ? (
-        <EyeOpen className="text-gray-dark hover:text-black" />
+        <EyeOpen className="text-gray-dark hover:text-black" aria-hidden />
       ) : (
-        <EyeClose className="text-gray-dark hover:text-black" />
+        <EyeClose className="text-gray-dark hover:text-black" aria-hidden />
       )}
     </InputActionButton>
   );
