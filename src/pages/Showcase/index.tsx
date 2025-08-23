@@ -1,3 +1,4 @@
+import Button from '@/shared/components/Button';
 import Checkbox from '@/shared/components/Checkbox';
 import Input from '@/shared/components/Input';
 import Textarea from '@/shared/components/Textarea';
@@ -21,6 +22,20 @@ const Showcase = () => {
       <Textarea label="텍스트 에어리어" showLabel />
       <Checkbox label="중복 투표" showLabel />
       <Checkbox label="중복 투표" />
+
+      {/* 버튼 */}
+      {/*size = sm */}
+      <Button size="sm" color="default">안녕하세요</Button>
+      <Button size="sm" color="blue">버튼</Button>
+      <Button size="sm" disabled>버튼</Button>
+      <Button size="sm" color="default" fullWidth>안녕하세요</Button>
+      {/*size=default */}
+      <Button size="default" color="default">버튼</Button>
+      <Button size="default" color="blue">버튼</Button>
+      <Button size="default" disabled>버튼</Button>
+      <Button size="default" color="default" fullWidth>버튼</Button>
+
+
     </div>
   );
 };

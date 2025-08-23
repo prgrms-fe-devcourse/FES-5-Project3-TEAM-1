@@ -40,6 +40,7 @@
 /* colors */
 @theme {
   --color-primary: #799eff;
+  --color-primary-light: #9cbaff;
   --color-secondary: #e4ebff;
   --color-tertiary: #ffbc4c;
   --color-quaternary: #fefae0;
@@ -50,6 +51,7 @@
   --color-gray-dark: #757575;
   --color-danger: #f07167;
   --color-black: var(--color-slate-900);
+  --color-black-light: var(--color-slate-800);
   --color-white: #ffffff;
   --color-violet: var(--color-violet-300);
   --color-green: var(--color-green-300);
