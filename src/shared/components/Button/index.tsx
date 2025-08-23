@@ -28,13 +28,15 @@ const Button = ({
         //공통 스타일
         "inline-flex items-center justify-center rounded-xl",
         "transition-transform duration-150 ease-in-out",
-        "hover:[transform:scale(0.99)] active:[transform:scale(0.97)]", 
 
         disabled
           ? "bg-gray text-white cursor-not-allowed"
           : [
               color === "default" && "bg-black text-white hover:cursor-pointer hover:bg-black-light",
               color === "blue" && "bg-primary text-black hover:cursor-pointer hover:bg-primary-light",
+
+              "hover:shadow-md",
+              "active:translate-y-[2px] active:shadow-sm",
             ],
 
         // size
