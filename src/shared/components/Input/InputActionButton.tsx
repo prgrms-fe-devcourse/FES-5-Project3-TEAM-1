@@ -1,4 +1,5 @@
 import tw from '@/shared/utils/style';
+import { memo } from 'react';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -17,4 +18,4 @@ const InputActionButton = ({ className, ...restProps }: Props) => {
     />
   );
 };
-export default InputActionButton;
+export default memo(InputActionButton);

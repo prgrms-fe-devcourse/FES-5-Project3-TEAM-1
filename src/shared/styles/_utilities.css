@@ -1,22 +1,6 @@
-/* time input의 기본 아이콘 숨기기 */
-
-@layer base {
-  .time-input-custom::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-
-  /* Firefox */
-  .time-input-custom::-moz-time-picker-indicator {
-    display: none;
-  }
-
-  /* 포커스될 때 picker 활성화를 위해 전체 영역 클릭 가능하게 */
-  .time-input-custom {
-    cursor: pointer;
+@layer utilities {
+  /* flex justify-center items-center 숏컷  */
+  .flex-center {
+    @apply flex justify-center items-center;
   }
 }

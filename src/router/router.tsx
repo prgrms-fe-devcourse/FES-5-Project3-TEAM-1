@@ -1,5 +1,6 @@
 import Home from '@/pages/Home';
 import Showcase from '@/pages/Showcase';
+import ModalTest from '@/pages/ModalTest';
 import RootLayout from '@/RootLayout';
 import { createBrowserRouter } from 'react-router';
 
@@ -12,6 +13,11 @@ const routes = [
         text: '홈',
         path: '/',
         Component: Home,
+      },
+      {
+        text: '모달',
+        path: '/modal',
+        Component: ModalTest,
       },
       {
         text: '쇼 케이스',

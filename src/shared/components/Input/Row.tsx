@@ -1,6 +1,7 @@
 import BaseInput from './BaseInput';
 import DeleteIcon from '@/assets/icon/delete-15.svg?react';
 import InputActionButton from './InputActionButton';
+import { forwardRef } from 'react';
 
 interface RowProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -9,13 +10,17 @@ interface RowProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onClick: () => void;
 }
 
-const Row = ({ onClick, ...restProps }: RowProps) => {
-  const DeleteRowButton = (
-    <InputActionButton onClick={onClick}>
-      <DeleteIcon className="text-gray-dark hover:text-black" />
-    </InputActionButton>
-  );
+const Row = forwardRef<HTMLInputElement, RowProps>(
+  ({ onClick, ...restProps }, ref) => {
+    const DeleteRowButton = (
+      <InputActionButton onClick={onClick}>
+        <DeleteIcon className="text-gray-dark hover:text-black" />
+      </InputActionButton>
+    );
 
-  return <BaseInput {...restProps} rightSection={DeleteRowButton} />;
-};
+    return (
+      <BaseInput ref={ref} {...restProps} rightSection={DeleteRowButton} />
+    );
+  },
+);
 export default Row;
