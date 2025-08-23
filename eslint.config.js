@@ -7,7 +7,6 @@ import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier';
 import { flatConfigsToPlugins } from 'eslint-plugin-prettier';
 import { globalIgnores } from 'eslint/config';
-
 export default tseslint.config([
   globalIgnores(['dist', 'node_modules']),
   {
