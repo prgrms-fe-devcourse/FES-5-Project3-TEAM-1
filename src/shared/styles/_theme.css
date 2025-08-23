@@ -1,0 +1,19 @@
+/* colors */
+@theme {
+  --color-primary: #799eff;
+  --color-secondary: #e4ebff;
+  --color-tertiary: #ffbc4c;
+  --color-quaternary: #fefae0;
+  --color-bg-main: #f7f9fb;
+  --color-bg-sub: #fffef9;
+  --color-gray-light: #e6e6e6;
+  --color-gray: #adadad;
+  --color-gray-dark: #757575;
+  --color-danger: #f07167;
+  --color-black: var(--color-slate-900);
+  --color-white: #ffffff;
+  --color-violet: var(--color-violet-300);
+  --color-green: var(--color-green-300);
+  --color-yellow: var(--color-yellow-300);
+  --color-red: var(--color-red-300);
+}
