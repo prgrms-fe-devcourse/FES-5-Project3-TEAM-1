@@ -17,7 +17,7 @@ const RootLayout = () => {
       <Header tabs={TABS} currentTab={tab} onTabChange={(tabId:string) => setTab(tabId)} />
 
       <div className='root-min-h'>
-        <main className='bg-bg-main'>
+        <main className='bg-main'>
           <Outlet />
         </main>
       </div>
