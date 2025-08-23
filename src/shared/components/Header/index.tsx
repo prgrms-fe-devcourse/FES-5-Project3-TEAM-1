@@ -4,7 +4,7 @@ import moonSVG from '@/assets/icon/moon-20.svg'
 import settingsSVG from '@/assets/icon/settings-36.svg'
 import usersSVG from '@/assets/icon/users-20.svg'
 import clsx from "clsx";
-import { useRef, useState } from "react"
+import {useState } from "react"
 
 interface Props {
   tabs: {id: string; label: string}[];
