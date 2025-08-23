@@ -1,3 +1,4 @@
+import Button from '@/shared/components/Button';
 import Input from '@/shared/components/Input';
 import ConfirmModal from '@/shared/components/Modal/ConfirmModal';
 import InputModal from '@/shared/components/Modal/InputModal';
@@ -9,20 +10,18 @@ const ModalTest = () => {
 
   return (
     <div className="flex-center gap-4 mt-5">
-      <button
-        type="button"
+      <Button
         className="p-2 bg-red text-white rounded-xl"
         onClick={() => setIsInputModelOpen(true)}
       >
         Input Model Open
-      </button>
-      <button
-        type="button"
+      </Button>
+      <Button
         className="p-2 bg-primary text-white rounded-xl"
         onClick={() => setIsConfirmModelOpen(true)}
       >
         Confirm Model Open
-      </button>
+      </Button>
 
       {isInputModalOpen && (
         <InputModal
@@ -40,13 +39,12 @@ const ModalTest = () => {
                 tabIndex={0}
                 autoFocus
               />
-              <button
-                type="button"
+              <Button
                 className="rounded-xl bg-primary p-2 text-nowrap mt-7"
                 onClick={() => {}}
               >
                 변경하기
-              </button>
+              </Button>
             </div>
           </>
         </InputModal>

@@ -40,7 +40,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
           className={tw(
             'flex justify-between items-center gap-2 relative p-3 border-1 border-gray rounded-sm h-12',
             readOnly && 'bg-gray-light',
-            !readOnly && 'focus-within:ring-2',
+            !readOnly && 'focus-within:border-yellow focus-within:border-1',
             className,
           )}
         >
@@ -49,9 +49,11 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={id ?? userId}
             type={type}
-            className={`flex-1 text-base outline-none ${
-              type === 'time' ? 'time-input-custom' : ''
-            }`}
+            className={tw(
+              'flex-1 text-base border-none outline-none',
+              readOnly && 'select-none',
+              type === 'time' ? 'time-input-custom' : '',
+            )}
             placeholder={placeholder}
             readOnly={readOnly}
             {...restProps}

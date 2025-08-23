@@ -1,3 +1,4 @@
+import Button from '../Button';
 import ModalLayout from './ModalLayout';
 
 interface Props {
@@ -32,21 +33,23 @@ const ConfirmModal = ({
       </div>
       {/* 버튼 그룹 */}
       <div role="group" className="flex justify-between items-center gap-2">
-        <button
-          type="button"
-          className="text-black bg-primary rounded-xl py-3 flex-1 cursor-pointer"
-          onClick={onCancel}
+        <Button
+          size="default"
+          color="default"
+          className="flex-1"
           autoFocus
+          onClick={onCancel}
         >
           {cancelLabel}
-        </button>
-        <button
-          type="button"
-          className="text-white bg-black rounded-xl py-3 flex-1 cursor-pointer"
+        </Button>
+        <Button
+          size="default"
+          color="blue"
+          className="flex-1"
           onClick={onConfirm}
         >
           {confirmLabel}
-        </button>
+        </Button>
       </div>
     </ModalLayout>
   );
