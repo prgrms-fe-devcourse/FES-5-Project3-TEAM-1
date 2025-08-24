@@ -8,7 +8,7 @@ function useGithubLogin() {
     console.log('데이터 : ', data);
     if (error) {
       console.error('Github 로그인 중 오류 발생:', error);
-    }		
+    }
   }
   return signInWithGithub;
 }
