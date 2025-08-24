@@ -64,9 +64,8 @@ function FeedsInput() {
           onFocus={() => setIsFocused(true)}
           placeholder="익명으로 자유롭게 의견을 나눠보세요."
           className="pr-7 py-3 w-full min-h-12 resize-none overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
-        >
-          {/* 여기에다가 사진 선택시 미리보기 하면 됨 */}
-        </TextareaAutoSize>
+        ></TextareaAutoSize>
+        {/* <img src="" alt="" className="block w-full max-w-[12.5rem]" /> */}
         <span
           className={`block absolute right-0 bottom-0 ml-auto text-gray-dark transition-opacity duration-300 ease-in-out ${isFocused ? 'opacity-100' : 'opacity-0'}`}
         >
