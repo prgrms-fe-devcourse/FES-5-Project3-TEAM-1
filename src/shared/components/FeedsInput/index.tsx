@@ -1,35 +1,34 @@
 import TextareaAutoSize from 'react-textarea-autosize';
-import PicSVG from '@/assets/icon/pic-16.svg?react';
-import VoteSVG from '@/assets/icon/vote-16.svg?react';
-import BalanceSVG from '@/assets/icon/balance-16.svg?react';
-import DrawSVG from '@/assets/icon/draw-16.svg?react';
 import Button from '../Button';
-import { useEffect, useRef, useState } from 'react';
-
-const feedOptions = [
-  { id: 'pic', icon: PicSVG, label: '사진', type: 'file' },
-  { id: 'vote', icon: VoteSVG, label: '투표', type: 'radio' },
-  { id: 'balance', icon: BalanceSVG, label: '밸런스게임', type: 'radio' },
-  { id: 'draw', icon: DrawSVG, label: '그림그리기', type: 'radio' },
-];
+import { useCallback, useEffect, useRef, useState } from 'react';
+import FeedsOptions from './FeedsOptions';
+import React from 'react';
 
 const feedOptionsContent: Record<string, React.ReactNode> = {
-  vote: <p>vote component 들어오면 됩니다.</p>,
+  vote: <div>vote component 들어오면 됩니다.</div>,
   balance: <p>balance component 들어오면 됩니다.</p>,
-  draw: <p>draw component 들어오면 됩니다.</p>,
+  drawing: <p>draw component 들어오면 됩니다.</p>,
 };
 
 function FeedsInput() {
+  console.log('FeedsInput render');
+
   const [isFocused, setIsFocused] = useState(false);
   const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const [textareaText, setTextareaText] = useState('');
   const feedsInputRef = useRef<HTMLDivElement>(null);
+  const radioContentRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const textLength = 200;
 
   const handleCountText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextareaText(e.target.value.slice(0, textLength));
   };
+
+  const handleSelect = useCallback((id: string | null) => {
+    setSelectedChkbox(id);
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -43,6 +42,12 @@ function FeedsInput() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (selectedChkbox && radioContentRef.current) {
+      radioContentRef.current.focus();
+    }
+  }, [selectedChkbox]);
+
   return (
     <div
       ref={feedsInputRef}
@@ -51,8 +56,7 @@ function FeedsInput() {
       <div className="flex flex-col relative w-full z-">
         <TextareaAutoSize
           min-rows={1}
-          name=""
-          id=""
+          name="feedsInput"
           ref={textareaRef}
           value={textareaText}
           maxLength={textLength}
@@ -63,79 +67,39 @@ function FeedsInput() {
         >
           {/* 여기에다가 사진 선택시 미리보기 하면 됨 */}
         </TextareaAutoSize>
-        {isFocused && (
-          <span className="block absolute right-0 bottom-0 ml-auto text-gray-dark">
-            {textLength - textareaText.length}
-          </span>
-        )}
+        <span
+          className={`block absolute right-0 bottom-0 ml-auto text-gray-dark transition-opacity duration-300 ease-in-out ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+        >
+          {textLength - textareaText.length}
+        </span>
       </div>
       <div
-        className={`transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-96' : 'overflow-hidden max-h-0'}`}
+        className={`flex flex-wrap gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-96 pt-5' : 'overflow-hidden max-h-0'}`}
       >
-        <div className="flex justify-between items-center pt-5">
-          <ul className="flex gap-2">
-            {feedOptions.map(({ id, icon: Icon, label, type }) => (
-              <li key={id}>
-                {type === 'file' ? (
-                  <label
-                    htmlFor={`feedOptions-${id}`}
-                    className="flex-center gap-1 px-2 py-0.5 bg-secondary rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out active:bg-primary  hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900"
-                  >
-                    {' '}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id={`feedOptions-${id}`}
-                      className="sr-only"
-                    />
-                    <Icon aria-hidden />
-                    <span className="text-sm">{label}</span>
-                  </label>
-                ) : (
-                  <label
-                    htmlFor={`feedOptions-${id}`}
-                    className={`flex-center gap-1 px-2 py-0.5 rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900 ${selectedChkbox === id ? 'bg-primary' : 'bg-secondary'}
-                      `}
-                  >
-                    <input
-                      type="checkbox"
-                      name="feedOptions"
-                      id={`feedOptions-${id}`}
-                      checked={selectedChkbox === id}
-                      onChange={() =>
-                        setSelectedChkbox(selectedChkbox === id ? null : id)
-                      }
-                      aria-controls="feedsContent"
-                      className="sr-only"
-                    />
-                    <Icon aria-hidden />
-                    <span className="text-sm">{label}</span>
-                  </label>
-                )}
-              </li>
-            ))}
-          </ul>
-
-          <Button size="sm" color="blue">
-            올리기
-          </Button>
-        </div>
+        <FeedsOptions selected={selectedChkbox} onSelect={handleSelect} />
 
         {selectedChkbox && (
           <div
+            ref={radioContentRef}
             id="feedsContent"
             role="region"
             aria-live="polite"
-            aria-atomic="true"
+            tabIndex={-1}
             aria-label="선택된 옵션"
-            className="mt-3 pt-5 border-t-1 border-dashed border-gray-dark "
-            style={{ maxHeight: selectedChkbox ? '1000px' : '0px' }}
+            className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3"
+            style={{ maxHeight: selectedChkbox ? '500px' : '0px' }}
           >
             {feedOptionsContent[selectedChkbox]}
           </div>
         )}
+
+        <div className="ml-auto">
+          <Button size="sm" color="blue" className="">
+            올리기
+          </Button>
+        </div>
       </div>
     </div>
   );
 }
-export default FeedsInput;
+export default React.memo(FeedsInput);
