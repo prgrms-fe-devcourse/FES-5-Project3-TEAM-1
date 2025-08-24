@@ -3,13 +3,13 @@
 
 echo "코드 포맷 확인..."
 
-# npm 명령어가 실패해도 스크립트 계속 진행
 npm run format:check || FORMAT_CHECK_FAILED=true
 
 if [ "$FORMAT_CHECK_FAILED" = "true" ]; then
   echo "❌ 포맷 오류 - 푸시 취소"
   echo "다음 명령어로 수정 후 다시 푸시하세요:"
   echo "npm run format"
+  echo "git commit -m "Fix code formatting""
   exit 1
 fi
 
