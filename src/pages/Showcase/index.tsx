@@ -1,5 +1,6 @@
 import Button from '@/shared/components/Button';
 import Checkbox from '@/shared/components/Checkbox';
+import FeedsInput from '@/shared/components/FeedsInput';
 import Input from '@/shared/components/Input';
 import Textarea from '@/shared/components/Textarea';
 import { useRef, useState } from 'react';
@@ -67,6 +68,7 @@ const Showcase = () => {
         ref={inputRef}
         onClick={() => alert(inputRef.current?.value)}
       />
+      <FeedsInput></FeedsInput>
     </div>
   );
 };
