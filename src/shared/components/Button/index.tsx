@@ -31,9 +31,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type="button"
         className={tw(
           //공통 스타일
-          'inline-flex items-center justify-center rounded-xl',
+          'inline-flex items-center justify-center rounded-xl text-base',
           'transition-transform duration-150 ease-in-out',
-          'hover:cursor-pointer text-base',
+          'hover:cursor-pointer',
 
           disabled
             ? 'bg-gray text-white cursor-not-allowed'
