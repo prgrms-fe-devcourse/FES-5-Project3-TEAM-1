@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "dependencies": {
     "@dr.pogodin/react-helmet": "^3.0.2",

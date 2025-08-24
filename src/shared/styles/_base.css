@@ -1,0 +1,15 @@
+@layer base {
+  html {
+    font-family:
+      'Pretendard Variable',
+      Pretendard,
+      -apple-system,
+      BlinkMacSystemFont,
+      system-ui,
+      sans-serif;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
