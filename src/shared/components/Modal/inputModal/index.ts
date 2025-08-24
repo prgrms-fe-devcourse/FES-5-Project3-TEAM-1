@@ -1,4 +1,4 @@
-import BaseInputModal from '../BaseInputModal';
+import { default as BaseInputModal } from '../InputModal';
 import Password from './Password';
 import Text from './Text';
 
