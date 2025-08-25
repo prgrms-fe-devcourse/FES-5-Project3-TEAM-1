@@ -17,4 +17,7 @@
   --color-green: var(--color-green-300);
   --color-yellow: var(--color-yellow-300);
   --color-red: var(--color-red-300);
+  --color-success-400: #16a249;
+  --color-error-400: #981b1b;
+  --color-info-400: #1e3fae;
 }
