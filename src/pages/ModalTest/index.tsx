@@ -1,3 +1,4 @@
+import { EmojiPicker } from '@/features/emoji/ui/EmojiPicker';
 import Button from '@/shared/components/Button';
 import Input from '@/shared/components/Input';
 import ConfirmModal from '@/shared/components/Modal/ConfirmModal';
@@ -22,6 +23,9 @@ const ModalTest = () => {
       >
         Confirm Model Open
       </Button>
+      <div className="w-[300px]">
+        <EmojiPicker />
+      </div>
 
       {isInputModalOpen && (
         <InputModal
