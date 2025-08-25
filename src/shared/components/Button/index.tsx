@@ -31,7 +31,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type="button"
         className={tw(
           //공통 스타일
-          'inline-flex items-center justify-center rounded-xl',
+          'inline-flex items-center justify-center rounded-xl text-base',
           'transition-transform duration-150 ease-in-out',
           'hover:cursor-pointer',
 
@@ -48,8 +48,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ],
 
           // size
-          size === 'sm' && 'h-[36px] px-4 py-2 text-sm ',
-          size === 'default' && 'h-[48px] px-6 py-3 text-base ',
+          size === 'sm' && 'h-[36px] px-4 py-2',
+          size === 'default' && 'h-[48px] px-6 py-3',
 
           //너비
           fullWidth ? 'w-full' : 'w-fit',
