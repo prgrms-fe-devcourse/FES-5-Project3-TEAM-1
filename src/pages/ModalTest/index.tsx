@@ -6,6 +6,7 @@ import ConfirmModal from '@/shared/components/modals/ConfirmModal';
 import InputModal from '@/shared/components/modals/InputModal';
 import { useEmoji } from '@/features/emoji/hook/useEmoji';
 import Button from '@/shared/components/button/Button';
+import { toastUtils } from '@/shared/utils/toastUtils';
 
 const feedId = '041f817f-b470-412d-be21-9fc3307b0507';
 const token =
@@ -21,21 +22,44 @@ const ModalTest = () => {
   });
 
   return (
-    <div className="flex-center gap-4 mt-5">
-      <Button
-        className="p-2 bg-red text-white rounded-xl"
-        onClick={() => setIsInputModelOpen(true)}
-      >
-        Input Model Open
-      </Button>
-      <Button
-        className="p-2 bg-primary text-white rounded-xl"
-        onClick={() => setIsConfirmModelOpen(true)}
-      >
-        Confirm Model Open
-      </Button>
+    <div className="flex-center flex-col gap-10 my-10">
+      <div className="flex-center gap-4">
+        <Button
+          className="p-2 bg-red text-white rounded-xl"
+          onClick={() => setIsInputModelOpen(true)}
+        >
+          Input Model Open
+        </Button>
+        <Button
+          className="p-2 bg-primary text-white rounded-xl"
+          onClick={() => setIsConfirmModelOpen(true)}
+        >
+          Confirm Model Open
+        </Button>
+      </div>
 
-      <div className="w-[300px]">
+      <div className="flex-center gap-6">
+        <Button
+          className="p-2 bg-error-400 text-white rounded-xl"
+          onClick={() => toastUtils.error('error')}
+        >
+          Error
+        </Button>
+        <Button
+          className="p-2 bg-success-400 text-white rounded-xl"
+          onClick={() => toastUtils.success('success')}
+        >
+          success
+        </Button>
+        <Button
+          className="p-2 bg-info-400 text-white rounded-xl"
+          onClick={() => toastUtils.info('Info')}
+        >
+          Info
+        </Button>
+      </div>
+
+      <div className="w-[600px]">
         <EmojiPicker
           emojiCounts={emojiCounts}
           myReactions={myReactions}
