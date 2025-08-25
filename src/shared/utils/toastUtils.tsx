@@ -4,14 +4,6 @@ import ErrorSVG from '@/assets/icon/error-16.svg?react';
 import SuccessSVG from '@/assets/icon/success-16.svg?react';
 import InfoSvg from '@/assets/icon/info-16.svg?react';
 
-const ToastStyle = {
-  style: {
-    width: '400px',
-    border: '2px solid #2463EB',
-    background: '#DCEBFE',
-  },
-};
-
 export const toastUtils = {
   info: (message: string) => {
     toast.dismiss();
