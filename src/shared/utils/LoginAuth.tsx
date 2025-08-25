@@ -1,11 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import supabase from "../libs/supabase";
-
+import { createContext, useContext, useEffect, useState } from 'react';
+import supabase from '../libs/supabase';
 
 interface AuthContextType {
-	isLoggedIn : boolean,
-	login : () => void,
-	logout : () => void,
+  isLoggedIn: boolean;
+  login: () => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -14,44 +13,42 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
 });
 
-export const AuthProvider = ({children} : {children : React.ReactNode}) => {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	useEffect(() => {
-		supabase.auth.getSession().then(({data : {session}}) => {
-			setIsLoggedIn(!!session);
-		})
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsLoggedIn(!!session);
+    });
 
-		const {data:authListener} = supabase.auth.onAuthStateChange((_event, session) => {
-			setIsLoggedIn(!!session);
-		})
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setIsLoggedIn(!!session);
+      },
+    );
 
-		return () => {
-			authListener.subscription.unsubscribe();
-		}
-	}, []);
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
 
-	const login = () => {
-		setIsLoggedIn(true);
-	}
+  const login = () => {
+    setIsLoggedIn(true);
+  };
 
-	const logout = () => {
-		setIsLoggedIn(false);
-	}
+  const logout = () => {
+    setIsLoggedIn(false);
+  };
 
-	const value : AuthContextType = {
-		isLoggedIn,
-		login,
-		logout,
-	}
+  const value: AuthContextType = {
+    isLoggedIn,
+    login,
+    logout,
+  };
 
-	return (
-		<AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-	);
-}
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
 export const useAuth = () => {
-	return useContext(AuthContext);
-}
+  return useContext(AuthContext);
+};

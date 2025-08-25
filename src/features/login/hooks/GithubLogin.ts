@@ -7,9 +7,9 @@ function useGithubLogin() {
     });
     if (error) {
       console.error('Github 로그인 중 오류 발생:', error);
-			return {success: false, error};
+      return { success: false, error };
     }
-		return {success: true};
+    return { success: true };
   }
   return signInWithGithub;
 }
