@@ -12,7 +12,7 @@ const TABS = [
 const RootLayout = () => {
   const [tab, setTab] = useState('all');
   const [isCreateThreadsModalOpen, setIsCreateThreadsModalOpen] =
-    useState(true);
+    useState(false);
 
   return (
     <div className="flex flex-col">
