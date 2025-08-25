@@ -7,28 +7,28 @@ import React from 'react';
 const feedOptionsContent: Record<string, React.ReactNode> = {
   vote: <div>vote component 들어오면 됩니다.</div>,
   balance: <p>balance component 들어오면 됩니다.</p>,
-  drawing: <p>draw component 들어오면 됩니다.</p>,
+  drawing: <p>drawing component 들어오면 됩니다.</p>,
 };
 
 function FeedsInput() {
-  console.log('FeedsInput render');
-
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const [textareaText, setTextareaText] = useState('');
+  const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const feedsInputRef = useRef<HTMLDivElement>(null);
-  const radioContentRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const chkboxContentRef = useRef<HTMLDivElement>(null);
   const textLength = 200;
 
+  /* textarea 글자 수 표시(감소 형태) */
   const handleCountText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextareaText(e.target.value.slice(0, textLength));
   };
 
+  /* 옵션 선택 시 */
   const handleSelect = useCallback((id: string | null) => {
     setSelectedChkbox(id);
   }, []);
 
+  /* FeedsInput 밖에 클릭 시 축소 */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -42,9 +42,10 @@ function FeedsInput() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  /* checkbox 클릭 시 그 내용으로 focus 이동 */
   useEffect(() => {
-    if (selectedChkbox && radioContentRef.current) {
-      radioContentRef.current.focus();
+    if (selectedChkbox && chkboxContentRef.current) {
+      chkboxContentRef.current.focus();
     }
   }, [selectedChkbox]);
 
@@ -57,7 +58,6 @@ function FeedsInput() {
         <TextareaAutoSize
           min-rows={1}
           name="feedsInput"
-          ref={textareaRef}
           value={textareaText}
           maxLength={textLength}
           onChange={handleCountText}
@@ -79,7 +79,7 @@ function FeedsInput() {
 
         {selectedChkbox && (
           <div
-            ref={radioContentRef}
+            ref={chkboxContentRef}
             id="feedsContent"
             role="region"
             aria-live="polite"
