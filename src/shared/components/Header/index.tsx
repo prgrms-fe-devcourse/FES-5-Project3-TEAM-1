@@ -18,7 +18,7 @@ function Header({ tabs, currentTab, onTabChange }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
 
-  /* 훅 이용 (esc or 밖 클릭 시 FeedsInput 축소) */
+  /* 훅 이용 (esc or 밖 클릭 시 settingsMenu 닫힘) */
   useCloseOnOutsideOrEsc<HTMLDivElement>({
     ref: settingsMenuRef,
     onClose: () => setIsOpen(false),
