@@ -11,9 +11,9 @@ interface FeedOptionsProps {
 
 const feedOptions = [
   { id: 'pic', icon: PicSVG, label: '사진', type: 'file' },
-  { id: 'vote', icon: VoteSVG, label: '투표', type: 'radio' },
-  { id: 'balance', icon: BalanceSVG, label: '밸런스게임', type: 'radio' },
-  { id: 'drawing', icon: DrawSVG, label: '그림그리기', type: 'radio' },
+  { id: 'vote', icon: VoteSVG, label: '투표', type: 'checkbox' },
+  { id: 'balance', icon: BalanceSVG, label: '밸런스게임', type: 'checkbox' },
+  { id: 'drawing', icon: DrawSVG, label: '그림그리기', type: 'checkbox' },
 ];
 
 function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
@@ -24,7 +24,7 @@ function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
           {type === 'file' ? (
             <label
               htmlFor={`feedOptions-${id}`}
-              className="flex-center flex-col md:flex-row gap-1 px-2 py-0.5 min-w-12 md:min-w-auto bg-secondary rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out active:bg-primary  hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900"
+              className="flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 bg-secondary rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out active:bg-primary  hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900"
             >
               {' '}
               <input
@@ -34,12 +34,12 @@ function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
                 className="sr-only"
               />
               <Icon aria-hidden />
-              <span className="text-sm">{label}</span>
+              <span className="sr-only md:text-sm">{label}</span>
             </label>
           ) : (
             <label
               htmlFor={`feedOptions-${id}`}
-              className={`flex-center flex-col md:flex-row gap-1 px-2 py-0.5 min-w-12 md:min-w-auto rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900 ${selected === id ? 'bg-primary' : 'bg-secondary'}
+              className={`flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900 ${selected === id ? 'bg-primary' : 'bg-secondary'}
                       `}
             >
               <input
@@ -53,7 +53,7 @@ function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
                 className="sr-only"
               />
               <Icon aria-hidden />
-              <span className="text-sm">{label}</span>
+              <span className="sr-only md:text-sm">{label}</span>
             </label>
           )}
         </li>
