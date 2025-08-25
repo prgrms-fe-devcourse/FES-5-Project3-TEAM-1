@@ -19,7 +19,7 @@ const RootLayout = () => {
         onTabChange={(tabId: string) => setTab(tabId)}
       />
 
-      <div className="root-min-h">
+      <div className="root-min-h pt-22 md:pt-15">
         <main className="bg-main">
           <Outlet />
         </main>
