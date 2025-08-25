@@ -112,14 +112,19 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
               </li>
             </ul>
 
-            <Button
-              onClick={() => onOpenCreateModal(true)}
-              size="sm"
-              color="default"
-              fullWidth
-            >
-              방 생성하기
-            </Button>
+            <div className="flex flex-col gap-2">
+              <Button
+                onClick={() => onOpenCreateModal(true)}
+                size="sm"
+                color="blue"
+                fullWidth
+              >
+                방 생성하기
+              </Button>
+              <Button size="sm" color="default" fullWidth>
+                로그인
+              </Button>
+            </div>
           </div>
         </div>
       </div>
