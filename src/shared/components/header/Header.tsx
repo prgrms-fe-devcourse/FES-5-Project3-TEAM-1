@@ -5,8 +5,8 @@ import settingsSVG from '@/assets/icon/settings-32.svg';
 import usersSVG from '@/assets/icon/users-16.svg';
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
-import Button from '../Button';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
+import Button from '../button/Button';
 
 interface Props {
   tabs: { id: string; label: string }[];

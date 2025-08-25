@@ -1,4 +1,4 @@
-import InputModal from '@/shared/components/Modal/InputModal';
+import InputModal from '@/shared/components/modals/InputModal';
 import GoogleLoginButton from './GoogleLoginButton';
 import GithubLoginButton from './GithubLoginButton';
 import NimoWelcomePng from '@/assets/nimo/nimo_welcome.png';

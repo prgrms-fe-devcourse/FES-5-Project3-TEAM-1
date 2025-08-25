@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router';
-import Header from './shared/components/Header';
-import Footer from './shared/components/Footer';
 import { useState } from 'react';
+import Footer from './shared/components/footer/Footer';
+import Header from './shared/components/header/Header';
 
 const TABS = [
   { id: 'all', label: '전체' },

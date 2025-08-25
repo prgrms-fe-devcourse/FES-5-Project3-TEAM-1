@@ -1,5 +1,5 @@
 import tw from '@/shared/utils/style';
-import Portal from '../Portal/Portal';
+import Portal from '../portal/Portal';
 import CloseSvg from '@/assets/icon/close-24.svg?react';
 
 interface Props {

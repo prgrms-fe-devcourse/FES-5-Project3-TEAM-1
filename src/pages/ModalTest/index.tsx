@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
 import { EmojiPicker } from '@/features/emoji/ui/EmojiPicker';
-import Button from '@/shared/components/Button';
 import Input from '@/shared/components/Input';
-import ConfirmModal from '@/shared/components/Modal/ConfirmModal';
-import InputModal from '@/shared/components/Modal/InputModal';
+import ConfirmModal from '@/shared/components/modals/ConfirmModal';
+import InputModal from '@/shared/components/modals/InputModal';
 import { useEmoji } from '@/features/emoji/hook/useEmoji';
+import Button from '@/shared/components/button/Button';
 
 const feedId = '041f817f-b470-412d-be21-9fc3307b0507';
 const token =

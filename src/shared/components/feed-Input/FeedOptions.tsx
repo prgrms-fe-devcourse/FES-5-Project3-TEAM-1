@@ -16,7 +16,7 @@ const feedOptions = [
   { id: 'drawing', icon: DrawSVG, label: '그림그리기', type: 'checkbox' },
 ];
 
-function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
+function FeedOptions({ selected, onSelect }: FeedOptionsProps) {
   return (
     <ul className="flex gap-2">
       {feedOptions.map(({ id, icon: Icon, label, type }) => (
@@ -61,4 +61,4 @@ function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
     </ul>
   );
 }
-export default React.memo(FeedsOptions);
+export default React.memo(FeedOptions);
