@@ -1,9 +1,9 @@
 import TextareaAutoSize from 'react-textarea-autosize';
-import Button from '../Button';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import FeedsOptions from './FeedsOptions';
 import React from 'react';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
+import Button from '../button/Button';
+import FeedOptions from './FeedOptions';
 
 const feedOptionsContent: Record<string, React.ReactNode> = {
   vote: <div>vote component 들어오면 됩니다.</div>,
@@ -11,7 +11,7 @@ const feedOptionsContent: Record<string, React.ReactNode> = {
   drawing: <p>drawing component 들어오면 됩니다.</p>,
 };
 
-function FeedsInput() {
+function FeedInput() {
   const [isFocused, setIsFocused] = useState(false);
   const [textareaText, setTextareaText] = useState('');
   const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
@@ -68,7 +68,7 @@ function FeedsInput() {
       <div
         className={`flex flex-wrap gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-96 pt-5' : 'overflow-hidden max-h-0'}`}
       >
-        <FeedsOptions selected={selectedChkbox} onSelect={handleSelect} />
+        <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
         {selectedChkbox && (
           <div
@@ -94,4 +94,4 @@ function FeedsInput() {
     </div>
   );
 }
-export default React.memo(FeedsInput);
+export default React.memo(FeedInput);
