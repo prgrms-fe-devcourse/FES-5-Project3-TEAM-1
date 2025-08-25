@@ -1,4 +1,4 @@
-export interface EmojiType {
+export interface EmojiCount {
   emoji: string;
-  count: number;
+  counts: number;
 }

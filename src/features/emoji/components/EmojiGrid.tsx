@@ -1,13 +1,13 @@
-'use client';
+import { EmojiPicker } from 'frimousse';
 
 import tw from '@/shared/utils/style';
-import { EmojiPicker } from 'frimousse';
+import { memo } from 'react';
 
 interface Props {
   onSelect: (emoji: string) => void;
 }
 
-export function EmojiGrid({ onSelect }: Props) {
+const EmojiGrid = ({ onSelect }: Props) => {
   const handleEmojiClick = ({ emoji }: { emoji: string; label: string }) => {
     onSelect(emoji);
   };
@@ -15,11 +15,15 @@ export function EmojiGrid({ onSelect }: Props) {
   return (
     <EmojiPicker.Root
       className={tw(
-        'absolute top-10 right-0 isolate flex h-[368px] w-fit flex-col bg-white dark:bg-neutral-900 z-50 p-2 border border-gray-light rounded-2xl',
+        'absolute top-8 right-11/12 isolate flex h-[368px] w-fit flex-col bg-white dark:bg-neutral-900 z-50 p-2 border border-gray-light rounded-2xl',
       )}
       onEmojiSelect={handleEmojiClick}
     >
-      <EmojiPicker.Search className="z-10 mx-2 mt-2 appearance-none rounded-md bg-neutral-100 px-2.5 py-2 text-sm dark:bg-neutral-800" />
+      <EmojiPicker.Search
+        className="z-10 mx-2 mt-2 appearance-none rounded-md bg-neutral-100 px-2.5 py-2 text-sm dark:bg-neutral-800"
+        placeholder="이모지를 검색해주세요..."
+        autoFocus
+      />
       <EmojiPicker.Viewport
         className="relative flex-1 outline-hidden"
         style={{
@@ -31,7 +35,7 @@ export function EmojiGrid({ onSelect }: Props) {
           Loading…
         </EmojiPicker.Loading>
         <EmojiPicker.Empty className="absolute inset-0 flex items-center justify-center text-neutral-400 text-sm dark:text-neutral-500">
-          No emoji found.
+          이모지를 찾을 수 없어요.
         </EmojiPicker.Empty>
         <EmojiPicker.List
           className="select-none pb-1.5"
@@ -62,4 +66,6 @@ export function EmojiGrid({ onSelect }: Props) {
       </EmojiPicker.Viewport>
     </EmojiPicker.Root>
   );
-}
+};
+
+export default memo(EmojiGrid);

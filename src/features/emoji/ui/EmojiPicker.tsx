@@ -1,64 +1,57 @@
-import AddEmojiSvg from '@/assets/icon/add-emoji-20.svg?react';
 import { useCallback, useState } from 'react';
-import { EmojiGrid } from '../components/EmojiGrid';
-import type { EmojiType } from '@/shared/types/emoji';
+import { ImSpinner } from 'react-icons/im';
+
 import EmojiList from '../components/EmojiList';
 import EmojiItem from '../components/EmojiItem';
+import EmojiButton from '../components/EmojiButton';
+import EmojiGrid from '../components/EmojiGrid';
 
-export function EmojiPicker() {
+interface Props {
+  emojiCounts: Array<{ emoji: string; counts: number }>;
+  myReactions: Set<string>;
+  onEmojiClick: (emoji: string) => void;
+  isLoading?: boolean;
+}
+
+export function EmojiPicker({
+  emojiCounts,
+  myReactions,
+  onEmojiClick,
+  isLoading,
+}: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [emojis, setEmojis] = useState<EmojiType[]>([]);
 
-  const handleEmojiClick = () => {
+  const handleOpenEmojiGrid = useCallback(() => {
     setIsOpen((prev) => !prev);
-  };
-
-  const handleEmojiSelect = useCallback((emoji: string) => {
-    setEmojis((prev) => {
-      const existingIndex = prev.findIndex((item) => item.emoji === emoji);
-
-      if (existingIndex !== -1) {
-        return prev.with(existingIndex, {
-          ...prev[existingIndex],
-          count: prev[existingIndex].count + 1,
-        });
-      }
-      return [...prev, { emoji, count: 1 }];
-    });
-    setIsOpen(false);
   }, []);
 
-  const handleEmojiDecrease = useCallback((targetEmoji: string) => {
-    setEmojis((prev) => {
-      return prev
-        .map((item) =>
-          item.emoji === targetEmoji
-            ? { ...item, count: item.count - 1 }
-            : item,
-        )
-        .filter((item) => item.count > 0);
-    });
-  }, []);
-
+  const handleEmojiSelect = useCallback(
+    (emoji: string) => {
+      onEmojiClick(emoji);
+      setIsOpen(false);
+    },
+    [onEmojiClick],
+  );
   return (
-    <div className="relative flex">
-      <div className="flex gap-2">
-        <button
-          type="button"
-          aria-label="이모지 피커"
-          className="flex-center rounded-full p-2 hover:bg-gray-50 h-fit"
-          onClick={handleEmojiClick}
-        >
-          <AddEmojiSvg />
-        </button>
+    <div className="relative">
+      <div className="flex gap-2 ">
+        <EmojiButton onClick={handleOpenEmojiGrid} />
+
         <EmojiList>
-          {emojis.map((emoji) => (
-            <EmojiItem
-              {...emoji}
-              key={emoji.emoji}
-              onRemove={handleEmojiDecrease}
-            />
-          ))}
+          {isLoading ? (
+            <div className="flex items-center px-2">
+              <ImSpinner className="animate-spin text-primary" />
+            </div>
+          ) : (
+            emojiCounts.map((item) => (
+              <EmojiItem
+                {...item}
+                key={item.emoji}
+                isSelected={myReactions.has(item.emoji)}
+                onClick={() => handleEmojiSelect(item.emoji)}
+              />
+            ))
+          )}
         </EmojiList>
       </div>
 

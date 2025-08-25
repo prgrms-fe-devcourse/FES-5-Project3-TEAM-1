@@ -1,19 +1,25 @@
+import clsx from 'clsx';
 import { memo } from 'react';
 
 interface Props {
   emoji: string;
-  count: number;
-  onRemove: (targetEmoji: string) => void;
+  counts: number;
+  isSelected: boolean;
+  onClick: () => void;
 }
 
-const EmojiItem = ({ count, emoji, onRemove }: Props) => {
+const EmojiItem = ({ counts, emoji, onClick, isSelected }: Props) => {
   return (
     <li
-      className="flex-center rounded-full gap-2 bg-[#FEFAE0] py-2 px-2.5 cursor-pointer"
-      onClick={() => onRemove(emoji)}
+      className={clsx(
+        'flex-center rounded-full gap-2 bg-quaternary py-2 px-2.5 cursor-pointer',
+        isSelected && 'border-1 border-yellow',
+        !isSelected && '',
+      )}
+      onClick={onClick}
     >
       <span className="text-xs"> {emoji}</span>
-      <span className="text-xs"> {count}</span>
+      <span className="text-xs"> {counts}</span>
     </li>
   );
 };
