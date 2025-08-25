@@ -53,7 +53,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
             type={type}
             className={tw(
               'flex-1 text-base border-none outline-none',
-              readOnly && 'select-none',
+              readOnly && 'select-none truncate',
               type === 'time' ? 'time-input-custom' : '',
             )}
             placeholder={placeholder}
