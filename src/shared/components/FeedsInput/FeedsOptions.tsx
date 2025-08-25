@@ -34,7 +34,7 @@ function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
                 className="sr-only"
               />
               <Icon aria-hidden />
-              <span className="sr-only md:text-sm">{label}</span>
+              <span className="sr-only md:not-sr-only md:text-sm">{label}</span>
             </label>
           ) : (
             <label
@@ -53,7 +53,7 @@ function FeedsOptions({ selected, onSelect }: FeedOptionsProps) {
                 className="sr-only"
               />
               <Icon aria-hidden />
-              <span className="sr-only md:text-sm">{label}</span>
+              <span className="sr-only md:not-sr-only md:text-sm">{label}</span>
             </label>
           )}
         </li>
