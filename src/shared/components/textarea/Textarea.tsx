@@ -23,15 +23,16 @@ const Textarea = ({
     <div className="flex flex-col gap-2">
       <label
         htmlFor={id ?? textareaId}
-        className={tw(showLabel ? `text-black text-sm` : 'sr-only')}
+        className={tw(showLabel ? `text-black text-md` : 'sr-only')}
       >
         {label}
       </label>
       <div
         className={tw(
-          'flex justify-between gap-2 relative max-w-3xl h-64 w-full p-3 border-1 border-gray rounded-sm',
+          'flex justify-between gap-2 relative max-w-3xl h-50 w-full p-3 border-1 border-gray rounded-sm',
           readOnly && 'bg-gray-light',
-          !readOnly && 'focus-within:ring-2',
+          !readOnly &&
+            'focus-within:outline-none focus-within:ring-2 ring-primary-light',
           className,
         )}
       >

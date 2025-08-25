@@ -12,9 +12,10 @@ interface Props {
   tabs: { id: string; label: string }[];
   currentTab: string;
   onTabChange: (tabId: string) => void;
+  onOpenCreateModal: (open: boolean) => void;
 }
 
-function Header({ tabs, currentTab, onTabChange }: Props) {
+function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
 
@@ -113,7 +114,12 @@ function Header({ tabs, currentTab, onTabChange }: Props) {
           </li>
         </ul>
 
-        <Button size="sm" color="default" fullWidth>
+        <Button
+          onClick={() => onOpenCreateModal(true)}
+          size="sm"
+          color="default"
+          fullWidth
+        >
           방 생성하기
         </Button>
       </div>
