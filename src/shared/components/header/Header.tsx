@@ -77,51 +77,51 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
             30
           </span>
         </div>
-        <button
-          aria-haspopup="menu"
-          aria-expanded={isOpen}
-          aria-label="설정"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          <img src={settingsSVG} alt="" aria-hidden="true" />
-        </button>
-      </div>
-
-      {/* 설정 dropdown 메뉴 */}
-      <div
-        ref={settingsMenuRef}
-        tabIndex={-1}
-        aria-label="설정 메뉴"
-        className={clsx(
-          'absolute top-full -mt-8 md:mt-2 right-4 flex flex-col justify-between px-3 py-2 w-50 h-60 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] transition-all duration-400 ease-out',
-          isOpen
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 -translate-y-3 pointer-events-none',
-        )}
-      >
-        <ul className="flex flex-col">
-          <li
-            role="menuitem"
-            className="py-2 border-b border-b-gray-light text-center"
+        <div ref={settingsMenuRef} className="w-8 h-8">
+          <button
+            aria-haspopup="menu"
+            aria-expanded={isOpen}
+            aria-label="설정"
+            onClick={() => setIsOpen((prev) => !prev)}
           >
-            <NavLink to="/">방 관리</NavLink>
-          </li>
-          <li
-            role="menuitem"
-            className="py-2 border-b border-b-gray-light text-center"
+            <img src={settingsSVG} alt="" aria-hidden="true" />
+          </button>
+          {/* 설정 dropdown 메뉴 */}
+          <div
+            tabIndex={-1}
+            aria-label="설정 메뉴"
+            className={clsx(
+              'absolute top-full -mt-8 md:mt-2 right-4 flex flex-col justify-between px-3 py-2 w-50 h-60 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] transition-all duration-400 ease-out',
+              isOpen
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 -translate-y-3 pointer-events-none',
+            )}
           >
-            <button type="button">닉네임 수정</button>
-          </li>
-        </ul>
+            <ul className="flex flex-col">
+              <li
+                role="menuitem"
+                className="py-2 border-b border-b-gray-light text-center"
+              >
+                <NavLink to="/">방 관리</NavLink>
+              </li>
+              <li
+                role="menuitem"
+                className="py-2 border-b border-b-gray-light text-center"
+              >
+                <button type="button">닉네임 수정</button>
+              </li>
+            </ul>
 
-        <Button
-          onClick={() => onOpenCreateModal(true)}
-          size="sm"
-          color="default"
-          fullWidth
-        >
-          방 생성하기
-        </Button>
+            <Button
+              onClick={() => onOpenCreateModal(true)}
+              size="sm"
+              color="default"
+              fullWidth
+            >
+              방 생성하기
+            </Button>
+          </div>
+        </div>
       </div>
     </header>
   );

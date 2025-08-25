@@ -2,7 +2,7 @@ import { Outlet } from 'react-router';
 import { useState } from 'react';
 import Footer from './shared/components/footer/Footer';
 import Header from './shared/components/header/Header';
-import CreateThreads from './features/create-threads/CreateThreads';
+import CreateThreads from './features/threads/create-threads/CreateThreads';
 
 const TABS = [
   { id: 'all', label: '전체' },
