@@ -4,7 +4,9 @@ import moonSVG from '@/assets/icon/moon-20.svg';
 import settingsSVG from '@/assets/icon/settings-32.svg';
 import usersSVG from '@/assets/icon/users-16.svg';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import Button from '../Button';
+import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 
 interface Props {
   tabs: { id: string; label: string }[];
@@ -14,6 +16,14 @@ interface Props {
 
 function Header({ tabs, currentTab, onTabChange }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const settingsMenuRef = useRef<HTMLDivElement>(null);
+
+  /* 훅 이용 (esc or 밖 클릭 시 FeedsInput 축소) */
+  useCloseOnOutsideOrEsc<HTMLDivElement>({
+    ref: settingsMenuRef,
+    onClose: () => setIsOpen(false),
+  });
+
   return (
     <header className="flex fixed left-0 top-0 justify-between items-center flex-wrap md:flex-nowrap gap-2 md:gap-4 w-full h-auto md:h-15 px-5 pt-2 md:pt-0 bg-white shadow-slate-200 shadow-md z-50">
       <Link to="/" className="order-1 w-25">
@@ -53,7 +63,7 @@ function Header({ tabs, currentTab, onTabChange }: Props) {
         </button>
         <div className="flex justify-center items-center gap-1 min-w-16 bg-primary rounded-4xl">
           <img
-            className="flex w-5 h-5"
+            className="flex w-4 h-4"
             src={usersSVG}
             alt=""
             aria-hidden="true"
@@ -78,6 +88,7 @@ function Header({ tabs, currentTab, onTabChange }: Props) {
 
       {/* 설정 dropdown 메뉴 */}
       <div
+        ref={settingsMenuRef}
         tabIndex={-1}
         aria-label="설정 메뉴"
         className={clsx(
@@ -102,7 +113,9 @@ function Header({ tabs, currentTab, onTabChange }: Props) {
           </li>
         </ul>
 
-        <button>버튼 컴포넌트 올 예정</button>
+        <Button size="sm" color="default" fullWidth>
+          방 생성하기
+        </Button>
       </div>
     </header>
   );

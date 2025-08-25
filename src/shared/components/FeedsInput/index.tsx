@@ -3,6 +3,7 @@ import Button from '../Button';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import FeedsOptions from './FeedsOptions';
 import React from 'react';
+import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 
 const feedOptionsContent: Record<string, React.ReactNode> = {
   vote: <div>vote component 들어오면 됩니다.</div>,
@@ -28,19 +29,11 @@ function FeedsInput() {
     setSelectedChkbox(id);
   }, []);
 
-  /* FeedsInput 밖에 클릭 시 축소 */
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        feedsInputRef.current &&
-        !feedsInputRef.current.contains(event.target as Node)
-      ) {
-        setIsFocused(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  /* 훅 이용 (esc or 밖 클릭 시 FeedsInput 축소) */
+  useCloseOnOutsideOrEsc<HTMLDivElement>({
+    ref: feedsInputRef,
+    onClose: () => setIsFocused(false),
+  });
 
   /* checkbox 클릭 시 그 내용으로 focus 이동 */
   useEffect(() => {
