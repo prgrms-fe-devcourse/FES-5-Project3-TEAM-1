@@ -1,12 +1,24 @@
+import { useState } from 'react';
+
+import { EmojiPicker } from '@/features/emoji/ui/EmojiPicker';
 import Button from '@/shared/components/Button';
 import Input from '@/shared/components/Input';
 import ConfirmModal from '@/shared/components/Modal/ConfirmModal';
 import InputModal from '@/shared/components/Modal/InputModal';
-import { useState } from 'react';
+import { useEmoji } from '@/features/emoji/hook/useEmoji';
+
+const feedId = '041f817f-b470-412d-be21-9fc3307b0507';
+const token =
+  '38b6aef3b54c57426cf3800ac23b9dc17ac6892f7dfe7d184305fc348afa9831';
 
 const ModalTest = () => {
   const [isInputModalOpen, setIsInputModelOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModelOpen] = useState(false);
+
+  const { emojiCounts, handleEmojiClick, myReactions } = useEmoji({
+    feedId,
+    token,
+  });
 
   return (
     <div className="flex-center gap-4 mt-5">
@@ -22,6 +34,14 @@ const ModalTest = () => {
       >
         Confirm Model Open
       </Button>
+
+      <div className="w-[300px]">
+        <EmojiPicker
+          emojiCounts={emojiCounts}
+          myReactions={myReactions}
+          onEmojiClick={handleEmojiClick}
+        />
+      </div>
 
       {isInputModalOpen && (
         <InputModal

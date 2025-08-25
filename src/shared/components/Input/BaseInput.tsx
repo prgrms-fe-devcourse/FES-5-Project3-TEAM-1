@@ -40,7 +40,9 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
           className={tw(
             'flex justify-between items-center gap-2 relative p-3 border-1 border-gray rounded-sm h-12',
             readOnly && 'bg-gray-light',
-            !readOnly && 'focus-within:border-yellow focus-within:border-1',
+            // !readOnly && 'focus-within:border-yellow focus-within:border-1 ',
+            !readOnly &&
+              'focus-within:outline-none focus-within:ring-2 ring-primary-light',
             className,
           )}
         >

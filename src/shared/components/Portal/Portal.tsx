@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 interface Props {
@@ -39,18 +39,27 @@ const Portal = ({
     };
   }, [hasOverlay]);
 
+  // ESC 키 처리
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onOverlayClick?.();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onOverlayClick]);
+
   if (!targetElement) return null;
 
   const content = hasOverlay ? (
     <div
       ref={overlayRef}
-      className="flex-center fixed inset-0 bg-[#00000080] z-[999] "
+      className="fixed inset-0 bg-[#00000080] z-[999] flex items-center justify-center"
       role="presentation"
-      onClick={() => {
-        onOverlayClick?.();
-      }}
-      onKeyDown={(e) => {
-        if (e.key === 'Escape') {
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
           onOverlayClick?.();
         }
       }}
@@ -58,7 +67,15 @@ const Portal = ({
       {children}
     </div>
   ) : (
-    children
+    <>
+      <div
+        className="fixed inset-0 z-[998]"
+        onClick={onOverlayClick}
+        role="presentation"
+        aria-hidden="true"
+      />
+      <div className="relative z-[999]">{children}</div>
+    </>
   );
 
   return createPortal(content, targetElement);
