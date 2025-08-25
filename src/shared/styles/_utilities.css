@@ -21,3 +21,12 @@
     }
   }
 }
+
+/*가로 스크롤 영역에서 스크롤바 숨김*/
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

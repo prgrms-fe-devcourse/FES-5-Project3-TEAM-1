@@ -15,7 +15,8 @@ const EmojiGrid = ({ onSelect }: Props) => {
   return (
     <EmojiPicker.Root
       className={tw(
-        'absolute top-8 right-11/12 isolate flex h-[368px] w-fit flex-col bg-white dark:bg-neutral-900 z-50 p-2 border border-gray-light rounded-2xl',
+        // 'absolute top-8 right-11/12 isolate flex h-[368px] w-fit flex-col bg-white dark:bg-neutral-900 z-50 p-2 border border-gray-light rounded-2xl',
+        'absolute top-full left-0 mt-2 z-50 h-[368px] w-[320px] flex flex-col bg-white dark:bg-neutral-900 p-2 border border-gray-light rounded-2xl shadow-lg',
       )}
       onEmojiSelect={handleEmojiClick}
     >

@@ -35,6 +35,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           'whitespace-nowrap break-keep',
           'transition-transform duration-150 ease-in-out',
           'hover:cursor-pointer',
+          'min-w-[80px]',
 
           disabled
             ? 'bg-gray text-white cursor-not-allowed'
@@ -49,8 +50,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ],
 
           // size
-          size === 'sm' && 'h-[36px] px-4 py-2',
-          size === 'default' && 'h-[48px] px-6 py-3',
+          size === 'sm' && 'h-[36px] px-4',
+          size === 'default' && 'h-[48px] px-4',
 
           //너비
           fullWidth ? 'w-full' : 'w-fit',
