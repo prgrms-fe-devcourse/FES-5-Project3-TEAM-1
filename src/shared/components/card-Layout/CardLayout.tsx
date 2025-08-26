@@ -69,7 +69,7 @@ const CardLayout = ({
       {/*피드 내용*/}
       <div className="px-5 py-4 break-words">{children}</div>
 
-      <div className="bg-bg-sub px-5 py-3 flex items-center justify-between">
+      <div className="bg-bg-sub px-5 py-3 rounded-bl-xl rounded-br-xl flex items-center justify-between">
         {/*emoji*/}
         <div className="relative flex-1 min-w-0">
           <EmojiPicker
