@@ -10,8 +10,8 @@ interface FeedOptionsProps {
 }
 
 const feedOptions = [
-  { id: 'pic', icon: PicSVG, label: '사진', type: 'file' },
-  { id: 'vote', icon: VoteSVG, label: '투표', type: 'checkbox' },
+  { id: 'image', icon: PicSVG, label: '사진', type: 'file' },
+  { id: 'poll', icon: VoteSVG, label: '투표', type: 'checkbox' },
   { id: 'balance', icon: BalanceSVG, label: '밸런스게임', type: 'checkbox' },
   { id: 'drawing', icon: DrawSVG, label: '그림그리기', type: 'checkbox' },
 ];
