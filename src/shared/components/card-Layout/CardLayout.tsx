@@ -17,6 +17,7 @@ interface CardLayoutProps {
   onSubmit: (text: string) => void;
   feedId: string;
   token: string;
+  feedExtraContent?: React.ReactNode;
 }
 
 const CardLayout = ({
@@ -29,6 +30,7 @@ const CardLayout = ({
   children,
   feedId,
   token,
+  feedExtraContent,
 }: CardLayoutProps) => {
   const [input, setInput] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +69,19 @@ const CardLayout = ({
       </div>
 
       {/*피드 내용*/}
-      <div className="px-5 py-4 break-words">{children}</div>
+      <div className="px-5 pb-3 break-words">{children}</div>
+
+      {/* 추가 피드 콘텐츠 */}
+      {feedExtraContent && (
+        <div
+          className="px-5 pb-3 
+          before:block before:h-[2px] before:bg-gray-light
+          before:mb-3
+        "
+        >
+          {feedExtraContent}
+        </div>
+      )}
 
       <div className="bg-bg-sub px-5 py-3 rounded-bl-xl rounded-br-xl flex items-center justify-between">
         {/*emoji*/}
