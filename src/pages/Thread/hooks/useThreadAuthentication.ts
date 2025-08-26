@@ -17,23 +17,30 @@ export const useThreadAuthentication = (threadId: string) => {
     checkThreadAccess();
   }, [threadId]);
 
-  const genToken = async () => {
-    // 토큰이 없다면 발급
-    const token = sessionStorageUtil.getSession<string>(ANONIMO_TOKEN) || '';
-    if (!token) {
-      const newToken = await generateSimpleFingerprint();
-      sessionStorageUtil.setSession(ANONIMO_TOKEN, newToken);
-      setToken(newToken);
+  // 기존 토큰이 있으면 state에 설정
+  useEffect(() => {
+    const currentToken = sessionStorageUtil.getSession<string>(ANONIMO_TOKEN);
+    if (!currentToken) {
+      genToken();
     } else {
-      setToken(token);
+      setToken(currentToken);
     }
+  }, []);
+
+  const genToken = async () => {
+    const newToken = await generateSimpleFingerprint();
+    sessionStorageUtil.setSession(ANONIMO_TOKEN, newToken);
+    setToken(newToken);
   };
 
   const checkThreadAccess = async () => {
     setIsLoading(true);
     try {
-      // 토큰 생성
-      genToken();
+      // 토큰이 없다면 발급
+      const currentToken = sessionStorageUtil.getSession<string>(ANONIMO_TOKEN);
+      if (!currentToken) {
+        genToken();
+      }
 
       // 세션에서 확인
       const authenticatedThreads =
@@ -53,6 +60,7 @@ export const useThreadAuthentication = (threadId: string) => {
         setIsAuthenticated(false);
         setIsPasswordRequired(true);
       } else {
+        setIsAuthenticated(true);
         setIsPasswordRequired(false);
       }
     } catch (error) {
@@ -76,15 +84,14 @@ export const useThreadAuthentication = (threadId: string) => {
         // 세션에 저장
         const authenticatedThreads =
           sessionStorageUtil.getSession<string[]>(THREAD_KEY) || [];
-        authenticatedThreads?.push(threadId);
+        authenticatedThreads.push(threadId);
         sessionStorageUtil.setSession(THREAD_KEY, authenticatedThreads);
 
         // 토큰이 없다면 발급
-        if (sessionStorageUtil.getSession<string>(ANONIMO_TOKEN) || '') {
-          sessionStorageUtil.setSession(
-            ANONIMO_TOKEN,
-            generateSimpleFingerprint(),
-          );
+        const currentToken =
+          sessionStorageUtil.getSession<string>(ANONIMO_TOKEN);
+        if (!currentToken) {
+          genToken();
         }
 
         return { success: true, message: '비밀번호 인증 성공' };

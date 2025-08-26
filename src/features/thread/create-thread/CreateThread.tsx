@@ -72,9 +72,14 @@ function CreateThreads({ isOpen, onClose }: Props) {
     <InputModal
       title={modalStep === 'form' ? '방 만들기' : '방 링크'}
       content={
-        modalStep === 'form'
-          ? ''
-          : 'Anonimo의 익명방을 이용하고 싶은 사람들과 이 링크를 공유해보세요. '
+        modalStep === 'form' ? (
+          ''
+        ) : (
+          <p>
+            Anonimo의 익명방을 이용하고 싶은 사람들과
+            <br />이 링크를 공유해보세요.
+          </p>
+        )
       }
       onClose={onClose}
     >

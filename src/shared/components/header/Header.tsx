@@ -10,6 +10,7 @@ import Button from '../button/Button';
 import { useModal } from '@/shared/utils/ModalProvider';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import useLogout from '@/features/login/hooks/useLogout';
+import NicknameChangeModal from '../modals/NicknameChangeModal';
 
 interface Props {
   tabs?: { id: string; label: string }[];
@@ -21,8 +22,15 @@ interface Props {
 function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
+
   const modal = useModal();
   const loginAuth = useAuth();
+
+
+  // 닉네임 변경 모달 state
+  const [isNicknameModalOpen, setIsNicknameModalOpen] =
+    useState<boolean>(false);
+
   /* 훅 이용 (esc or 밖 클릭 시 settingsMenu 닫힘) */
   useCloseOnOutsideOrEsc<HTMLDivElement>({
     ref: settingsMenuRef,
@@ -114,7 +122,12 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
                 role="menuitem"
                 className="py-2 border-b border-b-gray-light text-center"
               >
-                <button type="button">닉네임 수정</button>
+                <button
+                  type="button"
+                  onClick={() => setIsNicknameModalOpen(true)}
+                >
+                  닉네임 수정
+                </button>
               </li>
             </ul>
 
@@ -151,6 +164,10 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
           </div>
         </div>
       </div>
+      {/* 닉네임 변경 모달 */}
+      {isNicknameModalOpen && (
+        <NicknameChangeModal onClose={() => setIsNicknameModalOpen(false)} />
+      )}
     </header>
   );
 }

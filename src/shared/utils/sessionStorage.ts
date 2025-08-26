@@ -13,10 +13,17 @@ export const sessionStorageUtil = {
 
   setSession: <T>(key: string, value: T): void => {
     try {
-      console.log(value);
       sessionStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       throw new Error(`세션 정보를 저장하는 중 에러 발생 : ${error}`);
+    }
+  },
+
+  removeSession: (key: string): void => {
+    try {
+      sessionStorage.removeItem(key);
+    } catch (error) {
+      throw new Error(`세션 정보를 삭제하는 중 에러 발생 : ${error}`);
     }
   },
 };
