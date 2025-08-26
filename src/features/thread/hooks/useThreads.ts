@@ -60,9 +60,10 @@ export const useThreads = (threadId: string) => {
           sessionStorageUtil.getSession<string[]>(THREAD_KEY) || [];
         authenticatedThreads?.push(threadId);
         sessionStorageUtil.setSession(THREAD_KEY, authenticatedThreads);
+        return { success: true, message: '비밀번호 인증 성공' };
+      } else {
+        return { success: false, message: '비밀번호 인증 실패' };
       }
-
-      return { success: true, message: '비밀번호 인증 성공' };
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

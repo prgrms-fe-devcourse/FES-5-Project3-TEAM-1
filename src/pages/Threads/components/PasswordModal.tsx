@@ -1,7 +1,6 @@
 import Button from '@/shared/components/button/Button';
 import Input from '@/shared/components/Input';
 import InputModal from '@/shared/components/modals/InputModal';
-import tw from '@/shared/utils/style';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import { useRef, useState } from 'react';
 
@@ -18,6 +17,7 @@ const PasswordModal = ({ isOpen, onClose, onValidate }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>('');
 
+  // 비밀번호 검증
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -50,7 +50,7 @@ const PasswordModal = ({ isOpen, onClose, onValidate }: Props) => {
           label="비밀번호"
           showLabel
           placeholder={error ? error : '비밀번호를 입력해주세요.'}
-          className={tw(error && 'border-red')}
+          className={error ? 'border-red-400' : ''}
           ref={passwordRef}
         />
         <Button type="submit" size="default" color="blue" className="mt-7">
