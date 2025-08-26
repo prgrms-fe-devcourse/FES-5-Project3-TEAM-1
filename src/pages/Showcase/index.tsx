@@ -1,9 +1,34 @@
 import Button from '@/shared/components/button/Button';
+import CardLayout from '@/shared/components/card-Layout/CardLayout';
+import CommentList, {
+  type CommentListItem,
+} from '@/shared/components/card-Layout/CommentList';
 import Checkbox from '@/shared/components/checkbox/Checkbox';
 import FeedInput from '@/shared/components/feed-Input/FeedInput';
 import Input from '@/shared/components/Input';
 import Textarea from '@/shared/components/textarea/Textarea';
 import { useRef, useState } from 'react';
+
+//emoji 테스트용 데이터
+const feedId = '041f817f-b470-412d-be21-9fc3307b0507';
+const token =
+  '38b6aef3b54c57426cf3800ac23b9dc17ac6892f7dfe7d184305fc348afa9831';
+
+//CardLayout 댓글 나오는지 테스트용 데이터
+const commentsList: CommentListItem[] = [
+  {
+    id: '1',
+    nickname: 'user1',
+    createdAt: '20분 전',
+    content: '안녕하세요',
+  },
+  {
+    id: '2',
+    nickname: 'user2',
+    createdAt: '20분 전',
+    content: '안녕하세요',
+  },
+];
 
 const Showcase = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -69,6 +94,18 @@ const Showcase = () => {
         onClick={() => alert(inputRef.current?.value)}
       />
       <FeedInput></FeedInput>
+
+      <CardLayout
+        nickname="Nimo"
+        createdAt="1시간 전"
+        commentsCount={10}
+        commentsList={<CommentList items={commentsList} />}
+        onSubmit={(text) => console.log(text)}
+        feedId={feedId}
+        token={token}
+      >
+        텍스트 내용
+      </CardLayout>
     </div>
   );
 };
