@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 const THREAD_KEY = 'authenticated_threads';
 
-export const useThreads = (threadId: string) => {
+export const useThread = (threadId: string) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isPasswordRequired, setIsPasswordRequired] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);

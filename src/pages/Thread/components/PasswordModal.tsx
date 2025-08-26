@@ -41,8 +41,8 @@ const PasswordModal = ({ isOpen, onClose, onValidate }: Props) => {
 
   return (
     <InputModal
-      title="쓰레드 압징하기"
-      content="방장이 설정한 비밀번호를 입력해주세요."
+      title="방 입장하기"
+      content="비밀번호를 입력해주세요."
       overlayType="blur"
     >
       <form className="flex gap-3" onSubmit={handleSubmit}>
@@ -53,7 +53,7 @@ const PasswordModal = ({ isOpen, onClose, onValidate }: Props) => {
           className={error ? 'border-red-400' : ''}
           ref={passwordRef}
         />
-        <Button type="submit" size="default" color="blue" className="mt-7">
+        <Button type="submit" size="default" color="blue" className="mt-8">
           {isLoading ? '검증 중..' : '입장'}
         </Button>
       </form>

@@ -3,7 +3,7 @@ import Showcase from '@/pages/Showcase';
 import ModalTest from '@/pages/ModalTest';
 import RootLayout from '@/RootLayout';
 import { createBrowserRouter } from 'react-router';
-import Thread from '@/pages/Threads';
+import Thread from '@/pages/Thread';
 
 const routes = [
   {

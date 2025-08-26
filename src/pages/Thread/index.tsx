@@ -1,16 +1,16 @@
 import FeedInput from '@/shared/components/feed-Input/FeedInput';
 // import { useParams } from 'react-router';
 import PasswordModal from './components/PasswordModal';
-import { useThreads } from '@/features/thread/hooks/useThreads';
+import { useThread } from '@/pages/Thread/hooks/useThread';
 import { useEffect, useState } from 'react';
 
-const THREADS_ID = '2a5903cd-9105-434d-ac5c-8e0b3c909623';
+const THREAD_ID = '2a5903cd-9105-434d-ac5c-8e0b3c909623';
 
 const Thread = () => {
   // const { threadId } = useParams();
   // @ts-ignore
   const { isAuthenticated, isLoading, isPasswordRequired, validatePassword } =
-    useThreads(THREADS_ID);
+    useThread(THREAD_ID);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   useEffect(() => {
