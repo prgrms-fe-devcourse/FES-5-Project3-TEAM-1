@@ -40,14 +40,15 @@ export const insertThreads = async ({
  */
 export const getThreadInfo = async (
   threadId: string,
-): Promise<Tables<'threads'>> => {
+): Promise<Tables<'threads'> | null> => {
   const { data, error } = await supabase
     .from('threads')
     .select()
     .eq('id', threadId)
-    .single();
+    .maybeSingle();
 
   if (error) {
+    console.error(error);
     throw new Error(`get threads info error : ${error}`);
   }
 

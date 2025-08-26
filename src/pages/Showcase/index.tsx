@@ -4,7 +4,6 @@ import CommentList, {
   type CommentListItem,
 } from '@/shared/components/card-Layout/CommentList';
 import Checkbox from '@/shared/components/checkbox/Checkbox';
-import FeedInput from '@/shared/components/feed-Input/FeedInput';
 import Input from '@/shared/components/Input';
 import Textarea from '@/shared/components/textarea/Textarea';
 import { useRef, useState } from 'react';
@@ -93,7 +92,6 @@ const Showcase = () => {
         ref={inputRef}
         onClick={() => alert(inputRef.current?.value)}
       />
-      <FeedInput></FeedInput>
 
       <CardLayout
         nickname="Nimo"

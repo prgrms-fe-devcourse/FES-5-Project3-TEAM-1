@@ -1,19 +1,27 @@
 import TextareaAutoSize from 'react-textarea-autosize';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type Dispatch } from 'react';
 import React from 'react';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import Button from '../button/Button';
 import FeedOptions from './FeedOptions';
+import type { FeedType } from '@/shared/types/feed';
 
 const feedOptionsContent: Record<string, React.ReactNode> = {
-  vote: <div>vote component 들어오면 됩니다.</div>,
+  poll: <div>vote component 들어오면 됩니다.</div>,
   balance: <p>balance component 들어오면 됩니다.</p>,
   drawing: <p>drawing component 들어오면 됩니다.</p>,
 };
 
-function FeedInput() {
+interface Props {
+  content: string;
+  setContent: Dispatch<React.SetStateAction<string>>;
+  onSubmit: () => void;
+  setType: Dispatch<React.SetStateAction<FeedType>>;
+}
+
+function FeedInput({ content, setContent, onSubmit, setType }: Props) {
   const [isFocused, setIsFocused] = useState(false);
-  const [textareaText, setTextareaText] = useState('');
+  // const [textareaText, setTextareaText] = useState('');
   const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const feedsInputRef = useRef<HTMLDivElement>(null);
   const chkboxContentRef = useRef<HTMLDivElement>(null);
@@ -21,12 +29,14 @@ function FeedInput() {
 
   /* textarea 글자 수 표시(감소 형태) */
   const handleCountText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTextareaText(e.target.value.slice(0, textLength));
+    setContent(e.target.value.slice(0, textLength));
   };
 
   /* 옵션 선택 시 */
   const handleSelect = useCallback((id: string | null) => {
     setSelectedChkbox(id);
+    // 피드 타입
+    setType(id ? (id as FeedType) : 'text');
   }, []);
 
   /* 훅 이용 (esc or 밖 클릭 시 FeedsInput 축소) */
@@ -42,6 +52,23 @@ function FeedInput() {
     }
   }, [selectedChkbox]);
 
+  // 엔터
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.nativeEvent.isComposing) {
+      return;
+    }
+    if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        // Shift + Enter: 개행
+        return;
+      } else {
+        e.preventDefault();
+        onSubmit();
+        setSelectedChkbox(null);
+      }
+    }
+  };
+
   return (
     <div
       ref={feedsInputRef}
@@ -51,18 +78,19 @@ function FeedInput() {
         <TextareaAutoSize
           min-rows={1}
           name="feedsInput"
-          value={textareaText}
+          value={content}
           maxLength={textLength}
           onChange={handleCountText}
           onFocus={() => setIsFocused(true)}
           placeholder="익명으로 자유롭게 의견을 나눠보세요."
           className="pr-7 py-3 w-full min-h-12 resize-none overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
+          onKeyDown={handleKeyDown}
         ></TextareaAutoSize>
         {/* <img src="" alt="" className="block w-full max-w-[12.5rem]" /> */}
         <span
           className={`block absolute right-0 bottom-0 ml-auto text-gray-dark transition-opacity duration-300 ease-in-out ${isFocused ? 'opacity-100' : 'opacity-0'}`}
         >
-          {textLength - textareaText.length}
+          {textLength - content.length}
         </span>
       </div>
       <div
@@ -86,7 +114,14 @@ function FeedInput() {
         )}
 
         <div className="ml-auto">
-          <Button size="sm" color="blue" className="">
+          <Button
+            size="sm"
+            color="blue"
+            onClick={() => {
+              onSubmit();
+              setSelectedChkbox(null);
+            }}
+          >
             올리기
           </Button>
         </div>

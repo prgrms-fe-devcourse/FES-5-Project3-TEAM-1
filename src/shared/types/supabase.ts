@@ -212,30 +212,30 @@ export type Database = {
       feeds: {
         Row: {
           content: string;
-          created_at: string | null;
+          created_at: string;
           id: string;
-          nickname: string | null;
+          nickname: string;
           thread_id: string;
           token: string;
-          type: Database['public']['Enums']['feed_type'] | null;
+          type: Database['public']['Enums']['feed_type'];
         };
         Insert: {
           content: string;
-          created_at?: string | null;
+          created_at?: string;
           id?: string;
-          nickname?: string | null;
+          nickname?: string;
           thread_id: string;
           token: string;
-          type?: Database['public']['Enums']['feed_type'] | null;
+          type?: Database['public']['Enums']['feed_type'];
         };
         Update: {
           content?: string;
-          created_at?: string | null;
+          created_at?: string;
           id?: string;
-          nickname?: string | null;
+          nickname?: string;
           thread_id?: string;
           token?: string;
-          type?: Database['public']['Enums']['feed_type'] | null;
+          type?: Database['public']['Enums']['feed_type'];
         };
         Relationships: [
           {
