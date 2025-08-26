@@ -1,4 +1,4 @@
-import useLogout from '../hooks/Logout';
+import useLogout from '../hooks/useLogout';
 
 function LogoutButton() {
   const handleLogOut = useLogout();

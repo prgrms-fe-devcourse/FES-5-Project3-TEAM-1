@@ -1,5 +1,5 @@
 import LogoutButton from '@/features/login/ui/LogoutButton';
-import { useAuth } from '@/shared/utils/LoginAuth';
+import { useAuth } from '@/shared/utils/AuthProvider';
 import { useModal } from '@/shared/utils/ModalProvider';
 
 function LoginTest() {

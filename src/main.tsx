@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 //  프로바이더
 import { HelmetProvider } from '@dr.pogodin/react-helmet';
 import { RouterProvider } from 'react-router';
-import { AuthProvider } from './shared/utils/LoginAuth.tsx';
+import { AuthProvider } from './shared/utils/AuthProvider.tsx';
 import { ModalProvider } from './shared/utils/ModalProvider.tsx';
 
 import router from './router/router.tsx';

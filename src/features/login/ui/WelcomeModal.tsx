@@ -1,6 +1,6 @@
 import InputModal from '@/shared/components/modals/InputModal';
 import NimoWelcomePng from '@/assets/nimo/nimo_welcome.png';
-import handleAdminPage from '../hooks/handleAdminPage';
+import handleAdminPage from '../hooks/useHandleAdminPage';
 
 interface Props {
   onClose: () => void;

@@ -1,5 +1,5 @@
 import supabase from '@/shared/libs/supabase';
-import { useAuth } from '@/shared/utils/LoginAuth';
+import { useAuth } from '@/shared/utils/AuthProvider';
 
 function useLogout() {
   const { logout } = useAuth();
