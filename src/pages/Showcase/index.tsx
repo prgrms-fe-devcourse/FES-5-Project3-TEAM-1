@@ -93,7 +93,6 @@ const Showcase = () => {
         ref={inputRef}
         onClick={() => alert(inputRef.current?.value)}
       />
-      <FeedInput></FeedInput>
 
       <CardLayout
         nickname="Nimo"
