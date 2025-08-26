@@ -45,9 +45,9 @@ function FeedInput() {
   return (
     <div
       ref={feedsInputRef}
-      className="flex flex-col p-5 rounded-xl shadow-[0_4px_8px_0_rgba(0,0,0,0.20)]"
+      className="flex flex-col p-5 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10"
     >
-      <div className="flex flex-col relative w-full z-">
+      <div className="flex flex-col relative w-full ">
         <TextareaAutoSize
           min-rows={1}
           name="feedsInput"
@@ -66,7 +66,7 @@ function FeedInput() {
         </span>
       </div>
       <div
-        className={`flex flex-wrap gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-96 pt-5' : 'overflow-hidden max-h-0'}`}
+        className={`flex flex-wrap items-center gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-96 pt-5' : 'overflow-hidden max-h-0'}`}
       >
         <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
