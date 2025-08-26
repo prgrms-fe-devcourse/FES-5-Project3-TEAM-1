@@ -2,6 +2,7 @@ import Home from '@/pages/Home';
 import Showcase from '@/pages/Showcase';
 import ModalTest from '@/pages/ModalTest';
 import RootLayout from '@/RootLayout';
+import LoginTest from '@/pages/login-test/LoginTest';
 import { createBrowserRouter } from 'react-router';
 import Thread from '@/pages/Thread';
 
@@ -29,6 +30,11 @@ const routes = [
         text: '쇼 케이스',
         path: '/showcase',
         Component: Showcase,
+      },
+      {
+        text: '로그인 테스트',
+        path: '/login',
+        Component: LoginTest,
       },
     ],
   },
