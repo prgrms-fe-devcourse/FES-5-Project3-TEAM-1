@@ -2,7 +2,7 @@ import ModalLayout from './ModalLayout';
 
 interface Props {
   title: string;
-  content: string;
+  content: React.ReactNode;
   onClose?: () => void;
   children: React.ReactNode;
   overlayType?: 'dim' | 'blur';
@@ -22,9 +22,12 @@ const InputModal = ({
           <h2 id="modal-title" className="text-black text-center text-3xl">
             {title}
           </h2>
-          <p id="modal-content" className="text-gray-dark text-xl text-center">
+          <div
+            id="modal-content"
+            className="text-gray-dark text-lg text-center"
+          >
             {content}
-          </p>
+          </div>
         </div>
         {children}
       </div>

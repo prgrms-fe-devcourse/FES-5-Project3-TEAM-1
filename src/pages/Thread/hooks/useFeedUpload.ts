@@ -1,24 +1,21 @@
 import { uploadFeed } from '@/shared/api/feed';
 import type { FeedType } from '@/shared/types/feed';
+import { getNicknameFromSession } from '@/shared/utils/nickname';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import { useState } from 'react';
 
 interface Props {
   threadId: string;
   token: string;
-  nickname?: string;
 }
 
-export const useFeedUpload = ({
-  threadId,
-  token,
-  nickname = 'Nimo',
-}: Props) => {
+export const useFeedUpload = ({ threadId, token }: Props) => {
   const [content, setContent] = useState<string>('');
   const [type, setType] = useState<FeedType>('text');
   const [isUploading, setIsUploading] = useState(false);
 
   const handleUploadFeed = async () => {
+    const nickname = getNicknameFromSession();
     if (!content.trim()) return;
     setIsUploading(true);
     try {
@@ -26,7 +23,7 @@ export const useFeedUpload = ({
         threadId,
         token,
         content,
-        nickname,
+        nickname: nickname ?? 'nimo',
         type,
       });
 

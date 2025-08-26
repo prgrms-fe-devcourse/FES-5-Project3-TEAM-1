@@ -4,7 +4,7 @@ import ModalLayout from './ModalLayout';
 interface Props {
   title: string;
   size?: 'sm' | 'md' | 'lg';
-  content: string;
+  content: React.ReactNode;
   cancelLabel?: string;
   confirmLabel?: string;
   onCancel: () => void;
@@ -27,9 +27,9 @@ const ConfirmModal = ({
         <h2 id="modal-title" className="text-black text-center text-3xl">
           {title}
         </h2>
-        <p id="modal-content" className="text-gray-dark text-xl text-center">
+        <div id="modal-content" className="text-gray-dark text-xl text-center">
           {content}
-        </p>
+        </div>
       </div>
       {/* 버튼 그룹 */}
       <div role="group" className="flex justify-between items-center gap-2">
