@@ -6,12 +6,14 @@ interface Props {
   targetId?: string;
   hasOverlay?: boolean;
   onOverlayClick?: () => void;
+  overlayType?: 'blur' | 'dim';
 }
 
 const Portal = ({
   children,
   targetId = 'portal-root',
   hasOverlay = true,
+  overlayType = 'dim',
   onOverlayClick,
 }: Props) => {
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -53,10 +55,18 @@ const Portal = ({
 
   if (!targetElement) return null;
 
+  const getOverlayStyles = () => {
+    if (overlayType === 'blur') {
+      return 'fixed inset-0 backdrop-blur-sm bg-black/20 z-[999] flex items-center justify-center';
+    }
+    // dim (기본값)
+    return 'fixed inset-0 bg-[#00000080] z-[999] flex items-center justify-center';
+  };
+
   const content = hasOverlay ? (
     <div
       ref={overlayRef}
-      className="fixed inset-0 bg-[#00000080] z-[999] flex items-center justify-center"
+      className={getOverlayStyles()}
       role="presentation"
       onClick={(e) => {
         if (e.target === e.currentTarget) {

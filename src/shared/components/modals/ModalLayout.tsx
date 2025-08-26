@@ -4,19 +4,25 @@ import Portal from '../portals/Portal';
 
 interface Props {
   size?: 'sm' | 'md' | 'lg';
-  onClose: () => void;
+  onClose?: () => void;
   showCloseBtn?: boolean;
   children: React.ReactNode;
+  overlayType?: 'dim' | 'blur';
 }
 
 const ModalLayout = ({
   size = 'sm',
   onClose,
   showCloseBtn = true,
+  overlayType,
   children,
 }: Props) => {
   return (
-    <Portal targetId="modal-root" onOverlayClick={onClose}>
+    <Portal
+      targetId="modal-root"
+      onOverlayClick={onClose}
+      overlayType={overlayType}
+    >
       {/* 모달 */}
       <div
         role="alertdialog"
@@ -32,7 +38,7 @@ const ModalLayout = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* 닫기 버튼 */}
-        {showCloseBtn && (
+        {showCloseBtn && onClose && (
           <button
             type="button"
             aria-label="팝업창 닫기"
