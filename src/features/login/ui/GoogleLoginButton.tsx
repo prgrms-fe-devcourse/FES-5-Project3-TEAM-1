@@ -1,5 +1,5 @@
 import googleIcon from '@/assets/icon/google_icon.svg';
-import useGoogleLogin from '../hooks/GoogleLogin';
+import useGoogleLogin from '../hooks/useGoogleLogin';
 
 function GoogleLoginButton() {
   const handleGoogleLogin = useGoogleLogin();

@@ -1,5 +1,5 @@
 import githubIcon from '@/assets/icon/github_icon.svg';
-import useGithubLogin from '../hooks/GithubLogin';
+import useGithubLogin from '../hooks/useGithubLogin';
 
 function GithubLoginButton() {
   const handleGithubLogin = useGithubLogin();
