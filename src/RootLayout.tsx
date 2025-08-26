@@ -2,7 +2,7 @@ import { Outlet } from 'react-router';
 import { useState } from 'react';
 import Footer from './shared/components/footer/Footer';
 import Header from './shared/components/header/Header';
-import CreateThreads from './features/threads/create-threads/CreateThreads';
+import CreateThread from './features/thread/create-thread/CreateThread';
 
 const TABS = [
   { id: 'all', label: '전체' },
@@ -33,10 +33,10 @@ const RootLayout = () => {
 
       {/* 방 생성하기 팝업 */}
       {isCreateThreadsModalOpen && (
-        <CreateThreads
+        <CreateThread
           isOpen={isCreateThreadsModalOpen}
           onClose={() => setIsCreateThreadsModalOpen(false)}
-        ></CreateThreads>
+        ></CreateThread>
       )}
     </div>
   );
