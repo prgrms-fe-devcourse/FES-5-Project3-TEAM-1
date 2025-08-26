@@ -4,15 +4,14 @@ import { useFeedUpload } from '../hooks/useFeedUpload';
 interface Props {
   threadId: string;
   token: string;
-  nickname?: string;
 }
 
-const CreateFeed = ({ threadId, token, nickname }: Props) => {
+const CreateFeed = ({ threadId, token }: Props) => {
   const { content, onSubmit, setContent, setType } = useFeedUpload({
     threadId,
     token,
-    nickname,
   });
+
   return (
     <FeedInput
       content={content}
