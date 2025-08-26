@@ -4,6 +4,7 @@ import CardLayout from '@/shared/components/card-Layout/CardLayout';
 import CommentList, {
   type CommentListItem,
 } from '@/shared/components/card-Layout/CommentList';
+import { getNicknameFromSession } from '@/shared/utils/nickname';
 
 interface CommentSectionProps {
   feedId: string;
@@ -36,8 +37,7 @@ export default function CommentSection({
   );
 
   const handleSubmitComment = (text: string) => {
-    // TODO: 댓글을 작성하는 유저의 닉네임 수정하기!
-    const commentNickname = 'nimo';
+    const commentNickname = getNicknameFromSession() ?? 'nimo';
     addComment(text, commentNickname);
   };
 
