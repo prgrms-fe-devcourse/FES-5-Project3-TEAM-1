@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import supabase from '../libs/supabase';
 import { useModal } from './ModalProvider';
+import { toastUtils } from './toastUtils';
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -64,6 +65,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setIsLoggedIn(!!session);
+        setUserId(session?.user.id || null);
+
+        if (_event === 'SIGNED_IN') {
+          const hasShownToast = sessionStorage.getItem('loginToastShown');
+
+          if (!hasShownToast) {
+            toastUtils.success('로그인 성공!');
+            sessionStorage.setItem('loginToastShown', 'true');
+          }
+        }
+
+        if (_event === 'SIGNED_OUT') {
+          sessionStorage.removeItem('loginToastShown');
+        }
       },
     );
     return () => {
