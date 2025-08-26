@@ -54,10 +54,7 @@ const CardLayout = ({
 
   return (
     <article
-      className={tw(
-        'bg-white rounded-xl border border-gray-light overflow-hidden ',
-        className,
-      )}
+      className={tw('bg-white rounded-xl border border-gray-light', className)}
     >
       <div className="px-5 pt-4 pb-3 flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-gray-light flex items-center justify-center">
@@ -70,20 +67,16 @@ const CardLayout = ({
       </div>
 
       {/*피드 내용*/}
-      <div className="px-5 py-4">{children}</div>
+      <div className="px-5 py-4 break-words">{children}</div>
 
       <div className="bg-bg-sub px-5 py-3 flex items-center justify-between">
         {/*emoji*/}
-        <div className="flex-1 min-w-0">
-          <div className="overflow-x-auto no-scrollbar">
-            <div className="flex items-center gap-2 flex-nowrap">
-              <EmojiPicker
-                emojiCounts={displayedEmoji}
-                myReactions={myReactions}
-                onEmojiClick={handleEmojiClick}
-              />
-            </div>
-          </div>
+        <div className="relative flex-1 min-w-0">
+          <EmojiPicker
+            emojiCounts={displayedEmoji}
+            myReactions={myReactions}
+            onEmojiClick={handleEmojiClick}
+          />
         </div>
 
         {/*댓글 버튼*/}
@@ -105,15 +98,15 @@ const CardLayout = ({
 
       {/*댓글창 열림*/}
       <div
-        className={`transition-[max-height] duration-300 ease-in-out overflow-hidden bg-bg-sub
+        className={`transition-[max-height] duration-300 rounded-bl-xl rounded-br-xl ease-in-out overflow-hidden bg-bg-sub
         ${isOpen ? 'max-h-[700px] pt-2 pb-2' : 'max-h-0 pt-0 pb-0'}`}
         role="region"
         aria-label="댓글 영역"
         aria-live="polite"
       >
         {/* 댓글 입력 필드 */}
-        <div className="px-4">
-          <div className="flex items-center gap-2 justify-between">
+        <div className="flex flex-col px-4">
+          <div className="flex gap-2">
             <Input
               label="댓글 입력"
               aria-label="댓글 입력"
@@ -135,6 +128,7 @@ const CardLayout = ({
               onClick={handlePostComment}
               aria-label="댓글 등록"
               tabIndex={0}
+              className="min-w-auto md:min-w-[80px]"
             >
               등록
             </Button>
