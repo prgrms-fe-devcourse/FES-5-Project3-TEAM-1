@@ -23,7 +23,7 @@ export type Database = {
           option_1: string;
           option_2: string;
           start_date: string;
-          status: string;
+          status: Database['public']['Enums']['status'];
         };
         Insert: {
           created_at?: string | null;
@@ -33,7 +33,7 @@ export type Database = {
           option_1: string;
           option_2: string;
           start_date?: string;
-          status?: string;
+          status?: Database['public']['Enums']['status'];
         };
         Update: {
           created_at?: string | null;
@@ -43,7 +43,7 @@ export type Database = {
           option_1?: string;
           option_2?: string;
           start_date?: string;
-          status?: string;
+          status?: Database['public']['Enums']['status'];
         };
         Relationships: [
           {
@@ -217,7 +217,7 @@ export type Database = {
           nickname: string | null;
           thread_id: string;
           token: string;
-          type: number;
+          type: Database['public']['Enums']['feed_type'] | null;
         };
         Insert: {
           content: string;
@@ -226,7 +226,7 @@ export type Database = {
           nickname?: string | null;
           thread_id: string;
           token: string;
-          type: number;
+          type?: Database['public']['Enums']['feed_type'] | null;
         };
         Update: {
           content?: string;
@@ -235,7 +235,7 @@ export type Database = {
           nickname?: string | null;
           thread_id?: string;
           token?: string;
-          type?: number;
+          type?: Database['public']['Enums']['feed_type'] | null;
         };
         Relationships: [
           {
@@ -310,33 +310,33 @@ export type Database = {
       };
       polls: {
         Row: {
-          created_at: string | null;
+          created_at: string;
           end_date: string;
           feed_id: string;
           id: string;
           multiple_choice: boolean | null;
           start_date: string;
-          status: string;
+          status: Database['public']['Enums']['status'];
           title: string;
         };
         Insert: {
-          created_at?: string | null;
+          created_at?: string;
           end_date: string;
           feed_id: string;
           id?: string;
           multiple_choice?: boolean | null;
           start_date?: string;
-          status?: string;
+          status?: Database['public']['Enums']['status'];
           title: string;
         };
         Update: {
-          created_at?: string | null;
+          created_at?: string;
           end_date?: string;
           feed_id?: string;
           id?: string;
           multiple_choice?: boolean | null;
           start_date?: string;
-          status?: string;
+          status?: Database['public']['Enums']['status'];
           title?: string;
         };
         Relationships: [
@@ -354,6 +354,7 @@ export type Database = {
           created_at: string | null;
           description: string;
           id: string;
+          isPrivate: boolean;
           link: string;
           owner_id: string;
           password: string | null;
@@ -363,6 +364,7 @@ export type Database = {
           created_at?: string | null;
           description: string;
           id?: string;
+          isPrivate: boolean;
           link: string;
           owner_id: string;
           password?: string | null;
@@ -372,6 +374,7 @@ export type Database = {
           created_at?: string | null;
           description?: string;
           id?: string;
+          isPrivate?: boolean;
           link?: string;
           owner_id?: string;
           password?: string | null;
@@ -391,14 +394,17 @@ export type Database = {
         Row: {
           created_at: string | null;
           id: string;
+          welcome_shown: boolean;
         };
         Insert: {
           created_at?: string | null;
           id: string;
+          welcome_shown?: boolean;
         };
         Update: {
           created_at?: string | null;
           id?: string;
+          welcome_shown?: boolean;
         };
         Relationships: [];
       };
@@ -449,7 +455,8 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      [_ in never]: never;
+      feed_type: 'text' | 'poll' | 'drawing' | 'balance' | 'image';
+      status: 'active' | 'closed';
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -579,6 +586,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      feed_type: ['text', 'poll', 'drawing', 'balance', 'image'],
+      status: ['active', 'closed'],
+    },
   },
 } as const;

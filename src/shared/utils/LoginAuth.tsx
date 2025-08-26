@@ -19,30 +19,49 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const modal = useModal();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsLoggedIn(!!session);
-    });
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        setIsLoggedIn(false);
+        return;
+      } else {
+        setIsLoggedIn(true);
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setIsLoggedIn(!!session);
+        // 최초 가입 여부 체크
+        const { data: profile, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', session.user.id)
+          .eq('welcome_shown', true)
+          .maybeSingle();
 
-        if (_event === 'SIGNED_IN' && session) {
-          // 최초 가입 여부 체크
-          const { data: profile } = await supabase
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        if (profile?.welcome_shown !== true) {
+          modal.openModal('welcome');
+          const { error } = await supabase
             .from('users')
-            .select('*')
-            .eq('id', session.user.id)
-            .maybeSingle();
-
-          if (!profile) {
-            console.log('최초로 가입한 계정입니다.');
-            modal.openModal('welcome');
+            .update({ welcome_shown: true })
+            .eq('id', session.user.id);
+          if (error) {
+            console.error('데이터 업데이트 중 에러 : ', error);
           }
         }
+      }
+    };
+
+    checkSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setIsLoggedIn(!!session);
       },
     );
-
     return () => {
       authListener.subscription.unsubscribe();
     };
