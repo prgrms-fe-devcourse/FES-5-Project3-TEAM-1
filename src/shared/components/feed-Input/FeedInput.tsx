@@ -66,7 +66,7 @@ function FeedInput() {
         </span>
       </div>
       <div
-        className={`flex flex-wrap items-center gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-96 pt-5' : 'overflow-hidden max-h-0'}`}
+        className={`flex flex-wrap items-center gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-[62.5rem] pt-5' : 'overflow-hidden max-h-0'}`}
       >
         <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
@@ -79,7 +79,7 @@ function FeedInput() {
             tabIndex={-1}
             aria-label="선택된 옵션"
             className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3"
-            style={{ maxHeight: selectedChkbox ? '500px' : '0px' }}
+            style={{ maxHeight: selectedChkbox ? '62.5rem' : '0px' }}
           >
             {feedOptionsContent[selectedChkbox]}
           </div>
