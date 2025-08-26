@@ -1,12 +1,13 @@
 import InputModal from '@/shared/components/modals/InputModal';
 import NimoWelcomePng from '@/assets/nimo/nimo_welcome.png';
-import handleAdminPage from '../hooks/useHandleAdminPage';
+import { useModal } from '@/shared/utils/ModalProvider';
 
 interface Props {
   onClose: () => void;
 }
 
 function WelcomeModal({ onClose }: Props) {
+  const modal = useModal();
   return (
     <InputModal
       title={'환영합니다!'}
@@ -18,7 +19,7 @@ function WelcomeModal({ onClose }: Props) {
           <div className="items-center flex flex-col gap-[14px]"></div>
           <button
             className="bg-black text-white py-[14.5px] rounded-xl ml w-[95%]"
-            onClick={handleAdminPage}
+            onClick={() => modal.openModal('createThread')}
           >
             방 만들기
           </button>

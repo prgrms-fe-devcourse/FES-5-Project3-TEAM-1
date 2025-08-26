@@ -2,9 +2,10 @@ import { createContext, useContext, useMemo, useState } from 'react';
 // 모달 컴포넌트들을 불러옵니다.
 import LoginModal from '@/features/login/ui/LoginModal';
 import WelcomeModal from '@/features/login/ui/WelcomeModal';
+import CreateThreads from '@/features/thread/create-thread/CreateThread';
 
 // 1. 모달 타입과 인터페이스 정의
-export type ModalType = 'login' | 'welcome';
+export type ModalType = 'login' | 'welcome' | 'createThread';
 
 interface ModalContextType {
   openModal: (type: ModalType, props?: any) => void;
@@ -41,6 +42,10 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         return <LoginModal {...modal.props} onClose={closeModal} />;
       case 'welcome':
         return <WelcomeModal {...modal.props} onClose={closeModal} />;
+      case 'createThread':
+        return (
+          <CreateThreads isOpen={true} onClose={closeModal}></CreateThreads>
+        );
       default:
         return null;
     }

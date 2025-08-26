@@ -1,21 +1,23 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import supabase from '../libs/supabase';
 import { useModal } from './ModalProvider';
+import { toastUtils } from './toastUtils';
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  userId: string | null;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
-  login: () => {},
+  userId: null,
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
   const modal = useModal();
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           return;
         } else {
           setIsLoggedIn(true);
-
+          setUserId(session.user.id);
           // 최초 가입 여부 체크
           const { data: profile, error } = await supabase
             .from('users')
@@ -63,6 +65,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setIsLoggedIn(!!session);
+        setUserId(session?.user.id || null);
+
+        if (_event === 'SIGNED_IN') {
+          const hasShownToast = sessionStorage.getItem('loginToastShown');
+
+          if (!hasShownToast) {
+            toastUtils.success('로그인 성공!');
+            sessionStorage.setItem('loginToastShown', 'true');
+          }
+        }
+
+        if (_event === 'SIGNED_OUT') {
+          sessionStorage.removeItem('loginToastShown');
+        }
       },
     );
     return () => {
@@ -70,17 +86,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const login = () => {
-    setIsLoggedIn(true);
-  };
-
   const logout = () => {
     setIsLoggedIn(false);
   };
 
   const value: AuthContextType = {
+    userId,
     isLoggedIn,
-    login,
     logout,
   };
 

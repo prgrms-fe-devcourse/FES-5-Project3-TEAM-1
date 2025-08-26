@@ -1,5 +1,6 @@
 import supabase from '@/shared/libs/supabase';
 import { useAuth } from '@/shared/utils/AuthProvider';
+import { toastUtils } from '@/shared/utils/toastUtils';
 
 function useLogout() {
   const { logout } = useAuth();
@@ -12,7 +13,7 @@ function useLogout() {
       return { success: false, error };
     }
     logout();
-    alert('로그아웃이 완료되었습니다.');
+    toastUtils.success('로그아웃 완료');
     return { success: true };
   };
   return Logout;
