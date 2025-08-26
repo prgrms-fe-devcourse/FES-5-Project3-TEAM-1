@@ -4,18 +4,19 @@ import { useModal } from './ModalProvider';
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  userId: string | null;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
-  login: () => {},
+  userId: null,
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
   const modal = useModal();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           return;
         } else {
           setIsLoggedIn(true);
-
+          setUserId(session.user.id);
           // 최초 가입 여부 체크
           const { data: profile, error } = await supabase
             .from('users')
@@ -70,17 +71,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const login = () => {
-    setIsLoggedIn(true);
-  };
-
   const logout = () => {
     setIsLoggedIn(false);
   };
 
   const value: AuthContextType = {
+    userId,
     isLoggedIn,
-    login,
     logout,
   };
 
