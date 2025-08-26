@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import { useState } from 'react';
 import Footer from './shared/components/footer/Footer';
 import Header from './shared/components/header/Header';
@@ -14,10 +14,13 @@ const RootLayout = () => {
   const [isCreateThreadsModalOpen, setIsCreateThreadsModalOpen] =
     useState(false);
 
+  const location = useLocation();
+  const isThread = location.pathname.startsWith('/thread');
+
   return (
     <div className="flex flex-col">
       <Header
-        tabs={TABS}
+        tabs={isThread ? TABS : undefined}
         currentTab={tab}
         onTabChange={(tabId: string) => setTab(tabId)}
         onOpenCreateModal={setIsCreateThreadsModalOpen}
