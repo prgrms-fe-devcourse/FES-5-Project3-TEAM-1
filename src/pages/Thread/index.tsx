@@ -9,8 +9,6 @@ import FeedList from './components/FeedList';
 import { useFeeds } from './hooks/useFeed';
 import CreateFeed from './components/CreateFeed';
 
-//emoji 테스트용 데이터
-
 const Thread = () => {
   const { threadId } = useParams();
 
