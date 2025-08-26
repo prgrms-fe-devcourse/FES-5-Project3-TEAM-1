@@ -1,7 +1,7 @@
-export const sessionStorageUtil = () => ({
+export const sessionStorageUtil = {
   getSession: <T>(key: string): T | null => {
     try {
-      const data = JSON.parse(sessionStorage.getItem(key) || '[]');
+      const data = sessionStorage.getItem(key);
       return data ? JSON.parse(data) : null;
     } catch (error) {
       throw new Error(`세션 정보를 불러오는 중 에러 발생 : ${error}`);
@@ -15,4 +15,4 @@ export const sessionStorageUtil = () => ({
       throw new Error(`세션 정보를 저장하는 중 에러 발생 : ${error}`);
     }
   },
-});
+};
