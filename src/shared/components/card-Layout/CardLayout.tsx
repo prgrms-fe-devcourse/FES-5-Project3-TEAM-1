@@ -69,14 +69,14 @@ const CardLayout = ({
       </div>
 
       {/*피드 내용*/}
-      <div className="px-5 py-3 break-words">{children}</div>
+      <div className="px-5 pb-3 break-words">{children}</div>
 
       {/* 추가 피드 콘텐츠 */}
       {feedExtraContent && (
         <div
-          className="px-5 pt-3 pb-3 
+          className="px-5 pb-3 
           before:block before:h-[2px] before:bg-gray-light
-          before:mb-4 
+          before:mb-3
         "
         >
           {feedExtraContent}
