@@ -1,6 +1,6 @@
 import tw from '@/shared/utils/style';
 import CloseSvg from '@/assets/icon/close-24.svg?react';
-import Portal from '../portal/Portal';
+import Portal from '../portals/Portal';
 
 interface Props {
   size?: 'sm' | 'md' | 'lg';
