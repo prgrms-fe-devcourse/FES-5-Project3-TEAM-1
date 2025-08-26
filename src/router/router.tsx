@@ -3,6 +3,7 @@ import Showcase from '@/pages/Showcase';
 import ModalTest from '@/pages/ModalTest';
 import RootLayout from '@/RootLayout';
 import { createBrowserRouter } from 'react-router';
+import Thread from '@/pages/Threads';
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
         text: '홈',
         path: '/',
         Component: Home,
+      },
+      {
+        text: '쓰레드',
+        path: '/thread/:threadId',
+        Component: Thread,
       },
       {
         text: '모달',

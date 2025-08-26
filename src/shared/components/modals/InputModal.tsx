@@ -3,7 +3,7 @@ import ModalLayout from './ModalLayout';
 interface Props {
   title: string;
   content: string;
-  onClose: () => void;
+  onClose?: () => void;
   children: React.ReactNode;
 }
 

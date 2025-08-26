@@ -1,4 +1,5 @@
 import supabase from '../libs/supabase';
+import type { Tables } from '../types';
 
 export const insertThreads = async ({
   id,
@@ -32,4 +33,41 @@ export const insertThreads = async ({
   if (error) {
     throw new Error(`Threads add error: ${error.message}`);
   }
+};
+
+/**
+ * 쓰레드 전체 정보 가져오기
+ */
+export const getThreadInfo = async (
+  threadId: string,
+): Promise<Tables<'threads'>> => {
+  const { data, error } = await supabase
+    .from('threads')
+    .select()
+    .eq('id', threadId)
+    .single();
+
+  if (error) {
+    throw new Error(`get threads info error : ${error}`);
+  }
+
+  return data;
+};
+
+/**
+ * 쓰레드 비밀번호 가져오기
+ */
+export const getThreadPassword = async (
+  threadId: string,
+): Promise<string | null> => {
+  const { data, error } = await supabase
+    .from('threads')
+    .select('password')
+    .eq('id', threadId)
+    .single();
+
+  if (error) {
+    throw new Error(`get threads password error : ${error}`);
+  }
+  return data.password;
 };
