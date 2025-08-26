@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { useRef, useState } from 'react';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import Button from '../button/Button';
+import { useModal } from '@/shared/utils/ModalProvider';
 
 interface Props {
   tabs?: { id: string; label: string }[];
@@ -18,6 +19,7 @@ interface Props {
 function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
+  const modal = useModal();
 
   /* 훅 이용 (esc or 밖 클릭 시 settingsMenu 닫힘) */
   useCloseOnOutsideOrEsc<HTMLDivElement>({
@@ -123,7 +125,12 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
               >
                 방 생성하기
               </Button>
-              <Button size="sm" color="default" fullWidth>
+              <Button
+                size="sm"
+                color="default"
+                fullWidth
+                onClick={() => modal.openModal('login')}
+              >
                 로그인
               </Button>
             </div>
