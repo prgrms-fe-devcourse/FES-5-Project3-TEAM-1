@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           .from('users')
           .select('*')
           .eq('id', session.user.id)
-          .eq('welcome_shown', true)
+          .eq('welcome_shown', false)
           .maybeSingle();
 
         if (error) {
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           return;
         }
 
-        if (profile?.welcome_shown !== true) {
+        if (profile) {
           modal.openModal('welcome');
           const { error } = await supabase
             .from('users')
