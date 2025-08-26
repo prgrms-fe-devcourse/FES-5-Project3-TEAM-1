@@ -20,38 +20,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const checkSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        setIsLoggedIn(false);
-        return;
-      } else {
-        setIsLoggedIn(true);
-
-        // 최초 가입 여부 체크
-        const { data: profile, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', session.user.id)
-          .eq('welcome_shown', false)
-          .maybeSingle();
-
-        if (error) {
-          console.error(error);
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (!session) {
+          setIsLoggedIn(false);
           return;
-        }
+        } else {
+          setIsLoggedIn(true);
 
-        if (profile) {
-          modal.openModal('welcome');
-          const { error } = await supabase
+          // 최초 가입 여부 체크
+          const { data: profile, error } = await supabase
             .from('users')
-            .update({ welcome_shown: true })
-            .eq('id', session.user.id);
+            .select('*')
+            .eq('id', session.user.id)
+            .eq('welcome_shown', false)
+            .maybeSingle();
+
           if (error) {
-            console.error('데이터 업데이트 중 에러 : ', error);
+            throw error;
+          }
+
+          if (profile) {
+            modal.openModal('welcome');
+            const { error } = await supabase
+              .from('users')
+              .update({ welcome_shown: true })
+              .eq('id', session.user.id);
+            if (error) {
+              throw error;
+            }
           }
         }
+      } catch (error) {
+        console.error('유저 데이터 처리 중 에러 : ', error);
       }
     };
 
