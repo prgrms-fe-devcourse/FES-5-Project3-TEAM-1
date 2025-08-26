@@ -28,6 +28,12 @@ const commentsList: CommentListItem[] = [
     createdAt: '20분 전',
     content: '안녕하세요',
   },
+  {
+    id: '3',
+    nickname: 'user3',
+    createdAt: '20분 전',
+    content: '안녕하세요',
+  },
 ];
 
 const Thread = () => {
@@ -91,6 +97,7 @@ const Thread = () => {
               onSubmit={(text) => console.log(text)}
               feedId={feedId}
               token={token}
+              feedExtraContent={'피드 유형별 컴포넌트 공간'}
             >
               텍스트 내용
             </CardLayout>
