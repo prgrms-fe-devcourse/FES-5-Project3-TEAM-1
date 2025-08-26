@@ -33,7 +33,7 @@ function CreateThreads({ isOpen, onClose }: Props) {
 
     const id = crypto.randomUUID();
     const domain = window.location.origin;
-    const link = `${domain}/threads/${id}`;
+    const link = `${domain}/thread/${id}`;
 
     if (!title) {
       setTitleError(true);
