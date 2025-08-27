@@ -9,9 +9,9 @@ import Textarea from '@/shared/components/textarea/Textarea';
 import { useRef, useState } from 'react';
 
 //emoji 테스트용 데이터
-const feedId = '041f817f-b470-412d-be21-9fc3307b0507';
-const token =
-  '38b6aef3b54c57426cf3800ac23b9dc17ac6892f7dfe7d184305fc348afa9831';
+// const feedId = '041f817f-b470-412d-be21-9fc3307b0507';
+// const token =
+//   '38b6aef3b54c57426cf3800ac23b9dc17ac6892f7dfe7d184305fc348afa9831';
 
 //CardLayout 댓글 나오는지 테스트용 데이터
 // const commentsList: CommentListItem[] = [
