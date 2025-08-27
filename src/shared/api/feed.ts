@@ -24,15 +24,18 @@ export const uploadFeed = async ({
   token,
   type,
 }: UploadFeedProps) => {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('feeds')
-    .insert({ thread_id: threadId, nickname, token, type, content });
+    .insert({ thread_id: threadId, nickname, token, type, content })
+    .select();
 
   if (error) {
     throw new Error(
       `feed upload error - thread_id : ${threadId} , token: ${token} error message : ${error}`,
     );
   }
+
+  return data?.[0];
 };
 
 /**

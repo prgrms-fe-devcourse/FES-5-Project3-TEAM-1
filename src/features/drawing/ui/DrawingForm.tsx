@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ColorPalette from './ColorPalette';
-import type { Lines, Tool } from '../types/drawing';
+import type { DrawingRefProps, Lines, Tool } from '../types/drawing';
 import Canvas from './Canvas';
 import ToolBar from './ToolBar';
 
@@ -16,7 +16,7 @@ const colors = [
   { name: '흰색', value: '#FFFFFF' },
 ];
 
-function DrawingForm() {
+const DrawingForm = ({ drawingRef }: DrawingRefProps) => {
   const [tool, setTool] = useState<Tool>('pen');
   const [lines, setLines] = useState<Lines[]>([]);
   const [selectedColor, setSelectedColor] = useState(colors[0].value);
@@ -48,6 +48,7 @@ function DrawingForm() {
         />
 
         <Canvas
+          ref={drawingRef}
           tool={tool}
           lines={lines}
           setLines={setLines}
@@ -64,5 +65,5 @@ function DrawingForm() {
       />
     </div>
   );
-}
+};
 export default DrawingForm;

@@ -5,27 +5,29 @@ import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import Button from '../button/Button';
 import FeedOptions from './FeedOptions';
 import type { FeedType } from '@/shared/types/feed';
-import DrawingForm from '@/features/drawing/ui/DrawingForm';
-
-const feedOptionsContent: Record<string, React.ReactNode> = {
-  poll: <div>vote component 들어오면 됩니다.</div>,
-  balance: <p>balance component 들어오면 됩니다.</p>,
-  drawing: <DrawingForm />,
-};
+import FeedOptionsSection from './FeedOptionsSection';
+import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 
 interface Props {
   content: string;
   setContent: Dispatch<React.SetStateAction<string>>;
   onSubmit: () => void;
   setType: Dispatch<React.SetStateAction<FeedType>>;
+  drawingRef: React.RefObject<CanvasRefHandle | null>;
 }
 
-function FeedInput({ content, setContent, onSubmit, setType }: Props) {
+function FeedInput({
+  content,
+  setContent,
+  onSubmit,
+  setType,
+  drawingRef,
+}: Props) {
   const [isFocused, setIsFocused] = useState(false);
   // const [textareaText, setTextareaText] = useState('');
   const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const feedsInputRef = useRef<HTMLDivElement>(null);
-  const chkboxContentRef = useRef<HTMLDivElement>(null);
+  const chkboxContentRef = useRef<HTMLDivElement | null>(null);
   const textLength = 200;
 
   /* textarea 글자 수 표시(감소 형태) */
@@ -53,6 +55,26 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
     }
   }, [selectedChkbox]);
 
+  useEffect(() => {
+    if (!selectedChkbox) {
+      setType('text');
+    }
+  });
+
+  const handleSubmit = async () => {
+    try {
+      if (selectedChkbox === 'drawing' && !drawingRef.current) {
+        return;
+      }
+
+      await onSubmit();
+      setSelectedChkbox(null);
+      setType('text');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // 엔터
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.nativeEvent.isComposing) {
@@ -66,6 +88,7 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
         e.preventDefault();
         onSubmit();
         setSelectedChkbox(null);
+        setType('text');
       }
     }
   };
@@ -99,30 +122,14 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
       >
         <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
-        {selectedChkbox && (
-          <div
-            ref={chkboxContentRef}
-            id="feedsContent"
-            role="region"
-            aria-live="polite"
-            tabIndex={-1}
-            aria-label="선택된 옵션"
-            className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3 focus:ring-none"
-            style={{ maxHeight: selectedChkbox ? '62.5rem' : '0px' }}
-          >
-            {feedOptionsContent[selectedChkbox]}
-          </div>
-        )}
+        <FeedOptionsSection
+          selectedChkbox={selectedChkbox}
+          chkboxContentRef={chkboxContentRef}
+          drawingRef={drawingRef}
+        />
 
         <div className="ml-auto">
-          <Button
-            size="sm"
-            color="blue"
-            onClick={() => {
-              onSubmit();
-              setSelectedChkbox(null);
-            }}
-          >
+          <Button size="sm" color="blue" onClick={handleSubmit}>
             올리기
           </Button>
         </div>
