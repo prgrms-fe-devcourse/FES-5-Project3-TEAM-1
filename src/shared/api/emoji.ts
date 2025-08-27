@@ -81,3 +81,16 @@ export const removeEmojiReaction = async ({
     throw new Error(`emoji_reactions remove Error feed_id : ${feedId}`);
   }
 };
+
+//전체 이모지 불러오기
+export const fetchEmojis = async (): Promise<
+  { feed_id: string; emoji: string; counts: number }[]
+> => {
+  const { data, error } = await supabase.from('emoji_counts').select('*');
+
+  if (error) {
+    throw new Error(`전체 이모지 리스트를 불러오는데 실패했습니다.`);
+  }
+
+  return data;
+};
