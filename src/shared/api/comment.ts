@@ -80,5 +80,7 @@ export const createCommentsChannel = (
       },
       onNewComment,
     )
-    .subscribe();
+    .subscribe((state) => {
+      console.log(`피드 아이디 :  ${feedId} : ${state} `);
+    });
 };

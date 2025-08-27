@@ -2,7 +2,7 @@ import Button from '@/shared/components/button/Button';
 import CardLayout from '@/shared/components/card-Layout/CardLayout';
 import CommentList, {
   type CommentListItem,
-} from '@/shared/components/card-Layout/CommentList';
+} from '@/features/comment/component/CommentList';
 import Checkbox from '@/shared/components/checkbox/Checkbox';
 import Input from '@/shared/components/Input';
 import Textarea from '@/shared/components/textarea/Textarea';
