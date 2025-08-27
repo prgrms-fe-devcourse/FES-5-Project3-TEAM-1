@@ -1,8 +1,8 @@
 import Button from '@/shared/components/button/Button';
-import CardLayout from '@/shared/components/card-Layout/CardLayout';
-import CommentList, {
-  type CommentListItem,
-} from '@/features/comment/component/CommentList';
+// import CardLayout from '@/shared/components/card-Layout/CardLayout';
+// import CommentList, {
+//   type CommentListItem,
+// } from '@/features/comment/component/CommentList';
 import Checkbox from '@/shared/components/checkbox/Checkbox';
 import Input from '@/shared/components/Input';
 import Textarea from '@/shared/components/textarea/Textarea';
@@ -14,20 +14,20 @@ const token =
   '38b6aef3b54c57426cf3800ac23b9dc17ac6892f7dfe7d184305fc348afa9831';
 
 //CardLayout 댓글 나오는지 테스트용 데이터
-const commentsList: CommentListItem[] = [
-  {
-    id: '1',
-    nickname: 'user1',
-    createdAt: '20분 전',
-    content: '안녕하세요',
-  },
-  {
-    id: '2',
-    nickname: 'user2',
-    createdAt: '20분 전',
-    content: '안녕하세요',
-  },
-];
+// const commentsList: CommentListItem[] = [
+//   {
+//     id: '1',
+//     nickname: 'user1',
+//     createdAt: '20분 전',
+//     content: '안녕하세요',
+//   },
+//   {
+//     id: '2',
+//     nickname: 'user2',
+//     createdAt: '20분 전',
+//     content: '안녕하세요',
+//   },
+// ];
 
 const Showcase = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -93,7 +93,7 @@ const Showcase = () => {
         onClick={() => alert(inputRef.current?.value)}
       />
 
-      <CardLayout
+      {/* <CardLayout
         nickname="Nimo"
         createdAt="1시간 전"
         commentsCount={10}
@@ -103,7 +103,7 @@ const Showcase = () => {
         token={token}
       >
         텍스트 내용
-      </CardLayout>
+      </CardLayout> */}
     </div>
   );
 };
