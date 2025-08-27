@@ -211,6 +211,7 @@ export type Database = {
       };
       feeds: {
         Row: {
+          comment_count: number;
           content: string;
           created_at: string;
           id: string;
@@ -220,6 +221,7 @@ export type Database = {
           type: Database['public']['Enums']['feed_type'];
         };
         Insert: {
+          comment_count?: number;
           content: string;
           created_at?: string;
           id?: string;
@@ -229,6 +231,7 @@ export type Database = {
           type?: Database['public']['Enums']['feed_type'];
         };
         Update: {
+          comment_count?: number;
           content?: string;
           created_at?: string;
           id?: string;

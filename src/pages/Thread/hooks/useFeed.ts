@@ -2,7 +2,10 @@ import { useEffect, useState, useTransition } from 'react';
 
 import { createFeedsChannel, fetchFeeds } from '@/shared/api/feed';
 import type { Tables } from '@/shared/types';
-import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
+import type {
+  RealtimePostgresInsertPayload,
+  RealtimePostgresUpdatePayload,
+} from '@supabase/supabase-js';
 
 export const useFeeds = (threadId: string) => {
   const [feeds, setFeeds] = useState<Tables<'feeds'>[]>();
@@ -22,6 +25,7 @@ export const useFeeds = (threadId: string) => {
     const channel = createFeedsChannel({
       threadId: threadId,
       onNewFeedInsert: handleUploadFeed,
+      onFeedUpdate: handleUpdateFeed,
     });
 
     return () => {
@@ -34,6 +38,20 @@ export const useFeeds = (threadId: string) => {
   ) => {
     const updated = payload.new;
     setFeeds((prev) => [updated, ...prev!]);
+  };
+
+  const handleUpdateFeed = (
+    payload: RealtimePostgresUpdatePayload<Tables<'feeds'>>,
+  ) => {
+    const updated = payload.new;
+    setFeeds((prev) => {
+      const updatedId = updated.id;
+      return prev?.map((feed) =>
+        feed.id === updatedId
+          ? { ...feed, comment_count: updated.comment_count }
+          : feed,
+      );
+    });
   };
 
   return {
