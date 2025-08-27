@@ -79,19 +79,30 @@ export const createFeedsChannel = ({
     .subscribe();
 };
 
-export const fetchFeeds = async (
-  threadId: string,
-): Promise<Tables<'feeds'>[]> => {
+interface FetchFeedsProps {
+  threadId: string;
+  page: number;
+  limit?: number;
+}
+export const fetchFeeds = async ({
+  threadId,
+  page = 0,
+  limit = 5,
+}: FetchFeedsProps): Promise<{ data: Tables<'feeds'>[]; hasMore: boolean }> => {
+  const from = page * limit;
+  const to = from + limit - 1;
+
   const { data, error } = await supabase
     .from('feeds')
     .select()
     .eq('thread_id', threadId)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .range(from, to);
 
   if (error) {
     console.error(`fetchFeeds error : ${error}`);
     throw new Error(`fetch feeds error`);
   }
 
-  return data;
+  return { data, hasMore: data?.length === limit };
 };

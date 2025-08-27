@@ -16,7 +16,7 @@ const Thread = () => {
   // @ts-ignore
   const { isAuthenticated, isPasswordRequired, validatePassword, token } =
     useThreadAuthentication(threadId);
-  const { feeds, setSortBy } = useFeeds(threadId);
+  const { feeds, hasMore, isFetchFeedLoading, loadMore } = useFeeds(threadId);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   useEffect(() => {
@@ -49,19 +49,11 @@ const Thread = () => {
       <div className="max-w-[51rem] w-full px-2">
         <CreateFeed threadId={threadId} token={token} />
         <div className="flex flex-col">
-          <select
-            className="w-fit"
-            defaultValue={'latest'}
-            onChange={(e) =>
-              setSortBy(e.target.value as 'latest' | 'comments' | 'reactions')
-            }
+          <FeedList
+            hasMore={hasMore}
+            onLoadMore={loadMore}
+            isLoading={isFetchFeedLoading}
           >
-            <option value="latest">최신순</option>
-            <option value="comments">댓글 많은순</option>
-            <option value="reactions">반응 많은순</option>
-          </select>
-
-          <FeedList>
             {feeds?.map((feed) => (
               <FeedCard
                 key={feed.id}
