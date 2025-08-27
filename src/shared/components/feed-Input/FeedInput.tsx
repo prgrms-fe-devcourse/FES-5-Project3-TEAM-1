@@ -23,9 +23,7 @@ interface Props {
 function FeedInput({ content, setContent, onSubmit, setType }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   // const [textareaText, setTextareaText] = useState('');
-  const [selectedChkbox, setSelectedChkbox] = useState<string | null>(
-    'drawing',
-  );
+  const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const feedsInputRef = useRef<HTMLDivElement>(null);
   const chkboxContentRef = useRef<HTMLDivElement>(null);
   const textLength = 200;
