@@ -12,6 +12,17 @@ export function useComment(feedId: string, token: string) {
   const [comment, setComment] = useState<CommentType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleInsert = useCallback(
+    (payload: RealtimePostgresInsertPayload<Tables<'comment'>>) => {
+      const newComment = payload.new as CommentType;
+      setComment((prev) => {
+        if (prev.some((c) => c.id === newComment.id)) return prev;
+        return [newComment, ...prev];
+      });
+    },
+    [],
+  );
+
   //초기 댓글 목록
   useEffect(() => {
     if (!feedId) return;
@@ -25,17 +36,6 @@ export function useComment(feedId: string, token: string) {
       }
     })();
   }, [feedId]);
-
-  const handleInsert = useCallback(
-    (payload: RealtimePostgresInsertPayload<Tables<'comment'>>) => {
-      const newComment = payload.new as CommentType;
-      setComment((prev) => {
-        if (prev.some((c) => c.id === newComment.id)) return prev;
-        return [newComment, ...prev];
-      });
-    },
-    [],
-  );
 
   useEffect(() => {
     if (!feedId) return;

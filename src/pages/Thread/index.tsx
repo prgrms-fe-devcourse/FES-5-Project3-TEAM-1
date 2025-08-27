@@ -5,7 +5,7 @@ import { Navigate, useParams } from 'react-router';
 import FeedList from './components/FeedList';
 import { useFeeds } from './hooks/useFeed';
 import CreateFeed from './components/CreateFeed';
-import CommentSection from '@/features/comment/ui/CommentSection';
+import FeedCard from './components/FeedCard';
 
 const Thread = () => {
   const { threadId } = useParams();
@@ -53,15 +53,16 @@ const Thread = () => {
 
           <FeedList>
             {feeds?.map((feed) => (
-              <CommentSection
+              <FeedCard
                 key={feed.id}
                 feedId={feed.id}
                 token={token}
                 nickname={feed.nickname}
                 createdAt={feed.created_at}
+                commentCount={feed.comment_count}
               >
                 {feed.content}
-              </CommentSection>
+              </FeedCard>
             ))}
           </FeedList>
         </div>
