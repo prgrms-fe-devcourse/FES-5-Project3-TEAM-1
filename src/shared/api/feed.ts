@@ -1,4 +1,7 @@
-import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
+import type {
+  RealtimePostgresInsertPayload,
+  RealtimePostgresUpdatePayload,
+} from '@supabase/supabase-js';
 import supabase from '../libs/supabase';
 import type { FeedType } from '../types/feed';
 import type { Tables } from '../types';
@@ -38,10 +41,14 @@ export const uploadFeed = async ({
 export const createFeedsChannel = ({
   threadId,
   onNewFeedInsert,
+  onFeedUpdate,
 }: {
   threadId: string;
   onNewFeedInsert: (
     payload: RealtimePostgresInsertPayload<Tables<'feeds'>>,
+  ) => void;
+  onFeedUpdate: (
+    payload: RealtimePostgresUpdatePayload<Tables<'feeds'>>,
   ) => void;
 }) => {
   return supabase
@@ -55,6 +62,16 @@ export const createFeedsChannel = ({
         filter: `thread_id=eq.${threadId}`,
       },
       onNewFeedInsert,
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'feeds',
+        filter: `thread_id=eq.${threadId}`,
+      },
+      onFeedUpdate,
     )
     .subscribe();
 };
