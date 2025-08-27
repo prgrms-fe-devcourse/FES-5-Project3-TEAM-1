@@ -5,11 +5,12 @@ import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import Button from '../button/Button';
 import FeedOptions from './FeedOptions';
 import type { FeedType } from '@/shared/types/feed';
+import DrawingForm from '@/features/drawing/ui/DrawingForm';
 
 const feedOptionsContent: Record<string, React.ReactNode> = {
   poll: <div>vote component 들어오면 됩니다.</div>,
   balance: <p>balance component 들어오면 됩니다.</p>,
-  drawing: <p>drawing component 들어오면 됩니다.</p>,
+  drawing: <DrawingForm />,
 };
 
 interface Props {
@@ -106,7 +107,7 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
             aria-live="polite"
             tabIndex={-1}
             aria-label="선택된 옵션"
-            className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3"
+            className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3 focus:ring-none"
             style={{ maxHeight: selectedChkbox ? '62.5rem' : '0px' }}
           >
             {feedOptionsContent[selectedChkbox]}
