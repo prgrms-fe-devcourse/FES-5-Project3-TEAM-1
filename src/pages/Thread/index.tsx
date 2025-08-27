@@ -1,13 +1,11 @@
 import PasswordModal from './components/PasswordModal';
 import { useThreadAuthentication } from '@/pages/Thread/hooks/useThreadAuthentication';
 import { useEffect, useState } from 'react';
-import CardLayout from '@/shared/components/card-Layout/CardLayout';
-// import type { CommentListItem } from '@/shared/components/card-Layout/CommentList';
-// import CommentList from '@/shared/components/card-Layout/CommentList';
 import { Navigate, useParams } from 'react-router';
 import FeedList from './components/FeedList';
 import { useFeeds } from './hooks/useFeed';
 import CreateFeed from './components/CreateFeed';
+import CommentSection from '@/features/comment/ui/CommentSection';
 
 const Thread = () => {
   const { threadId } = useParams();
@@ -55,18 +53,15 @@ const Thread = () => {
 
           <FeedList>
             {feeds?.map((feed) => (
-              <CardLayout
-                nickname={feed.nickname}
-                createdAt={feed.created_at}
-                commentsCount={10}
-                commentsList={<></>}
-                onSubmit={(text) => console.log(text)}
+              <CommentSection
+                key={feed.id}
                 feedId={feed.id}
                 token={token}
-                key={feed.id}
+                nickname={feed.nickname}
+                createdAt={feed.created_at}
               >
                 {feed.content}
-              </CardLayout>
+              </CommentSection>
             ))}
           </FeedList>
         </div>

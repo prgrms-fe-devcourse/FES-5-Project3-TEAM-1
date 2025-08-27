@@ -93,7 +93,7 @@ export type Database = {
           created_at: string | null;
           feed_id: string;
           id: string;
-          nickname: string | null;
+          nickname: string;
           token: string;
         };
         Insert: {
@@ -101,7 +101,7 @@ export type Database = {
           created_at?: string | null;
           feed_id: string;
           id?: string;
-          nickname?: string | null;
+          nickname?: string;
           token: string;
         };
         Update: {
@@ -109,7 +109,7 @@ export type Database = {
           created_at?: string | null;
           feed_id?: string;
           id?: string;
-          nickname?: string | null;
+          nickname?: string;
           token?: string;
         };
         Relationships: [
