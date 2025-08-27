@@ -1,6 +1,5 @@
 import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 import DrawingForm from '@/features/drawing/ui/DrawingForm';
-import { useRef } from 'react';
 interface Props {
   selectedChkbox: string | null;
   chkboxContentRef: React.RefObject<HTMLDivElement | null>;
@@ -25,7 +24,7 @@ function FeedOptionsSection({
       className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3 focus:ring-none"
       style={{ maxHeight: selectedChkbox ? '62.5rem' : '0px' }}
     >
-      {selectedChkbox === 'drawing' && <DrawingForm ref={drawingRef} />}
+      {selectedChkbox === 'drawing' && <DrawingForm drawingRef={drawingRef} />}
     </div>
   );
 }

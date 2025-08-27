@@ -28,11 +28,14 @@ const Canvas = forwardRef<CanvasRefHandle, Props>(
 
     // 그림 그린 걸 이미지로 변환해서 올리기(url)
     useImperativeHandle(ref, () => ({
-      changeToImage: () => {
-        if (!stageRef.current) return undefined;
-        if (stageRef.current.width() === 0 || stageRef.current.height() === 0)
-          return undefined;
-        return stageRef.current.toDataURL();
+      changeToBlob: async () => {
+        if (!stageRef.current) throw new Error('Canvas 준비 안됨');
+        const dataURL = stageRef.current.toDataURL();
+        const blob = await (await fetch(dataURL)).blob();
+        return blob;
+      },
+      isEmpty() {
+        return lines.length === 0;
       },
     }));
 

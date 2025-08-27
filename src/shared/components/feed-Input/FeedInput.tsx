@@ -8,25 +8,26 @@ import type { FeedType } from '@/shared/types/feed';
 import FeedOptionsSection from './FeedOptionsSection';
 import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 
-interface FeedData {
-  content?: string;
-  drawingUrl?: string;
-}
-
 interface Props {
   content: string;
   setContent: Dispatch<React.SetStateAction<string>>;
-  onSubmit: (data: FeedData) => void;
+  onSubmit: () => void;
   setType: Dispatch<React.SetStateAction<FeedType>>;
+  drawingRef: React.RefObject<CanvasRefHandle | null>;
 }
 
-function FeedInput({ content, setContent, onSubmit, setType }: Props) {
+function FeedInput({
+  content,
+  setContent,
+  onSubmit,
+  setType,
+  drawingRef,
+}: Props) {
   const [isFocused, setIsFocused] = useState(false);
   // const [textareaText, setTextareaText] = useState('');
   const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const feedsInputRef = useRef<HTMLDivElement>(null);
   const chkboxContentRef = useRef<HTMLDivElement | null>(null);
-  const drawingRef = useRef<CanvasRefHandle>(null);
   const textLength = 200;
 
   /* textarea 글자 수 표시(감소 형태) */
@@ -54,16 +55,24 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
     }
   }, [selectedChkbox]);
 
-  /* 올리기 */
-  const handleSubmitFeed = () => {
-    const drawingUrl = drawingRef.current?.changeToImage();
+  useEffect(() => {
+    if (!selectedChkbox) {
+      setType('text');
+    }
+  });
 
-    onSubmit({
-      content,
-      drawingUrl: drawingUrl ?? undefined,
-    });
+  const handleSubmit = async () => {
+    try {
+      if (selectedChkbox === 'drawing' && !drawingRef.current) {
+        return;
+      }
 
-    setSelectedChkbox(null);
+      await onSubmit();
+      setSelectedChkbox(null);
+      setType('text');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // 엔터
@@ -77,13 +86,11 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
         return;
       } else {
         e.preventDefault();
-        handleSubmitFeed();
+        onSubmit();
+        setSelectedChkbox(null);
+        setType('text');
       }
     }
-  };
-
-  const handleTestRef = () => {
-    console.log('drawingRef.current:', drawingRef.current);
   };
 
   return (
@@ -122,11 +129,8 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
         />
 
         <div className="ml-auto">
-          <Button size="sm" color="blue" onClick={handleSubmitFeed}>
+          <Button size="sm" color="blue" onClick={handleSubmit}>
             올리기
-          </Button>
-          <Button size="sm" color="blue" onClick={handleTestRef}>
-            Ref 확인
           </Button>
         </div>
       </div>

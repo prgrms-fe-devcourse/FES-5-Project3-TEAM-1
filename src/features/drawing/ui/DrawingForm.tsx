@@ -1,6 +1,6 @@
-import { forwardRef, useState } from 'react';
+import { useState } from 'react';
 import ColorPalette from './ColorPalette';
-import type { CanvasRefHandle, Lines, Tool } from '../types/drawing';
+import type { DrawingRefProps, Lines, Tool } from '../types/drawing';
 import Canvas from './Canvas';
 import ToolBar from './ToolBar';
 
@@ -16,7 +16,7 @@ const colors = [
   { name: '흰색', value: '#FFFFFF' },
 ];
 
-const DrawingForm = forwardRef<CanvasRefHandle>((_, ref) => {
+const DrawingForm = ({ drawingRef }: DrawingRefProps) => {
   const [tool, setTool] = useState<Tool>('pen');
   const [lines, setLines] = useState<Lines[]>([]);
   const [selectedColor, setSelectedColor] = useState(colors[0].value);
@@ -48,7 +48,7 @@ const DrawingForm = forwardRef<CanvasRefHandle>((_, ref) => {
         />
 
         <Canvas
-          ref={ref}
+          ref={drawingRef}
           tool={tool}
           lines={lines}
           setLines={setLines}
@@ -65,5 +65,5 @@ const DrawingForm = forwardRef<CanvasRefHandle>((_, ref) => {
       />
     </div>
   );
-});
+};
 export default DrawingForm;

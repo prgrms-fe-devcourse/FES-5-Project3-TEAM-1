@@ -7,5 +7,10 @@ export interface Lines {
 }
 
 export interface CanvasRefHandle {
-  changeToImage: () => string | undefined;
+  changeToBlob: () => Promise<Blob>;
+  isEmpty: () => boolean;
+}
+
+export interface DrawingRefProps {
+  drawingRef: React.RefObject<CanvasRefHandle | null>;
 }
