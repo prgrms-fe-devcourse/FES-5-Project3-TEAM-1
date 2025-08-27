@@ -16,6 +16,7 @@ interface CardLayoutProps {
   isOpen: boolean;
   onToggleComment: () => void;
   feedExtraContent?: React.ReactNode;
+  onSizeChange?: () => void;
 }
 
 const CardLayout = ({

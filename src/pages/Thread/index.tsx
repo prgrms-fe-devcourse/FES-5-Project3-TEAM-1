@@ -1,10 +1,12 @@
+// Thread.tsx
 import PasswordModal from './components/PasswordModal';
 import { useThreadAuthentication } from '@/pages/Thread/hooks/useThreadAuthentication';
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router';
-import FeedList from './components/FeedList';
 import { useFeeds } from './hooks/useFeed';
 import CreateFeed from './components/CreateFeed';
+import VirtualFeedList from './components/VirtualFeedList';
+import FeedList from './components/FeedList';
 import FeedCard from './components/FeedCard';
 
 const Thread = () => {
@@ -18,6 +20,8 @@ const Thread = () => {
     useThreadAuthentication(threadId);
   const { feeds, hasMore, isFetchFeedLoading, loadMore } = useFeeds(threadId);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+
+  // useScrollPosition에서 반환값들 받기
 
   useEffect(() => {
     if (isPasswordRequired) {
@@ -36,10 +40,7 @@ const Thread = () => {
   };
 
   return (
-    <div
-      className="flex justify-center py-10 bg-bg-main min-h-[calc(100vh-11.75rem)] md:min-h-[calc(100vh-9.25rem)]
-    "
-    >
+    <div className="flex justify-center py-10 bg-bg-main min-h-[calc(100vh-11.75rem)] md:min-h-[calc(100vh-9.25rem)]">
       <PasswordModal
         isOpen={showPasswordModal}
         onValidate={handlePasswordValidate}
@@ -54,14 +55,14 @@ const Thread = () => {
             onLoadMore={loadMore}
             isLoading={isFetchFeedLoading}
           >
-            {feeds?.map((feed) => (
+            {feeds.map((feed) => (
               <FeedCard
                 key={feed.id}
-                feedId={feed.id}
-                token={token}
+                token={feed.token}
                 nickname={feed.nickname}
-                createdAt={feed.created_at}
                 commentCount={feed.comment_count}
+                createdAt={feed.created_at}
+                feedId={feed.id}
               >
                 {feed.content}
               </FeedCard>
@@ -72,4 +73,5 @@ const Thread = () => {
     </div>
   );
 };
+
 export default Thread;

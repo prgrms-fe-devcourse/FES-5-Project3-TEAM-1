@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-
 import logoUrl from '@/assets/logo.png';
 
 interface Props {
