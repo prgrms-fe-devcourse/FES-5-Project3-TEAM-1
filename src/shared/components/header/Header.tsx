@@ -25,6 +25,7 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
 
   const modal = useModal();
   const loginAuth = useAuth();
+  const logout = useLogout();
 
   // 닉네임 변경 모달 state
   const [isNicknameModalOpen, setIsNicknameModalOpen] =
@@ -140,12 +141,7 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
                 방 생성하기
               </Button>
               {loginAuth.userId && (
-                <Button
-                  size="sm"
-                  color="default"
-                  fullWidth
-                  onClick={useLogout()}
-                >
+                <Button size="sm" color="default" fullWidth onClick={logout}>
                   로그아웃
                 </Button>
               )}
