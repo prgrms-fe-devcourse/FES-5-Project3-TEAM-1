@@ -36,7 +36,7 @@ export default function CommentList({ feedId, token }: CommentListProps) {
   );
 
   return (
-    <div className="flex flex-col px-4">
+    <div className="flex flex-col">
       {/* 댓글 입력 */}
       <div className="flex gap-2">
         <Input

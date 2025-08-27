@@ -51,10 +51,8 @@ const CardLayout = ({
           <p className="text-xs text-gray-dark">{createdAt}</p>
         </div>
       </div>
-
       {/* 피드 내용 */}
       <div className="px-5 pb-3 break-words">{children}</div>
-
       {/* 추가 피드 콘텐츠 */}
       {feedExtraContent && (
         <div className="px-5 pb-3 before:block before:h-[2px] before:bg-gray-light before:mb-3">
@@ -62,42 +60,47 @@ const CardLayout = ({
         </div>
       )}
 
-      <div className="bg-bg-sub px-5 py-3 rounded-bl-xl rounded-br-xl flex items-center justify-between">
-        {/*emoji*/}
-        <div className="relative flex-1 min-w-0">
-          <EmojiPicker
-            emojiCounts={displayedEmoji}
-            myReactions={myReactions}
-            onEmojiClick={handleEmojiClick}
-          />
+      <div className="bg-bg-sub rounded-b-xl overflow-hidden">
+        {/* 상단 이모지/댓글 토글 바: 라운드 삭제 */}
+        <div className="px-5 py-3 flex items-center justify-between">
+          {/*emoji*/}
+          <div className="relative flex-1 min-w-0">
+            <EmojiPicker
+              emojiCounts={displayedEmoji}
+              myReactions={myReactions}
+              onEmojiClick={handleEmojiClick}
+            />
+          </div>
+
+          {/* 댓글 토글 버튼 */}
+          <button
+            type="button"
+            className="flex-shrink-0 flex items-center gap-1 text-base text-gray-dark hover:cursor-pointer ml-2"
+            onClick={onToggleComment}
+            aria-expanded={isOpen}
+            aria-label="댓글 보기"
+          >
+            <span className="whitespace-nowrap">댓글 {commentsCount ?? 0}</span>
+            <ChevronDown
+              className={`h-3 w-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+            />
+          </button>
         </div>
 
-        {/* 댓글 토글 버튼 */}
-        <button
-          type="button"
-          className="flex-shrink-0 flex items-center gap-1 text-base text-gray-dark hover:cursor-pointer ml-2"
-          onClick={onToggleComment}
-          aria-expanded={isOpen}
-          aria-label="댓글 보기"
+        {/* 댓글창 */}
+        <div
+          className={tw(
+            'transition-[max-height] duration-300 ease-in-out',
+            isOpen
+              ? 'max-h-[400px] pt-2 pb-2 overflow-y-auto'
+              : 'max-h-0 pt-0 pb-0 overflow-hidden',
+          )}
+          role="region"
+          aria-label="댓글 영역"
+          aria-live="polite"
         >
-          <span className="whitespace-nowrap">댓글 {commentsCount ?? 0}</span>
-          <ChevronDown
-            className={`h-3 w-3 transition-transform duration-200 ${
-              isOpen ? 'rotate-180' : 'rotate-0'
-            }`}
-          />
-        </button>
-      </div>
-
-      {/* 댓글창 */}
-      <div
-        className={`transition-[max-height] duration-300 rounded-bl-xl rounded-br-xl ease-in-out bg-bg-sub
-        ${isOpen ? 'max-h-[700px] pt-2 pb-2' : 'max-h-0 pt-0 pb-0'}`}
-        role="region"
-        aria-label="댓글 영역"
-        aria-live="polite"
-      >
-        {commentsList && <div className="px-4">{commentsList}</div>}
+          {commentsList && <div className="px-4">{commentsList}</div>}
+        </div>
       </div>
     </article>
   );
