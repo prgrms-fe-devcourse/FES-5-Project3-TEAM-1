@@ -5,3 +5,7 @@ export interface Lines {
   points: number[];
   color: string;
 }
+
+export interface CanvasRefHandle {
+  changeToImage: () => string | undefined;
+}

@@ -1,6 +1,6 @@
 import PicSVG from '@/assets/icon/pic-16.svg?react';
-import VoteSVG from '@/assets/icon/vote-16.svg?react';
-import BalanceSVG from '@/assets/icon/balance-16.svg?react';
+// import VoteSVG from '@/assets/icon/vote-16.svg?react';
+// import BalanceSVG from '@/assets/icon/balance-16.svg?react';
 import DrawSVG from '@/assets/icon/draw-16.svg?react';
 import React from 'react';
 
@@ -11,8 +11,8 @@ interface FeedOptionsProps {
 
 const feedOptions = [
   { id: 'image', icon: PicSVG, label: '사진', type: 'file' },
-  { id: 'poll', icon: VoteSVG, label: '투표', type: 'checkbox' },
-  { id: 'balance', icon: BalanceSVG, label: '밸런스게임', type: 'checkbox' },
+  // { id: 'poll', icon: VoteSVG, label: '투표', type: 'checkbox' },
+  // { id: 'balance', icon: BalanceSVG, label: '밸런스게임', type: 'checkbox' },
   { id: 'drawing', icon: DrawSVG, label: '그림그리기', type: 'checkbox' },
 ];
 

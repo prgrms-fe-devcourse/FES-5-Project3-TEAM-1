@@ -5,18 +5,18 @@ import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import Button from '../button/Button';
 import FeedOptions from './FeedOptions';
 import type { FeedType } from '@/shared/types/feed';
-import DrawingForm from '@/features/drawing/ui/DrawingForm';
+import FeedOptionsSection from './FeedOptionsSection';
+import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 
-const feedOptionsContent: Record<string, React.ReactNode> = {
-  poll: <div>vote component 들어오면 됩니다.</div>,
-  balance: <p>balance component 들어오면 됩니다.</p>,
-  drawing: <DrawingForm />,
-};
+interface FeedData {
+  content?: string;
+  drawingUrl?: string;
+}
 
 interface Props {
   content: string;
   setContent: Dispatch<React.SetStateAction<string>>;
-  onSubmit: () => void;
+  onSubmit: (data: FeedData) => void;
   setType: Dispatch<React.SetStateAction<FeedType>>;
 }
 
@@ -25,7 +25,8 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
   // const [textareaText, setTextareaText] = useState('');
   const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const feedsInputRef = useRef<HTMLDivElement>(null);
-  const chkboxContentRef = useRef<HTMLDivElement>(null);
+  const chkboxContentRef = useRef<HTMLDivElement | null>(null);
+  const drawingRef = useRef<CanvasRefHandle>(null);
   const textLength = 200;
 
   /* textarea 글자 수 표시(감소 형태) */
@@ -53,6 +54,18 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
     }
   }, [selectedChkbox]);
 
+  /* 올리기 */
+  const handleSubmitFeed = () => {
+    const drawingUrl = drawingRef.current?.changeToImage();
+
+    onSubmit({
+      content,
+      drawingUrl: drawingUrl ?? undefined,
+    });
+
+    setSelectedChkbox(null);
+  };
+
   // 엔터
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.nativeEvent.isComposing) {
@@ -64,10 +77,13 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
         return;
       } else {
         e.preventDefault();
-        onSubmit();
-        setSelectedChkbox(null);
+        handleSubmitFeed();
       }
     }
+  };
+
+  const handleTestRef = () => {
+    console.log('drawingRef.current:', drawingRef.current);
   };
 
   return (
@@ -99,31 +115,18 @@ function FeedInput({ content, setContent, onSubmit, setType }: Props) {
       >
         <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
-        {selectedChkbox && (
-          <div
-            ref={chkboxContentRef}
-            id="feedsContent"
-            role="region"
-            aria-live="polite"
-            tabIndex={-1}
-            aria-label="선택된 옵션"
-            className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3 focus:ring-none"
-            style={{ maxHeight: selectedChkbox ? '62.5rem' : '0px' }}
-          >
-            {feedOptionsContent[selectedChkbox]}
-          </div>
-        )}
+        <FeedOptionsSection
+          selectedChkbox={selectedChkbox}
+          chkboxContentRef={chkboxContentRef}
+          drawingRef={drawingRef}
+        />
 
         <div className="ml-auto">
-          <Button
-            size="sm"
-            color="blue"
-            onClick={() => {
-              onSubmit();
-              setSelectedChkbox(null);
-            }}
-          >
+          <Button size="sm" color="blue" onClick={handleSubmitFeed}>
             올리기
+          </Button>
+          <Button size="sm" color="blue" onClick={handleTestRef}>
+            Ref 확인
           </Button>
         </div>
       </div>
