@@ -26,7 +26,6 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
   const modal = useModal();
   const loginAuth = useAuth();
 
-
   // 닉네임 변경 모달 state
   const [isNicknameModalOpen, setIsNicknameModalOpen] =
     useState<boolean>(false);
