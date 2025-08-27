@@ -16,7 +16,7 @@ const Thread = () => {
   // @ts-ignore
   const { isAuthenticated, isPasswordRequired, validatePassword, token } =
     useThreadAuthentication(threadId);
-  const { feeds } = useFeeds(threadId);
+  const { feeds, setSortBy } = useFeeds(threadId);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   useEffect(() => {
@@ -49,7 +49,17 @@ const Thread = () => {
       <div className="max-w-[51rem] w-full px-2">
         <CreateFeed threadId={threadId} token={token} />
         <div className="flex flex-col">
-          <div className="bg-amber-400">여기에 select 넣으면 됨</div>
+          <select
+            className="w-fit"
+            defaultValue={'latest'}
+            onChange={(e) =>
+              setSortBy(e.target.value as 'latest' | 'comments' | 'reactions')
+            }
+          >
+            <option value="latest">최신순</option>
+            <option value="comments">댓글 많은순</option>
+            <option value="reactions">반응 많은순</option>
+          </select>
 
           <FeedList>
             {feeds?.map((feed) => (
