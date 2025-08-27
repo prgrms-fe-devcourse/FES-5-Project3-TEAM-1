@@ -31,7 +31,7 @@ export function useComment(feedId: string, token: string) {
       const newComment = payload.new as CommentType;
       setComment((prev) => {
         if (prev.some((c) => c.id === newComment.id)) return prev;
-        return [...prev, newComment];
+        return [newComment, ...prev];
       });
     },
     [],
@@ -57,7 +57,7 @@ export function useComment(feedId: string, token: string) {
         token,
       });
       setComment((prev) =>
-        prev.some((c) => c.id === data.id) ? prev : [...prev, data],
+        prev.some((c) => c.id === data.id) ? prev : [data, ...prev],
       );
     } catch (error) {
       if (error instanceof Error) console.error(error.message);

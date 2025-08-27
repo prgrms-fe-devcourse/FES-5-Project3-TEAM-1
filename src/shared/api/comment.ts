@@ -21,7 +21,7 @@ export async function getCommentByFeedId(
     .from('comment')
     .select('id, feed_id, nickname, content, created_at')
     .eq('feed_id', feedId)
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: false });
 
   if (error) {
     console.error(error);
