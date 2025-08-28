@@ -17,9 +17,16 @@ interface Props {
   currentTab?: string;
   onTabChange?: (tabId: string) => void;
   onOpenCreateModal: (open: boolean) => void;
+  hideParticipantCount?: boolean;
 }
 
-function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
+function Header({
+  tabs,
+  currentTab,
+  onTabChange,
+  onOpenCreateModal,
+  hideParticipantCount,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +51,7 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
       </Link>
 
       {/* tab 메뉴 */}
-      {tabs && tabs.length > 0 && (
+      {/* {tabs && tabs.length > 0 && (
         <nav
           role="tablist"
           className="flex order-3 md:order-2 mx-auto -mb-2 md:-mb-0 gap-6 w-full md:w-auto h-10 md:h-full "
@@ -66,7 +73,7 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
             </button>
           ))}
         </nav>
-      )}
+      )} */}
 
       {/* 추가 메뉴 */}
       <div className="flex gap-2 md:gap-4 order-2 md:order-3">
@@ -76,21 +83,23 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
         >
           <img src={moonSVG} aria-hidden="true" className="w-5 h-5" />
         </button>
-        <div className="flex justify-center items-center gap-1 min-w-16 bg-primary rounded-4xl">
-          <img
-            className="flex w-4 h-4"
-            src={usersSVG}
-            alt=""
-            aria-hidden="true"
-          />
-          <span
-            aria-live="polite"
-            aria-label="현재 참여자 수"
-            className="text-lg"
-          >
-            30
-          </span>
-        </div>
+        {!hideParticipantCount && (
+          <div className="flex justify-center items-center gap-1 min-w-16 bg-primary rounded-4xl">
+            <img
+              className="flex w-4 h-4"
+              src={usersSVG}
+              alt=""
+              aria-hidden="true"
+            />
+            <span
+              aria-live="polite"
+              aria-label="현재 참여자 수"
+              className="text-lg"
+            >
+              30
+            </span>
+          </div>
+        )}
         <div ref={settingsMenuRef} className="w-8 h-8">
           <button
             aria-haspopup="menu"
@@ -116,7 +125,7 @@ function Header({ tabs, currentTab, onTabChange, onOpenCreateModal }: Props) {
                 role="menuitem"
                 className="py-2 border-b border-b-gray-light text-center"
               >
-                <NavLink to="/">방 관리</NavLink>
+                <NavLink to="/admin">방 관리</NavLink>
               </li>
               <li
                 role="menuitem"
