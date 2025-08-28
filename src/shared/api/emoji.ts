@@ -1,4 +1,9 @@
+import type {
+  RealtimePostgresInsertPayload,
+  RealtimePostgresUpdatePayload,
+} from '@supabase/supabase-js';
 import supabase from '../libs/supabase';
+import type { Tables } from '../types';
 
 /**
  * 피드 별 이모지 리스트
@@ -93,4 +98,45 @@ export const fetchEmojis = async (): Promise<
   }
 
   return data;
+};
+
+// 이모지 구독 생성
+export const createEmojiCountSubscription = ({
+  feedId,
+  onNewEmojiInsert,
+  onEmojiUpdate,
+}: {
+  feedId: string;
+  onNewEmojiInsert: (
+    payload: RealtimePostgresInsertPayload<Tables<'emoji_counts'>>,
+  ) => void;
+  onEmojiUpdate: (
+    payload: RealtimePostgresUpdatePayload<Tables<'emoji_counts'>>,
+  ) => void;
+}) => {
+  return supabase
+    .channel(`all_emojis_${feedId}_${Date.now()}`)
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'emoji_counts',
+        filter: `feed_id=in.(${feedId})`,
+      },
+      onNewEmojiInsert,
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'emoji_counts',
+        filter: `feed_id=in.(${feedId})`,
+      },
+      onEmojiUpdate,
+    )
+    .subscribe((state) => {
+      console.log(`이미지 구독 ${state}`);
+    });
 };

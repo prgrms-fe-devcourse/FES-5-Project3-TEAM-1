@@ -6,6 +6,7 @@ import {
 } from '@/shared/api/emoji';
 import type { EmojiCount } from '@/shared/types/emoji';
 import { useEffect, useState } from 'react';
+import { useEmojiSubscription } from './useEmojiSubscription';
 
 export const useEmoji = ({
   feedId,
@@ -37,6 +38,8 @@ export const useEmoji = ({
         setIsLoading(false);
       });
   }, [feedId, token]);
+
+  useEmojiSubscription({ feedId, setEmojiCounts });
 
   // 이모지 추가
   const removeEmoji = (emoji: string) => {
