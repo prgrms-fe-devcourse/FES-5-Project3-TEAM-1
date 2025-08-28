@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Footer from './shared/components/footer/Footer';
 import Header from './shared/components/header/Header';
 import CreateThread from './features/thread/create-thread/CreateThread';
+import ScrollUpButton from './shared/components/button/ScrollUpButton';
 
 const TABS = [
   { id: 'all', label: '전체' },
@@ -18,7 +19,7 @@ const RootLayout = () => {
   const isThread = location.pathname.startsWith('/thread');
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       <Header
         tabs={isThread ? TABS : undefined}
         currentTab={tab}
@@ -33,7 +34,7 @@ const RootLayout = () => {
       </div>
 
       <Footer />
-
+      <ScrollUpButton />
       {/* 방 생성하기 팝업 */}
       {isCreateThreadsModalOpen && (
         <CreateThread
