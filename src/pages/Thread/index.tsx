@@ -89,6 +89,7 @@ const Thread = () => {
                         src={feed.drawing_url}
                         alt="그린 그림"
                         className="w-full"
+                        loading="lazy"
                       />
                     </div>
                   ) : null
