@@ -17,6 +17,7 @@ const RootLayout = () => {
 
   const location = useLocation();
   const isThread = location.pathname.startsWith('/thread');
+  const isAdmin = location.pathname.startsWith('/admin');
 
   return (
     <div className="flex flex-col relative">
@@ -25,6 +26,7 @@ const RootLayout = () => {
         currentTab={tab}
         onTabChange={(tabId: string) => setTab(tabId)}
         onOpenCreateModal={setIsCreateThreadsModalOpen}
+        hideParticipantCount={isAdmin}
       />
 
       <div className="root-min-h pt-22 md:pt-15">
