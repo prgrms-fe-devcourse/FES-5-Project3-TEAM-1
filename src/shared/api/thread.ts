@@ -72,3 +72,22 @@ export const getThreadPassword = async (
   }
   return data.password;
 };
+
+export const updateThreads = async (data: {
+  id: string;
+  title: string;
+  description: string;
+  password: string;
+  isPrivate: boolean;
+}) => {
+  const { error } = await supabase
+    .from('threads')
+    .update({
+      title: data.title,
+      description: data.description,
+      password: data.password,
+      isPrivate: data.isPrivate,
+    })
+    .eq('id', data.id);
+  if (error) throw new Error(`update thread error : ${error}`);
+};
