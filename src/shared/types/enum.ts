@@ -1,7 +1,7 @@
-export const Position = {
-  TOP: 'top',
-  MIDDLE: 'middle',
-  BOTTOM: 'bottom',
+export const FEED_SORT_BY = {
+  LATEST: 'latest',
+  MOST_REACTIONS: 'most_reactions',
+  MOST_COMMENTS: 'most_comments',
 } as const;
 
-export type Position = (typeof Position)[keyof typeof Position];
+export type FeedSortBy = (typeof FEED_SORT_BY)[keyof typeof FEED_SORT_BY];

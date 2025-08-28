@@ -1,68 +1,86 @@
-import { useCallback, useEffect, useState, useTransition } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { createFeedsChannel, fetchFeeds } from '@/shared/api/feed';
+import { createFeedsChannel, fetchFeedsWithRPC } from '@/shared/api/feed';
 import type { Tables } from '@/shared/types';
 import type {
   RealtimePostgresInsertPayload,
   RealtimePostgresUpdatePayload,
 } from '@supabase/supabase-js';
+import type { FeedSortBy } from '@/shared/types/enum';
+import type { Feed } from '@/shared/types/feed';
 
-export const useFeeds = (threadId: string) => {
-  const [feeds, setFeeds] = useState<Tables<'feeds'>[]>([]);
-  const [isPending, startTransition] = useTransition();
-
+export const useFeeds = ({
+  threadId,
+  sortBy,
+}: {
+  threadId: string;
+  sortBy: FeedSortBy;
+}) => {
+  const [feeds, setFeeds] = useState<Feed[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const currentSortRef = useRef<FeedSortBy | null>(null);
+  const isInitializedRef = useRef(false);
 
-  useEffect(() => {
-    fetchInitialFeeds();
-  }, []);
+  // 피드 데이터 로딩 함수
+  const loadFeeds = useCallback(
+    async (reset = false) => {
+      if (!threadId) return;
 
-  const fetchInitialFeeds = () => {
-    startTransition(async () => {
-      if (!threadId || isInitialized) return;
+      setIsLoading(true);
       try {
-        const result = await fetchFeeds({ threadId, page });
-        setFeeds(result.data || []);
-        setPage(1);
-        setHasMore(result.hasMore);
-        setIsInitialized(true);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(`피드 초기 값 fetch error : ${error.message}`);
-          setIsInitialized(true);
-        }
-      }
-    });
-  };
-
-  const loadMore = useCallback(() => {
-    if (isPending || !hasMore) return;
-    startTransition(async () => {
-      try {
-        const nextPage = page + 1;
-        const result = await fetchFeeds({
+        const targetPage = reset ? 0 : page;
+        const result = await fetchFeedsWithRPC({
           threadId,
-          page: nextPage,
+          page: targetPage,
+          sortBy,
         });
 
-        if (result.data && result.data.length > 0) {
-          setFeeds((prev) => [...prev, ...result.data!]);
-          setPage(nextPage);
-          setHasMore(result.hasMore);
+        if (reset) {
+          setFeeds(result.data || []);
+          setPage(1);
         } else {
-          setHasMore(false);
+          setFeeds((prev) => [...prev, ...(result.data || [])]);
+          setPage((prev) => prev + 1);
         }
-      } catch (error) {
-        console.error('Load more failed:', error);
-      }
-    });
-  }, [threadId, page, isPending, hasMore]);
 
+        setHasMore(result.hasMore);
+        currentSortRef.current = sortBy;
+        isInitializedRef.current = true;
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(`피드 fetch error: ${error.message}`);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [threadId, sortBy, page],
+  );
+
+  // 초기 로딩 및 정렬 변경 시 재로딩
   useEffect(() => {
+    // 초기 로딩이거나 정렬 방식이 변경된 경우
+    const shouldReset =
+      !isInitializedRef.current || sortBy !== currentSortRef.current;
+    if (shouldReset) {
+      loadFeeds(true);
+    }
+  }, [threadId, sortBy, loadFeeds]);
+
+  // 무한스크롤 로드모어
+  const loadMore = useCallback(() => {
+    if (isLoading || !hasMore) return;
+    loadFeeds(false);
+  }, [isLoading, hasMore, loadFeeds]);
+
+  // 실시간 채널 구독
+  useEffect(() => {
+    if (!threadId) return;
+
     const channel = createFeedsChannel({
-      threadId: threadId,
+      threadId,
       onNewFeedInsert: handleUploadFeed,
       onFeedUpdate: handleUpdateFeed,
     });
@@ -72,13 +90,26 @@ export const useFeeds = (threadId: string) => {
     };
   }, [threadId]);
 
+  // 실시간 insert 감지 콜백 함수
   const handleUploadFeed = (
     payload: RealtimePostgresInsertPayload<Tables<'feeds'>>,
   ) => {
-    const updated = payload.new;
-    setFeeds((prev) => [updated, ...prev!]);
-  };
+    const newFeed = payload.new;
 
+    const feedWithReactions = {
+      id: newFeed.id,
+      thread_id: newFeed.thread_id,
+      token: newFeed.token,
+      nickname: newFeed.nickname,
+      content: newFeed.content,
+      created_at: newFeed.created_at,
+      type: newFeed.type,
+      comment_count: newFeed.comment_count,
+      total_reactions: 0,
+    };
+    setFeeds((prev) => [feedWithReactions, ...prev]);
+  };
+  // 실시간 update 감지 콜백 함수
   const handleUpdateFeed = (
     payload: RealtimePostgresUpdatePayload<Tables<'feeds'>>,
   ) => {
@@ -94,7 +125,7 @@ export const useFeeds = (threadId: string) => {
   };
 
   return {
-    isFetchFeedLoading: isPending,
+    isFetchFeedLoading: isLoading,
     feeds,
     hasMore,
     loadMore,
