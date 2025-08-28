@@ -10,6 +10,7 @@ interface FeedCardProps {
   className?: string;
   children?: React.ReactNode;
   commentCount?: number;
+  feedExtraContent?: React.ReactNode;
 }
 
 export default function FeedCard({
@@ -20,6 +21,7 @@ export default function FeedCard({
   className,
   children,
   commentCount,
+  feedExtraContent,
 }: FeedCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,6 +36,7 @@ export default function FeedCard({
       token={token}
       onToggleComment={() => setIsOpen((prev) => !prev)}
       isOpen={isOpen}
+      feedExtraContent={feedExtraContent}
     >
       {children}
     </CardLayout>

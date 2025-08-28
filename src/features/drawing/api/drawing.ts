@@ -26,7 +26,6 @@ export const uploadDrawing = async ({ feedId, file }: UploadDrawingProps) => {
   }
 
   const url = urlData.publicUrl;
-  console.log('[uploadDrawing] publicUrl:', url);
 
   const { error: drawingError } = await supabase
     .from('drawing')

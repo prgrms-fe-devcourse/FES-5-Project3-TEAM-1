@@ -96,7 +96,7 @@ function FeedInput({
   return (
     <div
       ref={feedsInputRef}
-      className="flex flex-col p-5 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10"
+      className="flex flex-col px-5 py-3 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10"
     >
       <div className="flex flex-col relative w-full ">
         <TextareaAutoSize

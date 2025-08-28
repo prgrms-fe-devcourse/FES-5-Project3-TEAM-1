@@ -10,4 +10,6 @@ export interface Feed {
   token: string;
   total_reactions: number;
   type: string;
+  drawing_id?: string | null;
+  drawing_url?: string | null;
 }

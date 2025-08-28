@@ -37,11 +37,23 @@ export const useFeeds = ({
           sortBy,
         });
 
+        // drawing data 체크
+        const processedData = (result.data || []).map((f) => ({
+          ...f,
+          drawing_id: f.drawing_id ?? null,
+          drawing_url: f.drawing_url ?? null,
+        }));
+
         if (reset) {
-          setFeeds(result.data || []);
+          setFeeds(processedData);
           setPage(1);
         } else {
-          setFeeds((prev) => [...prev, ...(result.data || [])]);
+          setFeeds((prev) => {
+            const newFeeds = processedData.filter(
+              (f) => !prev.some((prev) => prev.id === f.id),
+            );
+            return [...prev, ...newFeeds];
+          });
           setPage((prev) => prev + 1);
         }
 
@@ -94,31 +106,39 @@ export const useFeeds = ({
   const handleUploadFeed = (
     payload: RealtimePostgresInsertPayload<Tables<'feeds'>>,
   ) => {
-    const newFeed = payload.new;
+    const newFeed = payload.new as Feed;
 
-    const feedWithReactions = {
-      id: newFeed.id,
-      thread_id: newFeed.thread_id,
-      token: newFeed.token,
-      nickname: newFeed.nickname,
-      content: newFeed.content,
-      created_at: newFeed.created_at,
-      type: newFeed.type,
-      comment_count: newFeed.comment_count,
-      total_reactions: 0,
-    };
-    setFeeds((prev) => [feedWithReactions, ...prev]);
+    // 중복 방지
+    setFeeds((prev) => {
+      if (prev.some((f) => f.id === newFeed.id)) return prev;
+
+      return [
+        {
+          ...newFeed,
+          total_reactions: 0,
+          drawing_id: newFeed.drawing_id ?? null,
+          drawing_url: newFeed.drawing_url ?? null,
+        },
+        ...prev,
+      ];
+    });
   };
+
   // 실시간 update 감지 콜백 함수
   const handleUpdateFeed = (
     payload: RealtimePostgresUpdatePayload<Tables<'feeds'>>,
   ) => {
-    const updated = payload.new;
+    const updated = payload.new as Feed;
     setFeeds((prev) => {
       const updatedId = updated.id;
       return prev?.map((feed) =>
         feed.id === updatedId
-          ? { ...feed, comment_count: updated.comment_count }
+          ? {
+              ...feed,
+              comment_count: updated.comment_count,
+              drawing_id: updated.drawing_id ?? null,
+              drawing_url: updated.drawing_url ?? null,
+            }
           : feed,
       );
     });
