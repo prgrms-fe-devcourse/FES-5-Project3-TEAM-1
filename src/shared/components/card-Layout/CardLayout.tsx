@@ -1,4 +1,4 @@
-import NimoSVG from '@/assets/icon/nimo-32.svg?react';
+import nimo from '@/assets/nimo/nimo-sm.png';
 import ChevronDown from '@/assets/icon/chevron-down.svg?react';
 import tw from '@/shared/utils/style';
 import { EmojiPicker } from '@/features/emoji/ui/EmojiPicker';
@@ -44,7 +44,7 @@ const CardLayout = ({
     >
       <div className="px-5 pt-3 pb-3 flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-gray-light flex items-center justify-center">
-          <NimoSVG aria-hidden />
+          <img src={nimo} alt="" aria-hidden />
         </div>
         <div>
           <p className="text-base text-black">{nickname}</p>

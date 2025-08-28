@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useComment } from '@/features/comment/hook/useComment';
-import NimoSVG from '@/assets/icon/nimo-32.svg?react';
+import nimo from '@/assets/nimo/nimo-sm.png';
 import Input from '@/shared/components/Input';
 import Button from '@/shared/components/button/Button';
 import tw from '@/shared/utils/style';
@@ -85,7 +85,7 @@ export default function CommentList({ feedId, token }: CommentListProps) {
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-gray-light flex items-center justify-center">
-                    <NimoSVG className="w-5 h-5" aria-hidden />
+                    <img src={nimo} alt="" className="w-5 h-5" aria-hidden />
                   </div>
                   <p className="text-sm text-black">{c.nickname}</p>
                 </div>
