@@ -60,7 +60,8 @@ const CardLayout = ({
         </div>
       )}
 
-      <div className="bg-bg-sub rounded-b-xl overflow-hidden">
+      {/* TODO: 이모지 팝업 창 가려지는 문제를 overflow-hidden 지움으로 수정 나중에 확인 필요 */}
+      <div className="bg-bg-sub rounded-b-xl">
         {/* 상단 이모지/댓글 토글 바: 라운드 삭제 */}
         <div className="px-5 py-3 flex items-center justify-between">
           {/*emoji*/}

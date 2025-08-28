@@ -455,7 +455,26 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_feeds_with_reaction_totals: {
+        Args: {
+          p_limit?: number;
+          p_offset?: number;
+          p_order_by?: string;
+          p_order_desc?: boolean;
+          p_thread_id: string;
+        };
+        Returns: {
+          comment_count: number;
+          content: string;
+          created_at: string;
+          id: string;
+          nickname: string;
+          thread_id: string;
+          token: string;
+          total_reactions: number;
+          type: string;
+        }[];
+      };
     };
     Enums: {
       feed_type: 'text' | 'poll' | 'drawing' | 'balance' | 'image';
