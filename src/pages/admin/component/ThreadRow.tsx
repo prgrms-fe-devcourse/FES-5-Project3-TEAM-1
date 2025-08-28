@@ -4,7 +4,6 @@ import Delete from '@/assets/icon/delete-24.svg?react';
 import EyeOpen from '@/assets/icon/eye-open-15.svg?react';
 import EyeClose from '@/assets/icon/eye-close-15.svg?react';
 
-//나중에 교체할 데이터
 export type ThreadRowData = {
   id: string;
   title: string;
