@@ -4,7 +4,11 @@ import Button from '../button/Button';
 import Input from '../Input';
 import InputModal from './InputModal';
 
-import { removeNickname, saveNickname } from '@/shared/utils/nickname';
+import {
+  getNicknameFromSession,
+  removeNickname,
+  saveNickname,
+} from '@/shared/utils/nickname';
 import { toastUtils } from '@/shared/utils/toastUtils';
 
 interface Props {
@@ -13,6 +17,7 @@ interface Props {
 
 const NicknameChangeModal = ({ onClose }: Props) => {
   const nicknameRef = useRef<HTMLInputElement | null>(null);
+  const nickname = getNicknameFromSession();
 
   const handleChangeNickname = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +48,13 @@ const NicknameChangeModal = ({ onClose }: Props) => {
       onClose={onClose}
     >
       <form className="flex gap-4 p-3 pt-0" onSubmit={handleChangeNickname}>
-        <Input label="닉네임" showLabel ref={nicknameRef} autoFocus />
+        <Input
+          label="닉네임"
+          showLabel
+          ref={nicknameRef}
+          autoFocus
+          defaultValue={nickname || ''}
+        />
         <Button color="blue" size="default" className="mt-8" type="submit">
           변경하기
         </Button>
