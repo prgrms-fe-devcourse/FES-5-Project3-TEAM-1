@@ -1,11 +1,11 @@
-import nimoSVG from '@/assets/icon/nimo-32.svg';
+import nimo from '@/assets/nimo/nimo-sm.png';
 import { Link } from 'react-router';
 
 function Footer() {
   return (
     <footer className="flex flex-col justify-between gap-2 md:gap-0 px-5 py-3 h-25 md:h-22 min-h-22 border-t-gray border-t-1">
       <Link to="/" className="hidden md:block">
-        <img src={nimoSVG} alt="Anónimo" aria-hidden="true" />
+        <img src={nimo} alt="Anónimo" aria-hidden="true" />
       </Link>
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-1">
         <address className="flex flex-col md:flex-row gap-1 md:gap-3 not-italic">
