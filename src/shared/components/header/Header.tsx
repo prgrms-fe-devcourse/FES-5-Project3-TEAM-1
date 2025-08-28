@@ -21,9 +21,9 @@ interface Props {
 }
 
 function Header({
-  tabs,
-  currentTab,
-  onTabChange,
+  // tabs,
+  // currentTab,
+  // onTabChange,
   onOpenCreateModal,
   hideParticipantCount,
 }: Props) {
