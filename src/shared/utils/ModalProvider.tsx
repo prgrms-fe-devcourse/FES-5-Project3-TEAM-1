@@ -44,7 +44,11 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         return <WelcomeModal {...modal.props} onClose={closeModal} />;
       case 'createThread':
         return (
-          <CreateThreads isOpen={true} onClose={closeModal}></CreateThreads>
+          <CreateThreads
+            isOpen={true}
+            onClose={closeModal}
+            mode="create"
+          ></CreateThreads>
         );
       default:
         return null;
