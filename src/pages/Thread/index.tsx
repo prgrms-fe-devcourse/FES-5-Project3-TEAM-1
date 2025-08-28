@@ -29,6 +29,7 @@ const Thread = () => {
     threadId,
     sortBy,
   });
+
   // 모달
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
@@ -81,6 +82,17 @@ const Thread = () => {
                 commentCount={feed.comment_count}
                 createdAt={feed.created_at}
                 feedId={feed.id}
+                feedExtraContent={
+                  feed.type === 'drawing' && feed.drawing_url ? (
+                    <div className="flex justify-center">
+                      <img
+                        src={feed.drawing_url}
+                        alt="그린 그림"
+                        className="w-full max-w-[240px]"
+                      />
+                    </div>
+                  ) : null
+                }
               >
                 {feed.content}
               </FeedCard>
