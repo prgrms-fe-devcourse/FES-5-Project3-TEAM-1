@@ -214,6 +214,7 @@ export type Database = {
           comment_count: number;
           content: string;
           created_at: string;
+          drawing_url: string | null;
           id: string;
           nickname: string;
           thread_id: string;
@@ -224,6 +225,7 @@ export type Database = {
           comment_count?: number;
           content: string;
           created_at?: string;
+          drawing_url?: string | null;
           id?: string;
           nickname?: string;
           thread_id: string;
@@ -234,6 +236,7 @@ export type Database = {
           comment_count?: number;
           content?: string;
           created_at?: string;
+          drawing_url?: string | null;
           id?: string;
           nickname?: string;
           thread_id?: string;
@@ -467,6 +470,8 @@ export type Database = {
           comment_count: number;
           content: string;
           created_at: string;
+          drawing_id: string;
+          drawing_url: string;
           id: string;
           nickname: string;
           thread_id: string;

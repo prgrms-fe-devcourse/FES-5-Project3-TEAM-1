@@ -42,7 +42,7 @@ const CardLayout = ({
     <article
       className={tw('bg-white rounded-xl border border-gray-light', className)}
     >
-      <div className="px-5 pt-4 pb-3 flex items-center gap-3">
+      <div className="px-5 pt-3 pb-3 flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-gray-light flex items-center justify-center">
           <NimoSVG aria-hidden />
         </div>
@@ -63,7 +63,7 @@ const CardLayout = ({
       {/* TODO: 이모지 팝업 창 가려지는 문제를 overflow-hidden 지움으로 수정 나중에 확인 필요 */}
       <div className="bg-bg-sub rounded-b-xl">
         {/* 상단 이모지/댓글 토글 바: 라운드 삭제 */}
-        <div className="px-5 py-3 flex items-center justify-between">
+        <div className="px-5 py-1.5 flex items-center justify-between">
           {/*emoji*/}
           <div className="relative flex-1 min-w-0">
             <EmojiPicker
