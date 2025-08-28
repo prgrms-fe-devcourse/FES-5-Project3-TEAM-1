@@ -1,6 +1,4 @@
 import Home from '@/pages/Home';
-import Showcase from '@/pages/Showcase';
-import ModalTest from '@/pages/ModalTest';
 import RootLayout from '@/RootLayout';
 import LoginTest from '@/pages/login-test/LoginTest';
 import { createBrowserRouter } from 'react-router';
@@ -20,16 +18,6 @@ const routes = [
         text: '쓰레드',
         path: '/thread/:threadId',
         Component: Thread,
-      },
-      {
-        text: '모달',
-        path: '/modal',
-        Component: ModalTest,
-      },
-      {
-        text: '쇼 케이스',
-        path: '/showcase',
-        Component: Showcase,
       },
       {
         text: '로그인 테스트',
