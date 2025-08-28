@@ -1,19 +1,25 @@
-import { insertThreads } from '@/shared/api/thread';
+import {
+  getThreadInfo,
+  insertThreads,
+  updateThreads,
+} from '@/shared/api/thread';
 import Button from '@/shared/components/button/Button';
 import Input from '@/shared/components/Input';
 import InputModal from '@/shared/components/modals/InputModal';
 import Textarea from '@/shared/components/textarea/Textarea';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toastUtils } from '@/shared/utils/toastUtils';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  mode: 'create' | 'update';
+  threadId?: string;
 }
 
 type CreateModalStep = 'form' | 'success';
 
-function CreateThreads({ isOpen, onClose }: Props) {
+function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
   if (!isOpen) return null;
   const [modalStep, setModalStep] = useState<CreateModalStep>('form');
   const [link, setLink] = useState('');
@@ -25,6 +31,30 @@ function CreateThreads({ isOpen, onClose }: Props) {
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [titleError, setTitleError] = useState(false);
+
+  useEffect(() => {
+    const initUpdateForm = async () => {
+      try {
+        if (mode === 'update' && threadId) {
+          /*
+			1. threadData 불러오는 함수
+			2. (1)에서 불러온 데이터를 form에 뿌리기
+			 */
+          const data = await getThreadInfo(threadId);
+          if (data) {
+            if (titleRef.current) titleRef.current.value = data.title;
+            if (descriptionRef.current)
+              descriptionRef.current.value = data.description ?? '';
+            if (passwordRef.current)
+              passwordRef.current.value = data.password ?? '';
+          }
+        }
+      } catch (error) {
+        console.error('Thread 데이터 불러오는 중 에러 : ', error);
+      }
+    };
+    initUpdateForm();
+  }, [mode]);
 
   const handleCreateInfo = async () => {
     const title = titleRef.current?.value ?? '';
@@ -68,9 +98,44 @@ function CreateThreads({ isOpen, onClose }: Props) {
     }
   };
 
+  const handleSubmit = async () => {
+    const title = titleRef.current?.value ?? '';
+    const description = descriptionRef.current?.value ?? '';
+    const password = passwordRef.current?.value ?? '';
+    const isPrivate = password === '' ? false : true;
+
+    if (!title) {
+      setTitleError(true);
+      toastUtils.error('제목을 입력해 주세요.');
+      return;
+    }
+    setTitleError(false);
+
+    if (mode === 'create') {
+      await handleCreateInfo();
+    } else {
+      if (!threadId) throw new Error('Cannot find threadId');
+      await updateThreads({
+        id: threadId,
+        title,
+        description,
+        password,
+        isPrivate,
+      });
+
+      toastUtils.success('방 정보가 수정되었습니다 ✨');
+      onClose();
+    }
+  };
   return (
     <InputModal
-      title={modalStep === 'form' ? '방 만들기' : '방 링크'}
+      title={
+        mode === 'create'
+          ? modalStep === 'form'
+            ? '방 만들기'
+            : '방 링크'
+          : '방 정보 수정하기'
+      }
       content={
         modalStep === 'form' ? (
           ''
@@ -121,10 +186,10 @@ function CreateThreads({ isOpen, onClose }: Props) {
           <Button
             size="default"
             color="default"
-            onClick={handleCreateInfo}
+            onClick={handleSubmit}
             fullWidth
           >
-            만들기
+            {mode === 'create' ? '만들기' : '수정'}
           </Button>
         </div>
       )}

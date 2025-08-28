@@ -39,6 +39,7 @@ const RootLayout = () => {
         <CreateThread
           isOpen={isCreateThreadsModalOpen}
           onClose={() => setIsCreateThreadsModalOpen(false)}
+          mode="create"
         ></CreateThread>
       )}
     </div>
