@@ -93,14 +93,12 @@ interface FetchFeedsProps {
 export const fetchFeeds = async ({
   threadId,
   page = 0,
-  limit = 5,
+  limit = 8,
   sortBy = FEED_SORT_BY.LATEST,
 }: FetchFeedsProps): Promise<{ data: Tables<'feeds'>[]; hasMore: boolean }> => {
   const from = page * limit;
   const to = from + limit - 1;
   const orderConfig = getOrderConfig(sortBy);
-
-  console.log('orderConfig', orderConfig);
 
   const { data, error } = await supabase
     .from('feeds')
@@ -120,7 +118,7 @@ export const fetchFeeds = async ({
 export const fetchFeedsWithRPC = async ({
   threadId,
   page = 0,
-  limit = 5,
+  limit = 8,
   sortBy = FEED_SORT_BY.LATEST,
 }: FetchFeedsProps): Promise<{ data: Feed[]; hasMore: boolean }> => {
   const sortConfig = SORT_CONFIG[sortBy];
