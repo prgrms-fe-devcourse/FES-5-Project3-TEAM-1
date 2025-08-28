@@ -9,6 +9,7 @@ import InputModal from '@/shared/components/modals/InputModal';
 import Textarea from '@/shared/components/textarea/Textarea';
 import { useEffect, useRef, useState } from 'react';
 import { toastUtils } from '@/shared/utils/toastUtils';
+import { useAuth } from '@/shared/utils/AuthProvider';
 
 interface Props {
   isOpen: boolean;
@@ -24,8 +25,7 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
   const [modalStep, setModalStep] = useState<CreateModalStep>('form');
   const [link, setLink] = useState('');
 
-  // 임시 userId
-  const userId = '814fcdb8-c777-4c4f-a74a-c2a8987f0b83';
+  const { userId } = useAuth();
 
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -57,6 +57,11 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
   }, [mode]);
 
   const handleCreateInfo = async () => {
+    if (!userId) {
+      toastUtils.error('로그인이 필요합니다.');
+      return;
+    }
+
     const title = titleRef.current?.value ?? '';
     const description = descriptionRef.current?.value ?? '';
     const password = passwordRef.current?.value ?? '';

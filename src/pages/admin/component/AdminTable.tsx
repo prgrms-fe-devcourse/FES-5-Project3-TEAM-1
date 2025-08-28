@@ -1,51 +1,38 @@
+import { useEffect, useState } from 'react';
 import ThreadRow, { type ThreadRowData } from './ThreadRow';
 import NimoAdmin from '@/assets/nimo/nimo_admin.svg?react';
-
-// 추후 사용자가 생성한 thread 정보로 변경 필요
-const ROOMDATA: ThreadRowData[] = [
-  {
-    id: '1',
-    title: '방 제목',
-    link: 'http://',
-    password: '123456',
-  },
-  {
-    id: '2',
-    title: '방 제목',
-    link: 'http://',
-    password: '654321',
-  },
-  {
-    id: '3',
-    title: '방 제목',
-    link: 'http://',
-    password: '654321',
-  },
-  {
-    id: '4',
-    title: '방 제목',
-    link: 'http://',
-    password: '654321',
-  },
-  {
-    id: '5',
-    title: '방 제목',
-    link: 'http://',
-    password: '654321',
-  },
-  {
-    id: '6',
-    title: '방 제목',
-    link: 'http://',
-    password: '654321',
-  },
-];
+import { useAuth } from '@/shared/utils/AuthProvider';
+import { getThreadsByUserId } from '@/shared/api/thread';
 
 type AdminTableProps = {
   className?: string;
 };
 
 const AdminTable = ({ className }: AdminTableProps) => {
+  const [rows, setRows] = useState<ThreadRowData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const { userId } = useAuth();
+
+  useEffect(() => {
+    if (!userId) return;
+
+    setIsLoading(true);
+    setError('');
+    (async () => {
+      const data = await getThreadsByUserId(userId);
+      setRows(
+        data.map((t) => ({
+          id: t.id,
+          title: t.title,
+          link: t.link,
+          password: t.password ?? '',
+        })),
+      );
+    })();
+  }, [userId]);
+
   return (
     <div
       className={`bg-white w-full rounded-lg shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] ${className ?? ''}`}
@@ -68,19 +55,34 @@ const AdminTable = ({ className }: AdminTableProps) => {
           </thead>
 
           <tbody>
-            {ROOMDATA.length > 0 ? (
-              ROOMDATA.map((t, i) => (
+            {isLoading ? (
+              <tr>
+                <td colSpan={6} className="p-0">
+                  <div className="h-[calc(360px-48px)] flex items-center justify-center">
+                    <p className="text-black">불러오는 중…</p>
+                  </div>
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan={6} className="p-0">
+                  <div className="h-[calc(360px-48px)] flex items-center justify-center">
+                    <p className="text-red">{error}</p>
+                  </div>
+                </td>
+              </tr>
+            ) : rows.length > 0 ? (
+              rows.map((t, i) => (
                 <ThreadRow
                   key={t.id}
                   index={i + 1}
                   data={t}
                   onEdit={(id) => console.log('수정', id)}
-                  onDelete={(id) => console.log('삭제', id)} //나중에 수정하기
+                  onDelete={(id) => console.log('삭제', id)}
                 />
               ))
             ) : (
               <tr>
-                {/*테이블의 셀을 가로로 합병 */}
                 <td colSpan={6} className="p-0">
                   <div className="h-[calc(360px-48px)] flex items-center justify-center">
                     <div className="flex flex-col items-center gap-3">
