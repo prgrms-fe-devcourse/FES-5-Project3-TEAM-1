@@ -38,7 +38,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
         </label>
         <div
           className={tw(
-            'flex justify-between items-center gap-2 relative p-3 border-1 border-gray rounded-sm h-12',
+            'flex justify-between items-center px-3 gap-2 relative border-1 border-gray rounded-sm h-12',
             readOnly && 'bg-gray-light',
             // !readOnly && 'focus-within:border-yellow focus-within:border-1 ',
             !readOnly &&
@@ -52,7 +52,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
             id={id ?? userId}
             type={type}
             className={tw(
-              'flex-1 text-base border-none outline-none',
+              'w-full text-base border-none outline-none',
               readOnly && 'select-none truncate',
               type === 'time' ? 'time-input-custom' : '',
             )}

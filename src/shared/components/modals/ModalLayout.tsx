@@ -31,7 +31,7 @@ const ModalLayout = ({
         aria-describedby="modal-content"
         tabIndex={-1}
         className={tw(
-          'relative w-full p-5 bg-white rounded-2xl shadow-md -mt-80',
+          'absolute left-1/2 top-1/2  md:top-[30%] -translate-x-1/2 -translate-y-1/2 md:-translate-y-0 w-[calc(100%-12px)] md:w-full p-5 bg-white rounded-2xl shadow-md',
           size === 'sm' && 'max-w-xs',
           size === 'md' && 'max-w-lg',
         )}
