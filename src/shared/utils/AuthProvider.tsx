@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import supabase from '../libs/supabase';
-import { useModal } from './ModalProvider';
 import { toastUtils } from './toastUtils';
 
 interface AuthContextType {
