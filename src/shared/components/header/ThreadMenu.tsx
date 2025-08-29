@@ -37,7 +37,7 @@ function ThreadMenu({
 
   // 모바일때 열릴 시 바디 스크롤 막기
   useEffect(() => {
-    if (isOpen && window.innerWidth >= 768) {
+    if (isOpen && window.innerWidth <= 768) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
