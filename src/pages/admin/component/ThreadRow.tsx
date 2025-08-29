@@ -28,15 +28,14 @@ export default function ThreadRow({
 
   const maskedPw = data.password ? '•'.repeat(data.password.length) : '-';
 
+  const tdCss = 'px-2 h-[50px] align-middel text-center text-base text-black';
   return (
-    <tr className="border-b border-gray-light">
+    <tr className="bg-white border-b border-gray-light">
       {/* 번호 */}
-      <td className="px-2 h-[50px] align-middle text-center text-base text-black">
-        {index}
-      </td>
+      <td className={`${tdCss}`}>{index}</td>
 
       {/* 제목 */}
-      <td className="px-2 h-[50px] align-middle">
+      <td className={`${tdCss}`}>
         <p
           className="truncate text-base text-black max-w-[320px] text-center"
           title={data.title}
@@ -46,12 +45,13 @@ export default function ThreadRow({
       </td>
 
       {/* 링크 */}
-      <td className="px-2 h-[50px] align-middle">
+      <td className={`${tdCss}`}>
         <div className="flex items-center gap-2 max-w-[320px]">
           <a
             href={data.link}
             target="_blank"
             rel="noreferrer"
+            aria-label={`${data.title} 스레드로 이동`}
             className="truncate text-base text-black hover:underline"
             title={data.link}
           >
@@ -61,8 +61,8 @@ export default function ThreadRow({
       </td>
 
       {/* 비밀번호 */}
-      <td className="px-2 h-[50px] align-middle">
-        <div className="flex items-center gap-2">
+      <td className={`${tdCss}`}>
+        <div className="flex justify-center items-center gap-2">
           <span className="text-base tracking-widest">
             {showPw ? (data.password ?? '-') : maskedPw}
           </span>
@@ -91,28 +91,28 @@ export default function ThreadRow({
       </td>
 
       {/* 수정 */}
-      <td className="px-2 h-[50px] align-middle text-center w-[72px]">
+      <td className={`${tdCss}`}>
         <button
           type="button"
           aria-label="방 정보 수정"
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-100"
+          className="inline-flex h-5 w-5 mt-2 items-center justify-center rounded-md hover:bg-gray-100"
           onClick={() => onEdit?.(data.id)}
           title="수정"
         >
-          <Edit />
+          <Edit className="w-5 h-5" aria-hidden />
         </button>
       </td>
 
       {/* 삭제 */}
-      <td className="px-2 h-[50px] align-middle text-center w-[72px]">
+      <td className={`${tdCss}`}>
         <button
           type="button"
           aria-label="방 삭제"
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-100"
+          className="inline-flex h-5 w-5 mt-2 items-center justify-center rounded-md hover:bg-gray-100"
           onClick={() => onDelete?.(data.id)}
           title="삭제"
         >
-          <Delete />
+          <Delete className="w-5 h-5" aria-hidden />
         </button>
       </td>
     </tr>

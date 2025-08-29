@@ -14,15 +14,20 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="flex justify-center py-8 bg-bg-main min-h-[calc(100vh-11.75rem)] md:min-h-[calc(100vh-9.25rem)]">
-      <div className="w-[1200px] px-5 ">
-        <div className="relative mb-6">
-          <h2 className="text-center text-[32px]">방 관리</h2>
-          <div className="absolute right-0 top-1/2 -translate-y-1/2">
-            <Button onClick={openModal} color="default" size="sm">
-              방 만들기
-            </Button>
-          </div>
+    <div className="flex justify-center py-8 md:py-10 bg-bg-main min-h-[calc(100vh-9.25rem)] md:min-h-[calc(100vh-9.25rem)]">
+      <div className="w-full max-w-[75rem] px-5 ">
+        <div className="flex relative w-full mb-8">
+          <h2 className="text-center w-full text-2xl md:text-[32px]">
+            방 관리
+          </h2>
+          <Button
+            onClick={openModal}
+            color="default"
+            size="sm"
+            className="absolute right-0 top-0 md:top-1.5"
+          >
+            방 만들기
+          </Button>
         </div>
 
         <AdminTable></AdminTable>

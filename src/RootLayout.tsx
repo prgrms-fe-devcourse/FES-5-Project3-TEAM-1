@@ -16,8 +16,6 @@ const RootLayout = () => {
   const isAdmin = location.pathname.startsWith('/admin');
   const isThread = location.pathname.startsWith('/thread');
 
-  console.log(isThread);
-
   return (
     <div className="flex flex-col relative">
       <Header
