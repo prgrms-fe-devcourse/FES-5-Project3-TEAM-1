@@ -32,7 +32,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
       <div className="flex flex-col gap-2  w-full">
         <label
           htmlFor={id ?? userId}
-          className={tw(showLabel ? `text-black text-md` : 'sr-only')}
+          className={tw(showLabel ? `text-black text-base` : 'sr-only')}
         >
           {label}
         </label>

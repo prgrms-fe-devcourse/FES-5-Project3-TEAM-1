@@ -37,7 +37,9 @@ function Footer() {
           </div>
         </address>
 
-        <p>&copy; 2025 Anónimo. All rights reserved.</p>
+        <small className="text-base text-gray-dark">
+          &copy; 2025 Anónimo. All rights reserved.
+        </small>
       </div>
     </footer>
   );

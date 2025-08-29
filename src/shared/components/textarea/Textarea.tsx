@@ -27,7 +27,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div className="flex flex-col gap-2">
         <label
           htmlFor={id ?? textareaId}
-          className={tw(showLabel ? `text-black text-md` : 'sr-only')}
+          className={tw(showLabel ? `text-black text-base` : 'sr-only')}
         >
           {label}
         </label>

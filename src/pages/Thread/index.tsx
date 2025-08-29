@@ -55,7 +55,7 @@ const Thread = () => {
   }, []);
 
   return (
-    <div className="flex justify-center py-10 bg-bg-main min-h-[calc(100vh-11.75rem)] md:min-h-[calc(100vh-9.25rem)]">
+    <div className="flex justify-center py-10 bg-bg-main min-h-[calc(100vh-48px)] md:min-h-[calc(100vh-60px)]">
       <PasswordModal
         isOpen={showPasswordModal}
         onValidate={handlePasswordValidate}
