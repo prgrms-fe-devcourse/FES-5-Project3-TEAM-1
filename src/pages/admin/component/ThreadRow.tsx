@@ -31,12 +31,12 @@ export default function ThreadRow({
   return (
     <tr className="border-b border-gray-light">
       {/* 번호 */}
-      <td className="px-4 h-[50px] align-middle text-center text-base text-black">
+      <td className="px-2 h-[50px] align-middle text-center text-base text-black">
         {index}
       </td>
 
       {/* 제목 */}
-      <td className="px-4 h-[50px] align-middle">
+      <td className="px-2 h-[50px] align-middle">
         <p
           className="truncate text-base text-black max-w-[320px] text-center"
           title={data.title}
@@ -46,7 +46,7 @@ export default function ThreadRow({
       </td>
 
       {/* 링크 */}
-      <td className="px-4 h-[50px] align-middle">
+      <td className="px-2 h-[50px] align-middle">
         <div className="flex items-center gap-2 max-w-[320px]">
           <a
             href={data.link}
@@ -61,7 +61,7 @@ export default function ThreadRow({
       </td>
 
       {/* 비밀번호 */}
-      <td className="px-4 h-[50px] align-middle">
+      <td className="px-2 h-[50px] align-middle">
         <div className="flex items-center gap-2">
           <span className="text-base tracking-widest">
             {showPw ? (data.password ?? '-') : maskedPw}
@@ -72,6 +72,7 @@ export default function ThreadRow({
               type="button"
               onClick={() => setShowPw((v) => !v)}
               aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 보기'}
+              className="shrink-0"
             >
               {showPw ? (
                 <EyeOpen

@@ -19,26 +19,34 @@ const AdminTable = ({ className }: AdminTableProps) => {
     if (!userId) return;
 
     setIsLoading(true);
-    setError('');
+    setError(null);
+
     (async () => {
-      const data = await getThreadsByUserId(userId);
-      setRows(
-        data.map((t) => ({
-          id: t.id,
-          title: t.title,
-          link: t.link,
-          password: t.password ?? '',
-        })),
-      );
+      try {
+        const data = await getThreadsByUserId(userId);
+        setRows(
+          data.map((t) => ({
+            id: t.id,
+            title: t.title,
+            link: t.link,
+            password: t.password ?? '',
+          })),
+        );
+      } catch (e: any) {
+        setError(e?.message ?? '목록을 불러오지 못했어요.');
+        setRows([]);
+      } finally {
+        setIsLoading(false);
+      }
     })();
   }, [userId]);
 
   return (
     <div
-      className={`bg-white w-full rounded-lg shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] ${className ?? ''}`}
+      className={`bg-white w-full rounded-lg shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] overflow-hidden ${className ?? ''}`}
     >
-      <div className="max-h-[520px] min-h-[400px] overflow-auto rounded-lg">
-        <table className="w-full h-full table-fixed">
+      <div className="max-h-[60vh] md:max-h-[65vh] min-h-[400px] overflow-y-auto overflow-x-auto">
+        <table className="w-full table-fixed min-w-[760px]">
           <thead className="sticky top-0 z-10 bg-secondary">
             <tr className="text-black text-base ">
               <th className="px-4 py-3 w-[100px]  font-medium text-center">
