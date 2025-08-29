@@ -48,6 +48,9 @@ export default function CommentList({ feedId, token }: CommentListProps) {
           showLabel={false}
           className="flex-1 bg-white"
           onKeyDown={(e) => {
+            if (e.nativeEvent.isComposing) {
+              return;
+            }
             if (e.key === 'Enter') {
               e.preventDefault();
               handleAdd();
