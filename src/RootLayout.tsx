@@ -37,7 +37,7 @@ const RootLayout = () => {
       <Footer />
       <ScrollUpButton />
 
-      {/* 방 생성하기 팝업 */}
+      {/* 스레드 만들기 팝업 */}
       {isCreateThreadsModalOpen && (
         <CreateThread
           isOpen={isCreateThreadsModalOpen}

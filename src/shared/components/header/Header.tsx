@@ -1,16 +1,15 @@
-import { Link, NavLink, useLocation } from 'react-router';
+import { Link, NavLink, useLocation, useParams } from 'react-router';
 import logo from '@/assets/logo.png';
 import moonSVG from '@/assets/icon/moon-20.svg';
 import settingsSVG from '@/assets/icon/settings-32.svg';
 import usersSVG from '@/assets/icon/users-16.svg';
-import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
-import Button from '../button/Button';
-import { useModal } from '@/shared/utils/ModalProvider';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import useLogout from '@/features/login/hooks/useLogout';
-import ThreadMenu from '@/pages/Thread/components/ThreadMenu';
+import ThreadMenu from '@/shared/components/header/ThreadMenu';
+import { useThreadInfo } from '@/pages/Thread/hooks/useThreadInfo';
+import SettingsMenu from './SettingsMenu';
 
 interface Props {
   // tabs?: { id: string; label: string }[];
@@ -25,15 +24,21 @@ function Header({
   // tabs,
   // currentTab,
   // onTabChange,
-  onOpenCreateModal,
   hideParticipantCount,
 }: Props) {
   const settingsMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const isThread = location.pathname.startsWith('/thread');
-  const modal = useModal();
   const loginAuth = useAuth();
   const logout = useLogout();
+
+  const isLoginUser = !!loginAuth.userId;
+
+  // thread 정보 가져오기
+  const threadParams = useParams<{ threadId: string }>();
+  const threadId = threadParams.threadId;
+
+  const { data, loading } = useThreadInfo(threadId ?? null);
 
   // 화면 크기
   const [isXl, setIsXl] = useState(() => window.innerWidth >= 1280);
@@ -73,8 +78,8 @@ function Header({
         </Link>
 
         {isThread && (
-          <p className="relative pl-3 w-[100px] text-md md:text-lg md:w-[400px] before:block before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-black truncate">
-            제목입니다제목입니다제목입니다제목입니다
+          <p className="hidden md:block relative pl-3 w-[100px] text-md md:text-lg md:w-[400px] before:block before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-black truncate">
+            {loading ? '타이틀 가져오는 중 😴' : (data?.title ?? '')}
           </p>
         )}
       </div>
@@ -140,53 +145,22 @@ function Header({
           </button>
 
           {isThread ? (
-            <ThreadMenu isOpen={isOpen} />
+            <ThreadMenu
+              isOpen={isOpen}
+              loading={loading}
+              data={data}
+              isLoginUser={isLoginUser}
+              logout={logout}
+              onClose={() => setIsOpen(false)}
+              isXl={isXl}
+            />
           ) : (
-            <div
-              tabIndex={-1}
-              aria-label="설정 메뉴"
-              className={clsx(
-                'absolute top-full -mt-8 md:mt-2 right-4 flex flex-col justify-between px-3 py-2 w-50 h-60 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] transition-all duration-400 ease-out',
-                isOpen
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 -translate-y-3 pointer-events-none',
-              )}
-            >
-              <ul className="flex flex-col">
-                <li
-                  role="menuitem"
-                  className="py-2 border-b border-b-gray-light text-center"
-                >
-                  <NavLink to="/admin">방 관리</NavLink>
-                </li>
-              </ul>
-
-              <div className="flex flex-col gap-2">
-                <Button
-                  onClick={() => onOpenCreateModal(true)}
-                  size="sm"
-                  color="blue"
-                  fullWidth
-                >
-                  방 만들기
-                </Button>
-                {loginAuth.userId && (
-                  <Button size="sm" color="default" fullWidth onClick={logout}>
-                    로그아웃
-                  </Button>
-                )}
-                {!loginAuth.userId && (
-                  <Button
-                    size="sm"
-                    color="default"
-                    fullWidth
-                    onClick={() => modal.openModal('login')}
-                  >
-                    로그인
-                  </Button>
-                )}
-              </div>
-            </div>
+            <SettingsMenu
+              isOpen={isOpen}
+              isLoginUser={isLoginUser}
+              logout={logout}
+              onClose={() => setIsOpen(false)}
+            ></SettingsMenu>
           )}
         </div>
       </div>
