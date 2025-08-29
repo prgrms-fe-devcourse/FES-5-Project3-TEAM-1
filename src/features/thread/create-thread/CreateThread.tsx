@@ -91,7 +91,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
       isPrivate: !!password,
     });
 
-    toastUtils.success('방만들기 성공😊');
+    toastUtils.success('스레드 생성 성공😊');
 
     setLink(link);
     setModalStep('success');

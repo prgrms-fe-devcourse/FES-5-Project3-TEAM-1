@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import { useModal } from '../utils/ModalProvider';
 
 interface UseHeaderMenuModalProps {
@@ -14,6 +15,7 @@ export const useHeaderMenuModal = ({
   onClose,
 }: UseHeaderMenuModalProps) => {
   const modal = useModal();
+  const navigate = useNavigate();
 
   const handleActionModal = (action: 'nickname' | 'thread' | 'login') => {
     if (!isXl) onClose();
@@ -27,7 +29,10 @@ export const useHeaderMenuModal = ({
           modal.openModal('login');
           return;
         }
-        modal.openModal('createThread');
+        modal.openModal('createThread', {
+          mode: 'create',
+          navigateToAdmin: () => navigate('/admin'),
+        });
         break;
 
       case 'login':

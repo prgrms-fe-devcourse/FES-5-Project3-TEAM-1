@@ -10,6 +10,7 @@ const AdminPage = () => {
   const openModal = () => {
     modal.openModal('createThread', {
       navigateToAdmin: () => navigate('/admin'),
+      mode: 'create',
     });
   };
 
