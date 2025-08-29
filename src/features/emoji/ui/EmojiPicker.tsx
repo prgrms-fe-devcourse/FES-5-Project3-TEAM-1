@@ -1,10 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ImSpinner } from 'react-icons/im';
 
 import EmojiList from '../components/EmojiList';
 import EmojiItem from '../components/EmojiItem';
 import EmojiButton from '../components/EmojiButton';
 import EmojiGrid from '../components/EmojiGrid';
+import EmojiGridPortal from '../components/EmojiGridPortal';
 
 interface Props {
   emojiCounts: Array<{ emoji: string; counts: number }>;
@@ -20,6 +21,7 @@ export function EmojiPicker({
   isLoading,
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const handleOpenEmojiGrid = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -33,7 +35,7 @@ export function EmojiPicker({
     [onEmojiClick],
   );
   return (
-    <div className="flex items-center gap-2 flex-nowrap ">
+    <div className="flex items-center gap-2 flex-nowrap " ref={ref}>
       <div className="flex gap-2 overflow-hidden">
         <EmojiButton onClick={handleOpenEmojiGrid} />
 
@@ -55,10 +57,10 @@ export function EmojiPicker({
         </EmojiList>
       </div>
 
-      {isOpen && <EmojiGrid onSelect={handleEmojiSelect} />}
-
       {isOpen && (
-        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+        <EmojiGridPortal pickerRef={ref} onClick={() => setIsOpen(false)}>
+          <EmojiGrid onSelect={handleEmojiSelect} />
+        </EmojiGridPortal>
       )}
     </div>
   );
