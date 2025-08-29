@@ -3,13 +3,16 @@ import { useEffect, type RefObject } from 'react';
 interface Props<T extends HTMLElement> {
   ref: RefObject<T | null>;
   onClose: () => void;
+  enabled?: boolean;
 }
 
 export function useCloseOnOutsideOrEsc<T extends HTMLElement>({
   ref,
   onClose,
+  enabled = true,
 }: Props<T>) {
   useEffect(() => {
+    if (!enabled) return;
     const handleOutside = (e: MouseEvent) => {
       const refCur = ref.current;
       if (refCur && !refCur.contains(e.target as Node)) {
@@ -30,5 +33,5 @@ export function useCloseOnOutsideOrEsc<T extends HTMLElement>({
       document.removeEventListener('mousedown', handleOutside);
       document.removeEventListener('keydown', handleEsc);
     };
-  }, [ref, onClose]);
+  }, [ref, onClose, enabled]);
 }

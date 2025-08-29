@@ -12,7 +12,6 @@ interface CardLayoutProps {
   commentsCount?: number;
   commentsList?: React.ReactNode;
   feedId: string;
-  token: string;
   isOpen: boolean;
   onToggleComment: () => void;
   feedExtraContent?: React.ReactNode;
@@ -26,14 +25,12 @@ const CardLayout = ({
   commentsList,
   children,
   feedId,
-  token,
   isOpen,
   onToggleComment,
   feedExtraContent,
 }: CardLayoutProps) => {
   const { emojiCounts, handleEmojiClick, myReactions } = useEmoji({
     feedId,
-    token,
   });
 
   const displayedEmoji = emojiCounts.slice(0, 12);

@@ -1,11 +1,12 @@
-import { useEffect, useRef } from 'react';
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import VirtualFeedItem from './VirtualFeedItem';
+
 import logoUrl from '@/assets/logo.png';
-import type { Tables } from '@/shared/types';
-import FeedCard from './FeedCard';
+import type { Feed } from '@/shared/types/feed';
+import { useFeedVirtualizer } from '../hooks/useFeedVirtualizer';
 
 interface Props {
-  feeds: Tables<'feeds'>[];
+  feeds: Feed[];
   token: string;
   hasMore: boolean;
   onLoadMore: () => void;
@@ -19,49 +20,14 @@ const VirtualFeedList = ({
   isLoading,
   onLoadMore,
 }: Props) => {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  // 무한 스크롤 hook
+  const triggerRef = useInfiniteScroll({ hasMore, isLoading, onLoadMore });
 
-  const rowVirtualizer = useVirtualizer({
-    count: feeds.length,
-    getScrollElement: () => containerRef.current,
-    estimateSize: () => 180,
-    measureElement: (element) => {
-      return element?.getBoundingClientRect().height ?? 180;
-    },
-    overscan: 5,
-  });
-
-  // 무한 스크롤 observer
-  useEffect(() => {
-    if (!hasMore || isLoading) return;
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          onLoadMore();
-        }
-      },
-      {
-        root: containerRef.current,
-        rootMargin: '200px',
-      },
-    );
-
-    if (triggerRef.current) {
-      observerRef.current.observe(triggerRef.current);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [hasMore, isLoading, onLoadMore]);
+  // 버츄얼 hook
+  const rowVirtualizer = useFeedVirtualizer({ feeds });
 
   return (
-    <div ref={containerRef} className="h-[80vh] overflow-auto">
+    <div className="flex flex-col py-3">
       <div
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,
@@ -70,38 +36,21 @@ const VirtualFeedList = ({
         }}
       >
         {rowVirtualizer.getVirtualItems().map((virtualItem) => {
-          const feed = feeds[virtualItem.index];
-
           return (
-            <div
+            <VirtualFeedItem
+              feed={feeds[virtualItem.index]}
+              measureElement={rowVirtualizer.measureElement}
+              token={token}
+              virtualItem={virtualItem}
               key={virtualItem.key}
-              className="absolute top-0 left-0 w-full px-0"
-              data-index={virtualItem.index}
-              ref={rowVirtualizer.measureElement}
-              style={{
-                height: `${virtualItem.size}px`,
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-            >
-              {/* 실제 피드 컴포넌트 */}
-              <div className="py-3">
-                <FeedCard
-                  feedId={feed.id}
-                  token={token}
-                  nickname={feed.nickname}
-                  createdAt={feed.created_at}
-                >
-                  {feed.content}
-                </FeedCard>
-              </div>
-            </div>
+            />
           );
         })}
       </div>
 
       {/* 무한 스크롤 트리거 */}
       {hasMore && (
-        <div ref={triggerRef} className="w-full flex justify-center py-20">
+        <div ref={triggerRef} className="w-full flex justify-center py-10">
           {isLoading ? <img src={logoUrl} alt="" /> : <div className="h-10" />}
         </div>
       )}

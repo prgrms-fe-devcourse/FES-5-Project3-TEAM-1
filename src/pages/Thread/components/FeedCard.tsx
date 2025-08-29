@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CardLayout from '@/shared/components/card-Layout/CardLayout';
-import CommentList from '@/features/comment/component/CommentList';
+import { CommentSection } from '@/features/comment/component/CommentSection';
 
 interface FeedCardProps {
   feedId: string;
@@ -15,7 +15,6 @@ interface FeedCardProps {
 
 export default function FeedCard({
   feedId,
-  token,
   nickname,
   createdAt,
   className,
@@ -31,9 +30,8 @@ export default function FeedCard({
       nickname={nickname}
       createdAt={createdAt ? new Date(createdAt).toLocaleString() : ''}
       commentsCount={commentCount}
-      commentsList={isOpen && <CommentList feedId={feedId} token={token} />}
+      commentsList={isOpen && <CommentSection feedId={feedId} />}
       feedId={feedId}
-      token={token}
       onToggleComment={() => setIsOpen((prev) => !prev)}
       isOpen={isOpen}
       feedExtraContent={feedExtraContent}

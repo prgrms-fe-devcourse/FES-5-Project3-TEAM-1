@@ -9,23 +9,27 @@ import InputModal from '@/shared/components/modals/InputModal';
 import Textarea from '@/shared/components/textarea/Textarea';
 import { useEffect, useRef, useState } from 'react';
 import { toastUtils } from '@/shared/utils/toastUtils';
+import { useAuth } from '@/shared/utils/AuthProvider';
 
 interface Props {
-  isOpen: boolean;
   onClose: () => void;
   mode: 'create' | 'update';
   threadId?: string;
+  navigateToAdmin?: () => void;
 }
 
 type CreateModalStep = 'form' | 'success';
 
-function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
-  if (!isOpen) return null;
+function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const [modalStep, setModalStep] = useState<CreateModalStep>('form');
   const [link, setLink] = useState('');
 
-  // 임시 userId
-  const userId = '814fcdb8-c777-4c4f-a74a-c2a8987f0b83';
+  const { userId } = useAuth();
+
+  const handleGoToAdminAndClose = () => {
+    onClose();
+    navigateToAdmin?.();
+  };
 
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -57,6 +61,11 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
   }, [mode]);
 
   const handleCreateInfo = async () => {
+    if (!userId) {
+      toastUtils.error('로그인이 필요합니다.');
+      return;
+    }
+
     const title = titleRef.current?.value ?? '';
     const description = descriptionRef.current?.value ?? '';
     const password = passwordRef.current?.value ?? '';
@@ -82,7 +91,7 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
       isPrivate: !!password,
     });
 
-    toastUtils.success('방만들기 성공😊');
+    toastUtils.success('스레드 생성 성공😊');
 
     setLink(link);
     setModalStep('success');
@@ -178,8 +187,8 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
           />
           <Input.Password
             label="비밀번호(선택)"
-            placeholder="10자 내외로 입력해 주세요."
-            maxLength={10}
+            placeholder="6자 내외로 입력해 주세요."
+            maxLength={6}
             ref={passwordRef}
             showLabel
           />
@@ -213,7 +222,12 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
               복사하기
             </Button>
           </div>
-          <Button size="default" color="default" fullWidth>
+          <Button
+            size="default"
+            color="default"
+            onClick={handleGoToAdminAndClose}
+            fullWidth
+          >
             관리 페이지로 이동
           </Button>
         </div>

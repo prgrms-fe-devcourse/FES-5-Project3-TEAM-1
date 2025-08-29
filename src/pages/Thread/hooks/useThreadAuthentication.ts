@@ -1,11 +1,15 @@
 import { getThreadInfo, getThreadPassword } from '@/shared/api/thread';
 import { generateSimpleFingerprint } from '@/shared/utils/fingerPrint';
-import { sessionStorageUtil } from '@/shared/utils/sessionStorage';
 import { toastUtils } from '@/shared/utils/toastUtils';
+import {
+  getBrowserTokenFromSession,
+  setTokenToSession,
+} from '@/shared/utils/token';
 import { useEffect, useState } from 'react';
-
-const THREAD_KEY = 'authenticated_threads';
-const ANONIMO_TOKEN = 'anonimo_token';
+import {
+  getAuthenticatedThreadIdsFromSession,
+  setAuthenticatedThreadIdsToSession,
+} from '../utils/sessionUtil';
 
 export const useThreadAuthentication = (threadId: string) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -19,7 +23,7 @@ export const useThreadAuthentication = (threadId: string) => {
 
   // 기존 토큰이 있으면 state에 설정
   useEffect(() => {
-    const currentToken = sessionStorageUtil.getSession<string>(ANONIMO_TOKEN);
+    const currentToken = getBrowserTokenFromSession();
     if (!currentToken) {
       genToken();
     } else {
@@ -29,7 +33,7 @@ export const useThreadAuthentication = (threadId: string) => {
 
   const genToken = async () => {
     const newToken = await generateSimpleFingerprint();
-    sessionStorageUtil.setSession(ANONIMO_TOKEN, newToken);
+    setTokenToSession(newToken);
     setToken(newToken);
   };
 
@@ -37,17 +41,16 @@ export const useThreadAuthentication = (threadId: string) => {
     setIsLoading(true);
     try {
       // 토큰이 없다면 발급
-      const currentToken = sessionStorageUtil.getSession<string>(ANONIMO_TOKEN);
+      const currentToken = getBrowserTokenFromSession();
       if (!currentToken) {
         genToken();
       }
 
       // 세션에서 확인
-      const authenticatedThreads =
-        sessionStorageUtil.getSession<string[]>(THREAD_KEY);
+      const authenticatedThreads = getAuthenticatedThreadIdsFromSession();
 
       // 이미 검증된 쓰레드라면 재검증 필요 없음
-      if (authenticatedThreads?.includes(threadId)) {
+      if (authenticatedThreads.includes(threadId)) {
         setIsAuthenticated(true);
         setIsLoading(false);
         return;
@@ -82,14 +85,12 @@ export const useThreadAuthentication = (threadId: string) => {
         setIsAuthenticated(true);
 
         // 세션에 저장
-        const authenticatedThreads =
-          sessionStorageUtil.getSession<string[]>(THREAD_KEY) || [];
+        const authenticatedThreads = getAuthenticatedThreadIdsFromSession();
         authenticatedThreads.push(threadId);
-        sessionStorageUtil.setSession(THREAD_KEY, authenticatedThreads);
+        setAuthenticatedThreadIdsToSession(authenticatedThreads);
 
         // 토큰이 없다면 발급
-        const currentToken =
-          sessionStorageUtil.getSession<string>(ANONIMO_TOKEN);
+        const currentToken = getBrowserTokenFromSession();
         if (!currentToken) {
           genToken();
         }
