@@ -6,10 +6,10 @@ import { useThreadAuthentication } from '@/pages/Thread/hooks/useThreadAuthentic
 import PasswordModal from './components/PasswordModal';
 import { useFeeds } from './hooks/useFeed';
 import CreateFeed from './components/CreateFeed';
-import FeedList from './components/FeedList';
-import FeedCard from './components/FeedCard';
 import SortSelector from './components/SortSelector';
 import { FEED_SORT_BY, type FeedSortBy } from '@/shared/types/enum';
+import VirtualFeedList from './components/VirtualFeedList';
+import EmptyFeed from './components/EmptyFeed';
 
 const Thread = () => {
   const { threadId } = useParams();
@@ -61,45 +61,25 @@ const Thread = () => {
         onValidate={handlePasswordValidate}
         onClose={() => setShowPasswordModal(false)}
       />
-
       <div className="max-w-[640px] w-full px-2">
         {/* 피드 인풋 */}
         <CreateFeed threadId={threadId} token={token} />
         {/* 정렬 */}
         <SortSelector onChange={handleSortChange} />
-        <div className="flex flex-col">
-          {/* 피드 리스트 */}
-          <FeedList
+
+        {/* 피드 리스트 */}
+        {feeds.length > 0 ? (
+          <VirtualFeedList
+            feeds={feeds}
             hasMore={hasMore}
-            onLoadMore={loadMore}
             isLoading={isFetchFeedLoading}
-          >
-            {feeds.map((feed) => (
-              <FeedCard
-                key={feed.id}
-                token={feed.token}
-                nickname={feed.nickname}
-                commentCount={feed.comment_count}
-                createdAt={feed.created_at}
-                feedId={feed.id}
-                feedExtraContent={
-                  feed.type === 'drawing' && feed.drawing_url ? (
-                    <div className="flex justify-center px-10">
-                      <img
-                        src={feed.drawing_url}
-                        alt="그린 그림"
-                        className="w-full"
-                        loading="lazy"
-                      />
-                    </div>
-                  ) : null
-                }
-              >
-                {feed.content}
-              </FeedCard>
-            ))}
-          </FeedList>
-        </div>
+            onLoadMore={loadMore}
+            token={token}
+          />
+        ) : (
+          // 피드가 아무것도 없을 경우
+          <EmptyFeed />
+        )}
       </div>
     </div>
   );
