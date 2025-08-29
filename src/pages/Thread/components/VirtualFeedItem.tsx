@@ -35,6 +35,7 @@ const VirtualFeedItem = ({
         token={token}
         nickname={feed.nickname}
         createdAt={feed.created_at}
+        commentCount={feed.comment_count}
       >
         {feed.content}
       </FeedCard>
