@@ -5,7 +5,6 @@ import EmojiList from '../components/EmojiList';
 import EmojiItem from '../components/EmojiItem';
 import EmojiButton from '../components/EmojiButton';
 import EmojiGrid from '../components/EmojiGrid';
-import EmojiGridPortal from '../components/EmojiGridPortal';
 
 interface Props {
   emojiCounts: Array<{ emoji: string; counts: number }>;
