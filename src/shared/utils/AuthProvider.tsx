@@ -1,24 +1,26 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import supabase from '../libs/supabase';
-import { useModal } from './ModalProvider';
 import { toastUtils } from './toastUtils';
 
 interface AuthContextType {
   isLoggedIn: boolean;
   userId: string | null;
   logout: () => void;
+  isFirstLogin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   userId: null,
   logout: () => {},
+  isFirstLogin: false,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  const modal = useModal();
+  const [isFirstLogin, setIsFirstLogin] = useState(false);
+  // const modal = useModal();
 
   useEffect(() => {
     const checkSession = async () => {
@@ -45,7 +47,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
 
           if (profile) {
-            modal.openModal('welcome');
+            // modal.openModal('welcome');
+            setIsFirstLogin(true);
             const { error } = await supabase
               .from('users')
               .update({ welcome_shown: true })
@@ -94,6 +97,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     userId,
     isLoggedIn,
     logout,
+    isFirstLogin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

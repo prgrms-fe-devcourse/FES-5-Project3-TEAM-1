@@ -36,7 +36,6 @@ function LoginTest() {
       </button>
       {isCreateThreadsOpen && (
         <CreateThread
-          isOpen={true}
           onClose={() => setIsCreateThreadsOpen(false)}
           mode={'update'}
           threadId="e77d8471-271a-4904-a004-6a6a98ac8f25"

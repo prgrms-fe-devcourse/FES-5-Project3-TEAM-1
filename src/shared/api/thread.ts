@@ -91,3 +91,22 @@ export const updateThreads = async (data: {
     .eq('id', data.id);
   if (error) throw new Error(`update thread error : ${error}`);
 };
+
+/**
+ * 특정 유저가 생성한 쓰레드 가져오기
+ */
+export const getThreadsByUserId = async (
+  userId: string,
+): Promise<Tables<'threads'>[]> => {
+  const { data, error } = await supabase
+    .from('threads')
+    .select('*')
+    .eq('owner_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw new Error(`get threads by user error: ${error.message}`);
+  }
+
+  return data ?? [];
+};
