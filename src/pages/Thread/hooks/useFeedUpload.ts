@@ -49,8 +49,6 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
       if (lastType === 'drawing' && blob) {
         drawingUrl = await uploadDrawing({ feedId, file: blob });
       }
-      console.log('Feed type:', lastType);
-
       setContent('');
 
       return { feedId, drawingUrl };

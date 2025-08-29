@@ -107,7 +107,7 @@ export const useFeeds = ({
     payload: RealtimePostgresInsertPayload<Tables<'feeds'>>,
   ) => {
     const newFeed = payload.new as Feed;
-
+    console.log(newFeed.token);
     // 중복 방지
     setFeeds((prev) => {
       if (prev.some((f) => f.id === newFeed.id)) return prev;

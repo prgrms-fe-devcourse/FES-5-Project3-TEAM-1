@@ -2,7 +2,6 @@ import { FEED_SORT_BY, type FeedSortBy } from '../types/enum';
 
 // 기본 정렬 config
 export const getOrderConfig = (sortBy: FeedSortBy) => {
-  console.log('getOrderConfig', sortBy);
   switch (sortBy) {
     case FEED_SORT_BY.LATEST:
       return { column: 'created_at', ascending: false };
