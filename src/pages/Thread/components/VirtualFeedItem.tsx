@@ -1,23 +1,23 @@
 import type { Feed } from '@/shared/types/feed';
-import type { VirtualItem } from '@tanstack/react-virtual';
+import { Virtualizer, type VirtualItem } from '@tanstack/react-virtual';
 import FeedCard from './FeedCard';
 
 interface Props {
   virtualItem: VirtualItem;
-  measureElement: (node: Element | null | undefined) => void;
   feed: Feed;
   token: string;
+  rowVirtualizer: Virtualizer<Window, Element>;
 }
 
 const VirtualFeedItem = ({
+  rowVirtualizer,
   virtualItem,
-  measureElement,
   feed,
   token,
 }: Props) => {
   return (
     <div
-      ref={measureElement}
+      ref={rowVirtualizer.measureElement}
       key={virtualItem.key}
       className="absolute top-0 left-0 w-full px-0 py-2"
       data-index={virtualItem.index}
@@ -35,6 +35,7 @@ const VirtualFeedItem = ({
         token={token}
         nickname={feed.nickname}
         createdAt={feed.created_at}
+        commentCount={feed.comment_count}
         feedExtraContent={
           feed.type === 'drawing' && feed.drawing_url ? (
             <div className="flex justify-center px-10">

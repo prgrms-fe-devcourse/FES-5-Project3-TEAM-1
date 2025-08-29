@@ -39,7 +39,7 @@ const VirtualFeedList = ({
           return (
             <VirtualFeedItem
               feed={feeds[virtualItem.index]}
-              measureElement={rowVirtualizer.measureElement}
+              rowVirtualizer={rowVirtualizer}
               token={token}
               virtualItem={virtualItem}
               key={virtualItem.key}

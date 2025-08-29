@@ -32,7 +32,14 @@ export default function FeedCard({
       commentsCount={commentCount}
       commentsList={isOpen && <CommentSection feedId={feedId} />}
       feedId={feedId}
-      onToggleComment={() => setIsOpen((prev) => !prev)}
+      onToggleComment={() => {
+        document.body.style.overflow = 'hidden';
+
+        setIsOpen((prev) => !prev);
+        requestAnimationFrame(() => {
+          document.body.style.overflow = '';
+        });
+      }}
       isOpen={isOpen}
       feedExtraContent={feedExtraContent}
     >
