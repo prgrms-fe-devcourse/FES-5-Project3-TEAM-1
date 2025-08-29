@@ -1,16 +1,18 @@
 import { useEffect, useRef } from 'react';
-import logoUrl from '@/assets/logo.png';
 
 interface Props {
-  children: React.ReactNode;
   hasMore: boolean;
-  onLoadMore: () => void;
   isLoading: boolean;
+  onLoadMore: () => void;
 }
 
-const FeedList = ({ children, hasMore, isLoading, onLoadMore }: Props) => {
+export const useInfiniteScroll = ({
+  hasMore,
+  isLoading,
+  onLoadMore,
+}: Props) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const triggerRef = useRef<HTMLLIElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!hasMore || isLoading) return;
@@ -21,7 +23,10 @@ const FeedList = ({ children, hasMore, isLoading, onLoadMore }: Props) => {
           onLoadMore();
         }
       },
-      { rootMargin: '0px' },
+      {
+        root: null,
+        rootMargin: '100px',
+      },
     );
 
     if (triggerRef.current) {
@@ -35,17 +40,5 @@ const FeedList = ({ children, hasMore, isLoading, onLoadMore }: Props) => {
     };
   }, [hasMore, isLoading, onLoadMore]);
 
-  return (
-    <div className="flex flex-col">
-      <ul className="flex flex-col gap-6 pt-6">
-        {children}
-        {hasMore && (
-          <li ref={triggerRef} className="w-full flex-center py-20">
-            <img src={logoUrl} />
-          </li>
-        )}
-      </ul>
-    </div>
-  );
+  return triggerRef;
 };
-export default FeedList;
