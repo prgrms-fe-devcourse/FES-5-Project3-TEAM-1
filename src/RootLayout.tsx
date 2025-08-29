@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Footer from './shared/components/footer/Footer';
 import Header from './shared/components/header/Header';
 import CreateThread from './features/thread/create-thread/CreateThread';

@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation, useParams } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 import logo from '@/assets/logo.png';
 import moonSVG from '@/assets/icon/moon-20.svg';
 import settingsSVG from '@/assets/icon/settings-32.svg';
