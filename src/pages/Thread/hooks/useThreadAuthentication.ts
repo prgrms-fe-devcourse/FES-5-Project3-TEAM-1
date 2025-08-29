@@ -1,6 +1,5 @@
 import { getThreadInfo, getThreadPassword } from '@/shared/api/thread';
 import { generateSimpleFingerprint } from '@/shared/utils/fingerPrint';
-import { sessionStorageUtil } from '@/shared/utils/sessionStorage';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import {
   getBrowserTokenFormSession,
