@@ -1,3 +1,4 @@
+import { useModal } from '@/shared/utils/ModalProvider';
 import { useEffect, useState } from 'react';
 import ThreadRow, { type ThreadRowData } from './ThreadRow';
 import { useAuth } from '@/shared/utils/AuthProvider';
@@ -13,6 +14,7 @@ const AdminTable = ({ className }: AdminTableProps) => {
   const [error, setError] = useState<string | null>(null);
 
   const { userId } = useAuth();
+  const modal = useModal();
 
   useEffect(() => {
     if (!userId) return;
@@ -84,8 +86,10 @@ const AdminTable = ({ className }: AdminTableProps) => {
                   key={t.id}
                   index={i + 1}
                   data={t}
-                  onEdit={(id) => console.log('수정', id)}
-                  onDelete={(id) => console.log('삭제', id)}
+                  onEdit={(id) =>
+                    modal.openModal('createThread', { id, mode: 'update' })
+                  }
+                  onDelete={(id) => console.log('삭제', id)} //나중에 수정하기
                 />
               ))
             ) : (

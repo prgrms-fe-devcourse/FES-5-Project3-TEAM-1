@@ -19,7 +19,7 @@ function WelcomeModal({ onClose }: Props) {
           <div className="items-center flex flex-col gap-[14px]"></div>
           <button
             className="bg-black text-white py-[14.5px] rounded-xl ml w-[95%]"
-            onClick={() => modal.openModal('createThread')}
+            onClick={() => modal.openModal('createThread', { mode: 'create' })}
           >
             방 만들기
           </button>
