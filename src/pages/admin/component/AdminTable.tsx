@@ -2,7 +2,7 @@ import { useModal } from '@/shared/utils/ModalProvider';
 import { useEffect, useState } from 'react';
 import ThreadRow, { type ThreadRowData } from './ThreadRow';
 import { useAuth } from '@/shared/utils/AuthProvider';
-import { getThreadsByUserId } from '@/shared/api/thread';
+import { getThreadsByUserId, removeThreads } from '@/shared/api/thread';
 
 type AdminTableProps = {
   className?: string;
@@ -89,7 +89,12 @@ const AdminTable = ({ className }: AdminTableProps) => {
                   onEdit={(id) =>
                     modal.openModal('createThread', { id, mode: 'update' })
                   }
-                  onDelete={(id) => console.log('삭제', id)} //나중에 수정하기
+                  onDelete={async (id) => {
+                    const deleted = await removeThreads(id);
+                    if (deleted) {
+                      setRows((prev) => prev.filter((t) => t.id !== id));
+                    }
+                  }}
                 />
               ))
             ) : (
