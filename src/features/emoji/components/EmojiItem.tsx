@@ -12,7 +12,7 @@ const EmojiItem = ({ counts, emoji, onClick, isSelected }: Props) => {
   return (
     <li
       className={clsx(
-        'flex-center rounded-full gap-1 bg-quaternary py-1 px-2 cursor-pointer',
+        'flex-center rounded-full gap-1 bg-quaternary py-1 px-2 cursor-pointer box-border',
         isSelected && 'border-1 border-yellow',
         !isSelected && '',
       )}
