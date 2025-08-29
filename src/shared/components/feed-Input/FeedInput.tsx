@@ -14,6 +14,7 @@ interface Props {
   onSubmit: () => void;
   setType: Dispatch<React.SetStateAction<FeedType>>;
   drawingRef: React.RefObject<CanvasRefHandle | null>;
+  type: FeedType;
 }
 
 function FeedInput({
@@ -22,6 +23,7 @@ function FeedInput({
   onSubmit,
   setType,
   drawingRef,
+  type,
 }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   // const [textareaText, setTextareaText] = useState('');
@@ -129,7 +131,12 @@ function FeedInput({
         />
 
         <div className="ml-auto">
-          <Button size="sm" color="blue" onClick={handleSubmit}>
+          <Button
+            size="sm"
+            color="blue"
+            onClick={handleSubmit}
+            disabled={type === 'text' && content.length <= 0}
+          >
             올리기
           </Button>
         </div>

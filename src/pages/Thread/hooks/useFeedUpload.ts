@@ -68,5 +68,6 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
     drawingRef,
     onSubmit: handleUploadFeed,
     isUploading: isUploading,
+    type,
   };
 };
