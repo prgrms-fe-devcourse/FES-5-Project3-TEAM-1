@@ -8,6 +8,7 @@ import type { EmojiCount } from '@/shared/types/emoji';
 import { useEffect, useState } from 'react';
 import { useEmojiSubscription } from './useEmojiSubscription';
 import { getBrowserTokenFromSession } from '@/shared/utils/token';
+import { useDebounce } from '@/shared/hook/useDebounce';
 
 export const useEmoji = ({ feedId }: { feedId: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -84,6 +85,37 @@ export const useEmoji = ({ feedId }: { feedId: string }) => {
     });
   };
 
+  // 서버 통신 디바운스 함수
+  const debounceEmojiServerCall = useDebounce(
+    async (emoji: string, action: 'add' | 'remove') => {
+      if (!myToken) return;
+      try {
+        if (action === 'add') {
+          await addEmojiReaction({
+            emoji,
+            feedId,
+            token: myToken,
+          });
+        } else {
+          await removeEmojiReaction({
+            emoji,
+            feedId,
+            token: myToken,
+          });
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
+        if (action === 'add') {
+          removeEmoji(emoji);
+        } else {
+          addEmoji(emoji);
+        }
+      }
+    },
+  );
+
   // 이모디 등록 및 제거
   const handleEmojiClick = async (targetEmoji: string) => {
     if (!myToken) return;
@@ -93,37 +125,13 @@ export const useEmoji = ({ feedId }: { feedId: string }) => {
     if (isMyReaction) {
       // 낙관적 업데이트
       removeEmoji(targetEmoji);
-
-      try {
-        // 실제 서버 통신
-        await removeEmojiReaction({
-          emoji: targetEmoji,
-          feedId,
-          token: myToken,
-        });
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
-        // 에러 케이스 ( 낙관적업데이트 로백 로직 )
-        addEmoji(targetEmoji);
-      }
+      debounceEmojiServerCall(targetEmoji, 'remove');
     }
     // 새로 등록한 이모지
     else {
       // 낙관적 업데이트
       addEmoji(targetEmoji);
-
-      try {
-        // 실제 서버 통신
-        await addEmojiReaction({ emoji: targetEmoji, feedId, token: myToken });
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
-        // 에러 케이스 ( 낙관적업데이트 로백 로직 )
-        removeEmoji(targetEmoji);
-      }
+      debounceEmojiServerCall(targetEmoji, 'add');
     }
   };
 
