@@ -40,7 +40,6 @@ const RootLayout = () => {
       {/* 스레드 만들기 팝업 */}
       {isCreateThreadsModalOpen && (
         <CreateThread
-          isOpen={isCreateThreadsModalOpen}
           onClose={() => setIsCreateThreadsModalOpen(false)}
           mode="create"
         ></CreateThread>

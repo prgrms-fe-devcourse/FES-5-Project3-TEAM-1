@@ -12,20 +12,24 @@ import { toastUtils } from '@/shared/utils/toastUtils';
 import { useAuth } from '@/shared/utils/AuthProvider';
 
 interface Props {
-  isOpen: boolean;
   onClose: () => void;
   mode: 'create' | 'update';
   threadId?: string;
+  navigateToAdmin?: () => void;
 }
 
 type CreateModalStep = 'form' | 'success';
 
-function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
-  if (!isOpen) return null;
+function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const [modalStep, setModalStep] = useState<CreateModalStep>('form');
   const [link, setLink] = useState('');
 
   const { userId } = useAuth();
+
+  const handleGoToAdminAndClose = () => {
+    onClose();
+    navigateToAdmin?.();
+  };
 
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -183,8 +187,8 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
           />
           <Input.Password
             label="비밀번호(선택)"
-            placeholder="10자 내외로 입력해 주세요."
-            maxLength={10}
+            placeholder="6자 내외로 입력해 주세요."
+            maxLength={6}
             ref={passwordRef}
             showLabel
           />
@@ -218,7 +222,12 @@ function CreateThreads({ isOpen, onClose, mode, threadId }: Props) {
               복사하기
             </Button>
           </div>
-          <Button size="default" color="default" fullWidth>
+          <Button
+            size="default"
+            color="default"
+            onClick={handleGoToAdminAndClose}
+            fullWidth
+          >
             관리 페이지로 이동
           </Button>
         </div>

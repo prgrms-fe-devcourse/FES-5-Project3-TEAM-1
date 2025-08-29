@@ -45,9 +45,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       case 'createThread':
         return (
           <CreateThreads
-            isOpen={true}
             onClose={closeModal}
             mode="create"
+            navigateToAdmin={modal.props.navigateToAdmin}
           ></CreateThreads>
         );
       default:
