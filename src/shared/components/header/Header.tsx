@@ -15,9 +15,7 @@ interface Props {
   // tabs?: { id: string; label: string }[];
   // currentTab?: string;
   // onTabChange?: (tabId: string) => void;
-  onOpenCreateModal: (open: boolean) => void;
   hideParticipantCount?: boolean;
-  onToggleAside?: () => void;
 }
 
 function Header({
@@ -78,7 +76,7 @@ function Header({
         </Link>
 
         {isThread && (
-          <p className="hidden md:block relative pl-3 w-[100px] text-md md:text-lg md:w-[400px] before:block before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-black truncate">
+          <p className="hidden md:block relative pl-3 w-[100px] text-base md:text-lg md:w-[400px] before:block before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-black truncate">
             {loading ? '타이틀 가져오는 중 😴' : (data?.title ?? '')}
           </p>
         )}
@@ -96,7 +94,7 @@ function Header({
               aria-selected={currentTab === tab.id}
               key={tab.id}
               className={clsx(
-                'text-md md:text-xl flex-1 md:flex-auto',
+                'text-base md:text-xl flex-1 md:flex-auto',
                 currentTab === tab.id
                   ? 'font-bold border-b-2 border-b-slate-900'
                   : '',

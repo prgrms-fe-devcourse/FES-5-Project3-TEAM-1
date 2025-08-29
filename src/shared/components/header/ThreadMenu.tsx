@@ -50,74 +50,112 @@ function ThreadMenu({
 
   return (
     <>
-      <div
+      <aside
         tabIndex={-1}
         aria-label="스레드 안 설정 메뉴"
         className={clsx(
-          'fixed right-0 top-12.5 md:top-16 w-full md:w-[15rem] h-[100vh] px-3 py-10 bg-white xl:bg-bg-main shadow-xl xl:shadow-none z-[49] transition-transform duration-300 ease-in-out',
+          'fixed right-0 top-12.5 md:top-16 w-full md:w-[15rem] h-[calc(100vh-3rem)] md:h-[calc(100vh-3.75rem)] px-3 py-10 pb-10 bg-white xl:bg-bg-main shadow-xl xl:shadow-none z-[49] transition-transform duration-300 ease-in-out',
           isOpen ? 'translate-x-0' : 'translate-x-full',
         )}
       >
-        <div className="flex flex-col gap-3 pb-5">
-          <h2 className="text-md">
-            {loading ? '타이틀 가져오는 중 😴' : (data?.title ?? '')}
-          </h2>
-          <p className="text-gray-dark text-sm">
-            {loading
-              ? '설명 가져오는 중 😴'
-              : data?.description
-                ? data?.description
-                : '설명 없음'}
-          </p>
-        </div>
+        <div className="flex flex-col h-full justify-between">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 pb-5">
+              <h2 className="text-base">
+                {loading ? '타이틀 가져오는 중 😴' : (data?.title ?? '')}
+              </h2>
+              <p className="text-gray-dark text-sm">
+                {loading
+                  ? '설명 가져오는 중 😴'
+                  : data?.description
+                    ? data?.description
+                    : '설명 없음'}
+              </p>
+            </div>
 
-        <ul className="flex flex-col py-3">
-          <li className="py-3 border-b-1 border-b-gray">
+            <ul className="flex flex-col">
+              <li className="py-3 border-b-1 border-b-gray">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsNicknameModalOpen(true);
+                    handleActionModal('nickname');
+                  }}
+                  className="text-gray-dark transition-colors duration-150 ease-in-out hover:text-bold hover:text-black"
+                >
+                  닉네임 수정
+                </button>
+              </li>
+              <li className="py-3 border-b-1 border-b-gray">
+                <button
+                  type="button"
+                  className="text-gray-dark transition-colors duration-150 ease-in-out hover:text-bold hover:text-black"
+                  onClick={() => handleActionModal('thread')}
+                >
+                  스레드 만들기
+                </button>
+              </li>
+              {isLoginUser && (
+                <li className="py-3 border-b-1 border-b-gray">
+                  <Link
+                    to="admin"
+                    className="text-gray-dark  transition-colors duration-150 ease-in-out hover:text-bold hover:text-black"
+                    onClick={() => {
+                      if (!isXl) onClose();
+                    }}
+                  >
+                    내 스레드 관리
+                  </Link>
+                </li>
+              )}
+            </ul>
+
             <button
               type="button"
+              className="w-full mt-8 py-2 rounded-4xl border-1 border-gray text-gray-dark transition-colors duration-150 ease-in-out hover:bg-bg-sub hover:text-black"
               onClick={() => {
-                setIsNicknameModalOpen(true);
-                handleActionModal('nickname');
+                handleActionModal('login');
               }}
-              className="text-gray-dark transition-colors duration-150 ease-in-out hover:text-bold hover:text-black"
             >
-              닉네임 수정
+              {isLoginUser ? '로그아웃' : '로그인'}
             </button>
-          </li>
-          <li className="py-3 border-b-1 border-b-gray">
-            <button
-              type="button"
-              className="text-gray-dark transition-colors duration-150 ease-in-out hover:text-bold hover:text-black"
-              onClick={() => handleActionModal('thread')}
-            >
-              스레드 만들기
-            </button>
-          </li>
-          {isLoginUser && (
-            <li className="py-3 border-b-1 border-b-gray">
-              <Link
-                to="admin"
-                className="text-gray-dark  transition-colors duration-150 ease-in-out hover:text-bold hover:text-black"
-                onClick={() => {
-                  if (!isXl) onClose();
-                }}
-              >
-                내 스레드 관리
-              </Link>
-            </li>
-          )}
-        </ul>
+          </div>
 
-        <button
-          type="button"
-          className="w-full mt-8 py-2 rounded-4xl border-1 border-gray text-gray-dark transition-colors duration-150 ease-in-out hover:bg-bg-sub hover:text-black"
-          onClick={() => {
-            handleActionModal('login');
-          }}
-        >
-          {isLoginUser ? '로그아웃' : '로그인'}
-        </button>
-      </div>
+          <address className="flex flex-col gap-1 not-italic">
+            <div className="flex gap-2">
+              <strong className="pr-1 relative w-20 after:content-[''] after:block after:absolute after:right-0 after:top-2.5 after:w-0.25 after:h-2 after:bg-slate-900">
+                Contact
+              </strong>
+              <a
+                href="https://github.com/prgrms-fe-devcourse/FES-5-Project3-TEAM-1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-dark underline"
+              >
+                GitHub anonimo
+              </a>
+            </div>
+            <div className="flex gap-2">
+              <strong className="pr-1 relative w-20 after:content-[''] after:block after:absolute after:right-0 after:top-2.5 after:w-0.25 after:h-2 after:bg-slate-900">
+                Made by
+              </strong>
+              <a
+                href="https://github.com/prgrms-fe-devcourse/FES-5-Project3-TEAM-1"
+                target="_blank"
+                aria-label="anonimo 깃허브"
+                rel="noopener noreferrer"
+                className="text-gray-dark"
+              >
+                Whysmile
+              </a>
+            </div>
+
+            <small className="pt-1 text-base text-gray-dark">
+              &copy; 2025 Anónimo. All rights reserved.
+            </small>
+          </address>
+        </div>
+      </aside>
       {/* 닉네임 변경 모달 */}
       {isNicknameModalOpen && (
         <NicknameChangeModal onClose={() => setIsNicknameModalOpen(false)} />
