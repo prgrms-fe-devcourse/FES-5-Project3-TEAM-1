@@ -13,14 +13,14 @@ import { Toaster } from 'react-hot-toast';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* 리액트 헬멧 */}
-    <ModalProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ModalProvider>
         <HelmetProvider>
           {/* 리액트 라우터 Data 셋팅 */}
           <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
           <RouterProvider router={router} />
         </HelmetProvider>
-      </AuthProvider>
-    </ModalProvider>
+      </ModalProvider>
+    </AuthProvider>
   </StrictMode>,
 );
