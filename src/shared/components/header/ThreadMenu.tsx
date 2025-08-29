@@ -54,7 +54,7 @@ function ThreadMenu({
         tabIndex={-1}
         aria-label="스레드 안 설정 메뉴"
         className={clsx(
-          'fixed right-0 top-12.5 md:top-16 w-full md:w-[15rem] h-[100vh] px-3 py-10 bg-white xl:bg-bg-main shadow-xl xl:shadow-none z-[49] transition-transform duration-300 ease-in-out',
+          'fixed right-0 top-12.5 md:top-16 w-full md:w-[15rem] h-[100vh] md:h-[calc(100vh-9.5rem)] px-3 py-10 bg-white xl:bg-bg-main shadow-xl xl:shadow-none z-[49] transition-transform duration-300 ease-in-out',
           isOpen ? 'translate-x-0' : 'translate-x-full',
         )}
       >
