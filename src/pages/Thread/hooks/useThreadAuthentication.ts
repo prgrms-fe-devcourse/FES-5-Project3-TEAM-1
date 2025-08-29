@@ -2,7 +2,7 @@ import { getThreadInfo, getThreadPassword } from '@/shared/api/thread';
 import { generateSimpleFingerprint } from '@/shared/utils/fingerPrint';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import {
-  getBrowserTokenFormSession,
+  getBrowserTokenFromSession,
   setTokenToSession,
 } from '@/shared/utils/token';
 import { useEffect, useState } from 'react';
@@ -23,7 +23,7 @@ export const useThreadAuthentication = (threadId: string) => {
 
   // 기존 토큰이 있으면 state에 설정
   useEffect(() => {
-    const currentToken = getBrowserTokenFormSession();
+    const currentToken = getBrowserTokenFromSession();
     if (!currentToken) {
       genToken();
     } else {
@@ -41,7 +41,7 @@ export const useThreadAuthentication = (threadId: string) => {
     setIsLoading(true);
     try {
       // 토큰이 없다면 발급
-      const currentToken = getBrowserTokenFormSession();
+      const currentToken = getBrowserTokenFromSession();
       if (!currentToken) {
         genToken();
       }
@@ -90,7 +90,7 @@ export const useThreadAuthentication = (threadId: string) => {
         setAuthenticatedThreadIdsToSession(authenticatedThreads);
 
         // 토큰이 없다면 발급
-        const currentToken = getBrowserTokenFormSession();
+        const currentToken = getBrowserTokenFromSession();
         if (!currentToken) {
           genToken();
         }
