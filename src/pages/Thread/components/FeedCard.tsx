@@ -33,7 +33,6 @@ export default function FeedCard({
       commentsCount={commentCount}
       commentsList={isOpen && <CommentList feedId={feedId} token={token} />}
       feedId={feedId}
-      token={token}
       onToggleComment={() => setIsOpen((prev) => !prev)}
       isOpen={isOpen}
       feedExtraContent={feedExtraContent}
