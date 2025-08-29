@@ -1,19 +1,20 @@
+import { useCallback, useEffect, useState } from 'react';
+import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
+
 import {
   createCommentsChannel,
   getCommentByFeedId,
   postComment,
   type CommentType,
 } from '@/shared/api/comment';
-import { useCallback, useEffect, useState } from 'react';
-import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
-import type { Tables } from '@/shared/types';
+import { getBrowserTokenFromSession } from '@/shared/utils/token';
 
-export function useComment(feedId: string, token: string) {
+export function useComment(feedId: string) {
   const [comment, setComment] = useState<CommentType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleInsert = useCallback(
-    (payload: RealtimePostgresInsertPayload<Tables<'comment'>>) => {
+    (payload: RealtimePostgresInsertPayload<CommentType>) => {
       const newComment = payload.new as CommentType;
       setComment((prev) => {
         if (prev.some((c) => c.id === newComment.id)) return prev;
@@ -47,22 +48,24 @@ export function useComment(feedId: string, token: string) {
   }, [feedId, handleInsert]);
 
   // 댓글 작성
-  const addComment = async (content: string, nickname: string) => {
-    if (!content.trim()) return;
-    try {
-      const data = await postComment({
-        feed_id: feedId,
-        content,
-        nickname,
-        token,
-      });
-      setComment((prev) =>
-        prev.some((c) => c.id === data.id) ? prev : [data, ...prev],
-      );
-    } catch (error) {
-      if (error instanceof Error) console.error(error.message);
-    }
-  };
+  const addComment = useCallback(
+    async (content: string, nickname: string) => {
+      if (!content.trim()) return;
+      const myToken = getBrowserTokenFromSession();
+      if (!myToken) return;
+      try {
+        await postComment({
+          feed_id: feedId,
+          content,
+          nickname,
+          token: myToken,
+        });
+      } catch (error) {
+        if (error instanceof Error) console.error(error.message);
+      }
+    },
+    [feedId],
+  );
 
-  return { comment, addComment, isLoading };
+  return { comment, addComment, isLoading: isLoading };
 }

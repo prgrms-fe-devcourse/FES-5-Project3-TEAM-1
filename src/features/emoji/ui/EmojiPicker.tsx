@@ -5,7 +5,6 @@ import EmojiList from '../components/EmojiList';
 import EmojiItem from '../components/EmojiItem';
 import EmojiButton from '../components/EmojiButton';
 import EmojiGrid from '../components/EmojiGrid';
-import EmojiGridPortal from '../components/EmojiGridPortal';
 
 interface Props {
   emojiCounts: Array<{ emoji: string; counts: number }>;
@@ -36,7 +35,7 @@ export function EmojiPicker({
   );
   return (
     <div className="flex items-center gap-2 flex-nowrap " ref={ref}>
-      <div className="flex gap-2 overflow-hidden">
+      <div className="flex gap-2 overflow-hidden h-7">
         <EmojiButton onClick={handleOpenEmojiGrid} />
 
         <EmojiList>
@@ -57,11 +56,7 @@ export function EmojiPicker({
         </EmojiList>
       </div>
 
-      {isOpen && (
-        <EmojiGridPortal pickerRef={ref} onClick={() => setIsOpen(false)}>
-          <EmojiGrid onSelect={handleEmojiSelect} />
-        </EmojiGridPortal>
-      )}
+      {isOpen && <EmojiGrid onSelect={handleEmojiSelect} />}
     </div>
   );
 }

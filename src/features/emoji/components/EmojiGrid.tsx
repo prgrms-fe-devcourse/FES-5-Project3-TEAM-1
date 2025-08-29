@@ -15,7 +15,7 @@ const EmojiGrid = ({ onSelect }: Props) => {
   return (
     <EmojiPicker.Root
       className={tw(
-        'h-[280px] w-[320px] flex flex-col bg-white dark:bg-neutral-900 p-2 border border-gray-light rounded-2xl shadow-lg',
+        'absolute bottom-5 left-0 h-[280px] w-[320px] flex flex-col bg-white dark:bg-neutral-900 p-2 border border-gray-light rounded-2xl shadow-lg',
       )}
       onEmojiSelect={handleEmojiClick}
       locale="ko"
