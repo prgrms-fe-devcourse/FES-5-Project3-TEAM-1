@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router';
 
-import { useThreadAuthentication } from '@/pages/Thread/hooks/useThreadAuthentication';
-
-import PasswordModal from './components/PasswordModal';
+import { useThreadAuthentication } from './hooks/useThreadAuthentication';
 import { useFeeds } from './hooks/useFeed';
 import CreateFeed from './components/CreateFeed';
-import SortSelector from './components/SortSelector';
-import { FEED_SORT_BY, type FeedSortBy } from '@/shared/types/enum';
 import VirtualFeedList from './components/VirtualFeedList';
-import EmptyFeed from './components/EmptyFeed';
+
+import { FEED_SORT_BY, type FeedSortBy } from '@/shared/types/enum';
+import PasswordModal from '@/shared/components/modals/PasswordModal';
+import SortSelector from '@/shared/components/selector/SortSelector';
+import EmptyFeed from './components/feed/EmptyFeed';
+import { Helmet } from '@dr.pogodin/react-helmet';
 
 const Thread = () => {
   const { threadId } = useParams();
@@ -19,7 +20,7 @@ const Thread = () => {
     return <Navigate to="/" replace />;
   }
   // 쓰레드 정보 및 검증 hook
-  const { isPasswordRequired, validatePassword, token } =
+  const { isPasswordRequired, validatePassword, token, thread } =
     useThreadAuthentication(threadId);
 
   // 피드 정렬
@@ -55,33 +56,42 @@ const Thread = () => {
   }, []);
 
   return (
-    <div className="flex justify-center py-10 bg-bg-main min-h-[calc(100vh-48px)] md:min-h-[calc(100vh-60px)]">
-      <PasswordModal
-        isOpen={showPasswordModal}
-        onValidate={handlePasswordValidate}
-        onClose={() => setShowPasswordModal(false)}
-      />
-      <div className="max-w-[640px] w-full px-2">
-        {/* 피드 인풋 */}
-        <CreateFeed threadId={threadId} token={token} />
-        {/* 정렬 */}
-        <SortSelector onChange={handleSortChange} />
+    <>
+      {/* 헬맷 */}
+      <Helmet>
+        <title>{thread?.title}</title>
+        <meta name="description" content={thread?.description} />
+        <meta name="keywords" content="익명, 커뮤니티" />
+        <meta name="author" content="team whySmile" />
+      </Helmet>
+      <div className="flex justify-center py-10 bg-bg-main min-h-[calc(100vh-48px)] md:min-h-[calc(100vh-60px)]">
+        <PasswordModal
+          isOpen={showPasswordModal}
+          onValidate={handlePasswordValidate}
+          onClose={() => setShowPasswordModal(false)}
+        />
+        <div className="max-w-[640px] w-full px-2">
+          {/* 피드 인풋 */}
+          <CreateFeed threadId={threadId} token={token} />
+          {/* 정렬 */}
+          <SortSelector onChange={handleSortChange} />
 
-        {/* 피드 리스트 */}
-        {feeds.length > 0 ? (
-          <VirtualFeedList
-            feeds={feeds}
-            hasMore={hasMore}
-            isLoading={isFetchFeedLoading}
-            onLoadMore={loadMore}
-            token={token}
-          />
-        ) : (
-          // 피드가 아무것도 없을 경우
-          <EmptyFeed />
-        )}
+          {/* 피드 리스트 */}
+          {feeds.length > 0 ? (
+            <VirtualFeedList
+              feeds={feeds}
+              hasMore={hasMore}
+              isLoading={isFetchFeedLoading}
+              onLoadMore={loadMore}
+              token={token}
+            />
+          ) : (
+            // 피드가 아무것도 없을 경우
+            <EmptyFeed />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
