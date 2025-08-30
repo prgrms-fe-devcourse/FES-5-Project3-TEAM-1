@@ -24,7 +24,7 @@ const ImageFeed = ({
     <Card
       className={className}
       nickname={nickname}
-      createdAt={createdAt ? new Date(createdAt).toLocaleString() : ''}
+      createdAt={createdAt}
       commentCount={commentCount}
       feedId={feedId}
       content={content}

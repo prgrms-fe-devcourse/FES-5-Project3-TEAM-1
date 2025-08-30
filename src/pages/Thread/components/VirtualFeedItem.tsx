@@ -1,16 +1,17 @@
-import type { Feed } from '@/shared/types/feed';
 import { Virtualizer, type VirtualItem } from '@tanstack/react-virtual';
 import Card from '@/shared/components/feed-card/Card';
 import ImageFeed from './feed/ImageFeed';
+import { useFeedStore } from '../utils/store';
 
 interface Props {
   virtualItem: VirtualItem;
-  feed: Feed;
+  feedId: string;
   token: string;
   rowVirtualizer: Virtualizer<Window, Element>;
 }
 
-const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feed }: Props) => {
+const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feedId }: Props) => {
+  const feed = useFeedStore((state) => state.feedById[feedId]);
   return (
     // 가상 아이템 위치 크기 계산
     <div
@@ -19,10 +20,6 @@ const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feed }: Props) => {
       className="absolute top-0 left-0 w-full px-0 py-2"
       data-index={virtualItem.index}
       style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
         transform: `translateY(${virtualItem.start}px)`,
       }}
     >

@@ -1,21 +1,42 @@
-import { uploadDrawing } from '@/features/drawing/api/drawing';
+import { useRef, useState } from 'react';
+
 import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
-import { uploadFeed } from '@/shared/api/feed';
 import type { FeedType } from '@/shared/types/feed';
+import { uploadDrawing } from '@/features/drawing/api/drawing';
+import { uploadFeed } from '@/shared/api/feed';
+import { useThrottle } from '@/shared/hook/useThrottle';
 import { getNicknameFromSession } from '@/shared/utils/nickname';
 import { toastUtils } from '@/shared/utils/toastUtils';
-import { useRef, useState } from 'react';
+import { insertTriggerEvent } from '@/shared/api/easter-egg';
+import { checkTriggerWord } from '@/features/easter-egg/utils/trigger';
 
 interface Props {
   threadId: string;
   token: string;
 }
 
+const TRIGGER_COOLDOWN = 5000;
+
 export const useFeedUpload = ({ threadId, token }: Props) => {
   const [content, setContent] = useState<string>('');
   const [type, setType] = useState<FeedType>('text');
   const [isUploading, setIsUploading] = useState(false);
   const drawingRef = useRef<CanvasRefHandle>(null);
+
+  // 이스터 에그 업로드
+  const throttleInsertTrigger = useThrottle(async (word: string) => {
+    await insertTriggerEvent({ threadId, word });
+  }, TRIGGER_COOLDOWN);
+
+  const handleInsertTriggerWord = (word: string) => {
+    try {
+      throttleInsertTrigger(word);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+      }
+    }
+  };
 
   const handleUploadFeed = async () => {
     const nickname = getNicknameFromSession();
@@ -49,6 +70,13 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
       if (lastType === 'drawing' && blob) {
         drawingUrl = await uploadDrawing({ feedId, file: blob });
       }
+
+      // 이스터 에그
+      const word = checkTriggerWord(content);
+      if (word) {
+        handleInsertTriggerWord(word);
+      }
+
       setContent('');
     } catch (error) {
       if (error instanceof Error) {

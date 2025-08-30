@@ -9,8 +9,8 @@ import VirtualFeedList from './components/VirtualFeedList';
 import { FEED_SORT_BY, type FeedSortBy } from '@/shared/types/enum';
 import PasswordModal from '@/shared/components/modals/PasswordModal';
 import SortSelector from '@/shared/components/selector/SortSelector';
-import EmptyFeed from './components/feed/EmptyFeed';
 import { Helmet } from '@dr.pogodin/react-helmet';
+import { useEasterEgg } from '@/features/easter-egg/hook/useEasterEgg';
 
 const Thread = () => {
   const { threadId } = useParams();
@@ -25,14 +25,17 @@ const Thread = () => {
 
   // 피드 정렬
   const [sortBy, setSortBy] = useState<FeedSortBy>(FEED_SORT_BY.LATEST);
+
   // 피드 리스트 페치 hook
-  const { feeds, hasMore, isFetchFeedLoading, loadMore } = useFeeds({
+  const { hasMore, loadMore, isFetchFeedLoading, isInitialLoading } = useFeeds({
     threadId,
     sortBy,
   });
-
   // 모달
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+
+  // 이스터 에그
+  useEasterEgg(threadId);
 
   useEffect(() => {
     if (isPasswordRequired) {
@@ -59,7 +62,7 @@ const Thread = () => {
     <>
       {/* 헬맷 */}
       <Helmet>
-        <title>{thread?.title}</title>
+        <title>{`Anonimo | ${thread?.title}`}</title>
         <meta name="description" content={thread?.description} />
         <meta name="keywords" content="익명, 커뮤니티" />
         <meta name="author" content="team whySmile" />
@@ -70,24 +73,32 @@ const Thread = () => {
           onValidate={handlePasswordValidate}
           onClose={() => setShowPasswordModal(false)}
         />
+
         <div className="max-w-[640px] w-full px-2">
           {/* 피드 인풋 */}
           <CreateFeed threadId={threadId} token={token} />
           {/* 정렬 */}
           <SortSelector onChange={handleSortChange} />
 
-          {/* 피드 리스트 */}
-          {feeds.length > 0 ? (
+          {isInitialLoading ? (
+            <div className="flex-center py-8 lg:py-20">
+              <img
+                className="animate-spin"
+                width={100}
+                height={100}
+                src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/nimo_loading.webp"
+                alt=""
+                loading="eager"
+              />
+              <span>Loading...</span>
+            </div>
+          ) : (
             <VirtualFeedList
-              feeds={feeds}
               hasMore={hasMore}
               isLoading={isFetchFeedLoading}
               onLoadMore={loadMore}
               token={token}
             />
-          ) : (
-            // 피드가 아무것도 없을 경우
-            <EmptyFeed />
           )}
         </div>
       </div>
