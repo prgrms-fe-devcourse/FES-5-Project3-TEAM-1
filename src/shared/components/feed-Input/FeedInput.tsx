@@ -11,7 +11,7 @@ import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 interface Props {
   content: string;
   setContent: Dispatch<React.SetStateAction<string>>;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
   setType: Dispatch<React.SetStateAction<FeedType>>;
   drawingRef: React.RefObject<CanvasRefHandle | null>;
   type: FeedType;
@@ -68,7 +68,6 @@ function FeedInput({
       if (selectedChkbox === 'drawing' && !drawingRef.current) {
         return;
       }
-
       await onSubmit();
       setSelectedChkbox(null);
       setType('text');
@@ -78,7 +77,7 @@ function FeedInput({
   };
 
   // 엔터
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = async (e: React.KeyboardEvent) => {
     if (e.nativeEvent.isComposing) {
       return;
     }
@@ -88,7 +87,7 @@ function FeedInput({
         return;
       } else {
         e.preventDefault();
-        onSubmit();
+        await onSubmit();
         setSelectedChkbox(null);
         setType('text');
       }

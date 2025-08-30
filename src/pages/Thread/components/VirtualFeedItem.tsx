@@ -1,7 +1,7 @@
 import type { Feed } from '@/shared/types/feed';
 import { Virtualizer, type VirtualItem } from '@tanstack/react-virtual';
 import Card from '@/shared/components/feed-card/Card';
-import { ImageFeed } from './feed/ImageFeed';
+import ImageFeed from './feed/ImageFeed';
 
 interface Props {
   virtualItem: VirtualItem;

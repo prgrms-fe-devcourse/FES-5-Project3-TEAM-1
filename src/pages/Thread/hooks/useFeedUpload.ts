@@ -50,8 +50,6 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
         drawingUrl = await uploadDrawing({ feedId, file: blob });
       }
       setContent('');
-
-      return { feedId, drawingUrl };
     } catch (error) {
       if (error instanceof Error) {
         toastUtils.error(error.message);

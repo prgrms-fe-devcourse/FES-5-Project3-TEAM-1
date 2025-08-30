@@ -1,6 +1,7 @@
 import tw from '@/shared/utils/style';
 import CardHeader from './CardHeader';
 import CardFooter from './CardFooter';
+import { memo } from 'react';
 
 interface CardLayoutProps {
   feedId: string;
@@ -36,4 +37,4 @@ const Card = ({
   );
 };
 
-export default Card;
+export default memo(Card);

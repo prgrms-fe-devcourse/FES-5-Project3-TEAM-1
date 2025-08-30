@@ -1,4 +1,5 @@
 import Card from '@/shared/components/feed-card/Card';
+import { memo } from 'react';
 
 interface ImageCardProps {
   feedId: string;
@@ -10,7 +11,7 @@ interface ImageCardProps {
   className?: string;
 }
 
-export const ImageFeed = ({
+const ImageFeed = ({
   feedId,
   nickname,
   createdAt,
@@ -41,3 +42,5 @@ export const ImageFeed = ({
     </Card>
   );
 };
+
+export default memo(ImageFeed);

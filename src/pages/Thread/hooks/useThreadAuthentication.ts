@@ -64,7 +64,6 @@ export const useThreadAuthentication = (threadId: string) => {
     return { success: success, message: success ? '인증 성공' : '인증 실패' };
   };
 
-  console.log(thread);
   return {
     token,
     thread,
