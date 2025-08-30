@@ -47,7 +47,6 @@ const VirtualFeedList = ({
           );
         })}
       </div>
-
       {/* 무한 스크롤 트리거 */}
       {hasMore && (
         <div ref={triggerRef} className="w-full flex justify-center py-10">

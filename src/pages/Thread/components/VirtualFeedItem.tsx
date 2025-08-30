@@ -1,6 +1,7 @@
 import type { Feed } from '@/shared/types/feed';
 import { Virtualizer, type VirtualItem } from '@tanstack/react-virtual';
-import FeedCard from './FeedCard';
+import Card from '@/shared/components/feed-card/Card';
+import { ImageFeed } from './feed/ImageFeed';
 
 interface Props {
   virtualItem: VirtualItem;
@@ -9,13 +10,9 @@ interface Props {
   rowVirtualizer: Virtualizer<Window, Element>;
 }
 
-const VirtualFeedItem = ({
-  rowVirtualizer,
-  virtualItem,
-  feed,
-  token,
-}: Props) => {
+const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feed }: Props) => {
   return (
+    // 가상 아이템 위치 크기 계산
     <div
       ref={rowVirtualizer.measureElement}
       key={virtualItem.key}
@@ -30,27 +27,24 @@ const VirtualFeedItem = ({
       }}
     >
       {/* 실제 피드 컴포넌트 */}
-      <FeedCard
-        feedId={feed.id}
-        token={token}
-        nickname={feed.nickname}
-        createdAt={feed.created_at}
-        commentCount={feed.comment_count}
-        feedExtraContent={
-          feed.type === 'drawing' && feed.drawing_url ? (
-            <div className="flex justify-center px-10">
-              <img
-                src={feed.drawing_url}
-                alt="그린 그림"
-                className="w-full"
-                loading="lazy"
-              />
-            </div>
-          ) : null
-        }
-      >
-        {feed.content}
-      </FeedCard>
+      {feed.type === 'text' ? (
+        <Card
+          feedId={feed.id}
+          content={feed.content}
+          nickname={feed.nickname}
+          createdAt={feed.created_at}
+          commentCount={feed.comment_count}
+        />
+      ) : (
+        <ImageFeed
+          feedId={feed.id}
+          content={feed.content}
+          nickname={feed.nickname}
+          createdAt={feed.created_at}
+          commentCount={feed.comment_count}
+          drawingUrl={feed.drawing_url || ''}
+        />
+      )}
     </div>
   );
 };
