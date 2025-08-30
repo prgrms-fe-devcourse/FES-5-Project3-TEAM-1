@@ -21,7 +21,6 @@
     "frimousse": "^0.3.0",
     "gsap": "^3.13.0",
     "konva": "^9.3.22",
-    "locomotive-scroll": "^4.1.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",
