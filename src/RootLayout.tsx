@@ -3,6 +3,7 @@ import Footer from './shared/components/footer/Footer';
 import Header from './shared/components/header/Header';
 import ScrollUpButton from './shared/components/button/ScrollUpButton';
 import clsx from 'clsx';
+import EasterEggSection from './features/easter-egg/components/EasterEggSection';
 
 // const TABS = [
 //   { id: 'all', label: '전체' },
@@ -39,6 +40,7 @@ const RootLayout = () => {
       {!isThread && <Footer />}
 
       <ScrollUpButton />
+      <EasterEggSection />
     </div>
   );
 };
