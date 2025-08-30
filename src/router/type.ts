@@ -4,4 +4,5 @@ export interface RouteConfig {
   path: string;
   Component: ComponentType;
   text: string;
+  children?: RouteConfig[];
 }
