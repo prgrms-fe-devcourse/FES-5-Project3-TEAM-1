@@ -21,14 +21,14 @@ const CommentList = ({ comment }: Props) => {
   );
 
   return (
-    <ul className="mt-3">
+    <ul className="mt-4 max-h-64">
       {items.length > 0 ? (
         items.map((c) => (
           <li
             key={c.id}
             className={tw(
-              'pt-2 border-dashed border-gray-light',
-              'border-t first:pt-0 first:border-t-0',
+              'pt-2 border-dashed border-gray-light mb-4',
+              'border-b first:pt-0 first:border-t-0',
             )}
             tabIndex={0}
             role="group"
