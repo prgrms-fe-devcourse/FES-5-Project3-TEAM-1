@@ -48,7 +48,7 @@ export default function HomeLayout() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative home-font">
       <Lighter />
       <HeroSection01 ref={section01Ref} />
       <HeroSection02 ref={section02Ref} />
@@ -59,7 +59,7 @@ export default function HomeLayout() {
           type="button"
           ref={buttonRef}
           onClick={() => modal.openModal('login')}
-          className="flex items-center justify-center gap-2 px-4 py-2 rounded-3xl shadow-md bg-white hover:shadow-lg transition-shadow"
+          className="flex items-center justify-center gap-2 px-4 py-2 rounded-3xl shadow-md bg-white hover:shadow-lg transition-shadow text-lg"
         >
           <img src={logoUrl} className="w-20 " aria-label="anonimo" /> 바로
           이용하기

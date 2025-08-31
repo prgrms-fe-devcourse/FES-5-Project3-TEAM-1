@@ -2,169 +2,97 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { HeroSectionProps } from './type/Hero';
+import Panel01 from './component/Panel01';
+import Panel02 from './component/Panel02';
+import Panel03 from './component/Panel03';
+import nimo from '@/assets/nimo/nimo.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const panel1Ref = useRef<HTMLDivElement>(null);
-  const tl = useRef<gsap.core.Timeline | null>(null);
+  const panelRefs = [
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+  ];
 
   useEffect(() => {
-    if (!sectionRef.current || !containerRef.current || !panel1Ref.current)
-      return;
+    const panels = panelRefs
+      .map((r) => r.current)
+      .filter(Boolean) as HTMLDivElement[];
 
-    const panels =
-      containerRef.current.querySelectorAll<HTMLDivElement>('.panel');
-    const totalWidth = panels.length * window.innerWidth;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
 
-    gsap.set(containerRef.current, { x: 0 });
+    // 🔹 초기 위치: 화면 아래에서 중앙으로
+    panels.forEach((panel) => {
+      panel.style.position = 'absolute';
+      panel.style.left = '50%';
+      panel.style.top = '100%'; // 화면 아래쪽
+      panel.style.transform = 'translate(-50%, -50%) scale(0.5)';
+      panel.style.opacity = '0';
+    });
 
-    // 가로 스크롤
-    tl.current = gsap.timeline({
+    // 🔹 목표 좌표 (퍼지는 느낌)
+    const positions = [
+      { x: -0.25 * screenWidth, y: -0.8 * screenHeight },
+      { x: -0.1 * screenWidth, y: -0.4 * screenHeight },
+      { x: 0.25 * screenWidth, y: -0.6 * screenHeight },
+    ];
+
+    // 🔹 스크롤 트리거 + 순차 애니메이션
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: 'top+=1px top',
-        end: () => (totalWidth - window.innerWidth) * 1.5,
-        scrub: true,
-        pin: true,
-        immediateRender: false,
+        start: 'top top', // section top이 화면 중앙에 닿았을 때 시작
+        toggleActions: 'play none none none',
       },
     });
 
-    tl.current.to(containerRef.current, {
-      x: -(totalWidth - window.innerWidth),
-      ease: 'none',
-    });
-
-    // Panel1 텍스트 애니메이션
-    const texts = panels[0].querySelectorAll<HTMLElement>('.text');
-    gsap.set(texts, { autoAlpha: 0, x: 50 });
-
-    const introTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: panels[0],
-        start: 'top center',
-        toggleActions: 'play none none reverse',
-      },
-    });
-
-    introTl.to(texts, {
-      autoAlpha: 1,
-      x: 0,
-      backgroundSize: '100%',
-      ease: 'power3.out',
-      stagger: 0.3,
-      duration: 1.5,
-    });
-
-    // Panel1 폭죽 이모지 (텍스트 중앙 기준, 위쪽으로 퍼짐)
-    const createEmojiExplosion = () => {
-      const container = panel1Ref.current;
-      if (!container) return;
-
-      const textElement = container.querySelector<HTMLElement>('.text');
-      if (!textElement) return;
-
-      // 패널 내부 좌표 기준 중앙
-      const centerX = textElement.offsetLeft + textElement.offsetWidth / 2;
-      const centerY = textElement.offsetTop + textElement.offsetHeight / 2;
-
-      const emojis = ['❤️', '😊', '🫥', '😍', '🤯', '✨', '🌟', '🎉'];
-      const count = 30;
-
-      for (let i = 0; i < count; i++) {
-        const el = document.createElement('div');
-        el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        el.style.position = 'absolute';
-        el.style.left = `${centerX}px`;
-        el.style.top = `${centerY}px`;
-        el.style.fontSize = `${Math.random() * 20 + 30}px`;
-        el.style.opacity = '1';
-        el.style.pointerEvents = 'none';
-        el.style.textShadow = `0 0 ${Math.random() * 10 + 5}px #fff`;
-        container.appendChild(el);
-
-        // -90° ± 45° 범위로 위쪽 퍼지기
-        const angle = -Math.PI / 2 + ((Math.random() - 0.5) * Math.PI) / 2;
-        const distance = Math.random() * 200 + 100;
-        const x = distance * Math.cos(angle);
-        const y = distance * Math.sin(angle);
-
-        gsap.to(el, {
-          x,
-          y,
-          rotation: Math.random() * 360,
-          duration: 2 + Math.random(),
+    panels.forEach((panel, i) => {
+      tl.to(
+        panel,
+        {
+          x: positions[i].x,
+          y: positions[i].y,
+          scale: 1,
+          opacity: 1,
+          duration: 1,
           ease: 'power2.out',
-          onComplete: () => el.remove(),
-        });
-      }
-    };
-    ScrollTrigger.create({
-      trigger: panel1Ref.current,
-      start: 'top center',
-      onEnter: createEmojiExplosion,
-      onEnterBack: createEmojiExplosion,
+        },
+        i * 0.2, // stagger
+      );
     });
-
-    return () => {
-      tl.current?.kill();
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
   }, []);
 
   useImperativeHandle(ref, () => ({
-    tl: tl.current!,
     section: sectionRef.current,
   }));
 
-  const textStyle: React.CSSProperties = {
-    fontSize: '4rem',
-    fontWeight: 700,
-    letterSpacing: '-0.01em',
-    color: 'rgba(182,182,182,0.2)',
-    background: 'linear-gradient(to right, #FEFAE0, #FEFAE0) no-repeat',
-    WebkitBackgroundClip: 'text',
-    backgroundClip: 'text',
-    backgroundSize: '0%',
-    transition: 'background-size cubic-bezier(.1,.5,.5,1) 0.5s',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-  };
-
   return (
-    <section ref={sectionRef} className="h-screen overflow-hidden relative">
-      <div ref={containerRef} className="flex h-full w-[300%] relative">
-        {/* Panel 1 */}
-        <div
-          ref={panel1Ref}
-          className="panel w-screen flex-shrink-0 flex justify-center items-center h-full"
-        >
-          <ul className="flex flex-col gap-4">
-            {['다양한 이모지로', '서로의 반응을 주고 받아요'].map(
-              (text, idx) => (
-                <li key={idx}>
-                  <h2 className="text group" style={textStyle}>
-                    {text}
-                  </h2>
-                </li>
-              ),
-            )}
-          </ul>
-        </div>
+    <section
+      ref={sectionRef}
+      className="h-screen relative flex items-center justify-center overflow-hidden"
+    >
+      <Panel01 ref={panelRefs[0]} className="panel z-10" />
+      <Panel02 ref={panelRefs[1]} className="panel z-10" />
+      <Panel03 ref={panelRefs[2]} className="panel z-10" />
 
-        {/* Panel 2 */}
-        <div className="panel w-screen flex-shrink-0 flex justify-center items-center h-full bg-green-300">
-          <h2 className="text-4xl">Panel 2</h2>
-        </div>
+      <div className="absolute bottom-30 z-0">
+        <img src={nimo} alt="nimo" className="w-50 h-50 object-cover" />
+      </div>
 
-        {/* Panel 3 */}
-        <div className="panel w-screen flex-shrink-0 flex justify-center items-center h-full bg-blue-300">
-          <h2 className="text-4xl">Panel 3</h2>
+      <div
+        className="absolute px-10 py-12 w-full h-[140px] rounded-tl-4xl rounded-tr-4xl bottom-0 bg-white z-20"
+        style={{ boxShadow: '0 -10px 20px rgba(0,0,0,0.15)' }}
+      >
+        <div className="flex py-2 gap-10">
+          <span className="block w-40 h-40 rounded-full bg-gray-light"></span>
+          <div className="flex flex-col gap-5">
+            <span className="text-4xl">nimo</span>
+            <span className="text-3xl text-gray">2025.09.01</span>
+          </div>
         </div>
       </div>
     </section>
