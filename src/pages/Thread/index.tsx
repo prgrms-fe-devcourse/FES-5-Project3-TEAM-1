@@ -8,9 +8,9 @@ import VirtualFeedList from './components/VirtualFeedList';
 
 import { FEED_SORT_BY, type FeedSortBy } from '@/shared/types/enum';
 import PasswordModal from '@/shared/components/modals/PasswordModal';
-import SortSelector from '@/shared/components/selector/SortSelector';
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { useCreateTriggerEventChannel } from '@/features/easter-egg/hook/useCreateTriggerEventChannel';
+import SortTab from '@/shared/components/tab/SortTab';
 
 const Thread = () => {
   const { threadId } = useParams();
@@ -78,7 +78,7 @@ const Thread = () => {
           {/* 피드 인풋 */}
           <CreateFeed threadId={threadId} token={token} />
           {/* 정렬 */}
-          <SortSelector onChange={handleSortChange} />
+          <SortTab onChange={handleSortChange} currentSort={sortBy} />
 
           {isInitialLoading ? (
             <div className="flex-center py-8 lg:py-20">
