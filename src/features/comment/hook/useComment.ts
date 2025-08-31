@@ -54,11 +54,15 @@ export function useComment(feedId: string) {
       const myToken = getBrowserTokenFromSession();
       if (!myToken) return;
       try {
-        await postComment({
+        const date = await postComment({
           feed_id: feedId,
           content,
           nickname,
           token: myToken,
+        });
+        setComment((prev) => {
+          if (prev.some((c) => c.id === date.id)) return prev;
+          return [date, ...prev];
         });
       } catch (error) {
         if (error instanceof Error) console.error(error.message);

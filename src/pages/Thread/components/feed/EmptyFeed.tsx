@@ -1,6 +1,6 @@
 const EmptyFeed = () => {
   return (
-    <div className="flex flex-col flex-center gap-4 py-8 lg:py-20">
+    <div className="flex-col flex-center gap-4 py-8 lg:py-20">
       <img
         width="120"
         height="120"

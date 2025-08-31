@@ -136,7 +136,5 @@ export const createEmojiCountSubscription = ({
       },
       onEmojiUpdate,
     )
-    .subscribe((state) => {
-      console.log(`이미지 구독 ${state}`);
-    });
+    .subscribe();
 };

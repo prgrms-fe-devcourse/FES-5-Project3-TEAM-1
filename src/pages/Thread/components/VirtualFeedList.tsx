@@ -2,29 +2,24 @@ import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import VirtualFeedItem from './VirtualFeedItem';
 
 import logoUrl from '@/assets/logo.png';
-import type { Feed } from '@/shared/types/feed';
 import { useFeedVirtualizer } from '../hooks/useFeedVirtualizer';
+import { useFeedStore } from '../utils/store';
+import EmptyFeed from './feed/EmptyFeed';
 
 interface Props {
-  feeds: Feed[];
   token: string;
   hasMore: boolean;
   onLoadMore: () => void;
   isLoading: boolean;
 }
 
-const VirtualFeedList = ({
-  feeds,
-  token,
-  hasMore,
-  isLoading,
-  onLoadMore,
-}: Props) => {
+const VirtualFeedList = ({ token, hasMore, isLoading, onLoadMore }: Props) => {
   // 무한 스크롤 hook
   const triggerRef = useInfiniteScroll({ hasMore, isLoading, onLoadMore });
 
   // 버츄얼 hook
-  const rowVirtualizer = useFeedVirtualizer({ feeds });
+  const feedIds = useFeedStore((state) => state.feedIds);
+  const rowVirtualizer = useFeedVirtualizer({ feedIds });
 
   return (
     <div className="flex flex-col py-3">
@@ -35,19 +30,22 @@ const VirtualFeedList = ({
           position: 'relative',
         }}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualItem) => {
-          return (
-            <VirtualFeedItem
-              feed={feeds[virtualItem.index]}
-              measureElement={rowVirtualizer.measureElement}
-              token={token}
-              virtualItem={virtualItem}
-              key={virtualItem.key}
-            />
-          );
-        })}
+        {feedIds.length > 0 ? (
+          <>
+            {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+              <VirtualFeedItem
+                feedId={feedIds[virtualItem.index]}
+                rowVirtualizer={rowVirtualizer}
+                token={token}
+                virtualItem={virtualItem}
+                key={virtualItem.key}
+              />
+            ))}
+          </>
+        ) : (
+          <EmptyFeed />
+        )}
       </div>
-
       {/* 무한 스크롤 트리거 */}
       {hasMore && (
         <div ref={triggerRef} className="w-full flex justify-center py-10">

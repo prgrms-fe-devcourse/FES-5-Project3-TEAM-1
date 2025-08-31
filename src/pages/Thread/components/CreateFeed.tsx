@@ -7,10 +7,11 @@ interface Props {
 }
 
 const CreateFeed = ({ threadId, token }: Props) => {
-  const { content, onSubmit, setContent, setType, drawingRef } = useFeedUpload({
-    threadId,
-    token,
-  });
+  const { content, onSubmit, setContent, setType, drawingRef, type } =
+    useFeedUpload({
+      threadId,
+      token,
+    });
 
   return (
     <FeedInput
@@ -19,6 +20,7 @@ const CreateFeed = ({ threadId, token }: Props) => {
       onSubmit={onSubmit}
       setType={setType}
       drawingRef={drawingRef}
+      type={type}
     />
   );
 };
