@@ -1,6 +1,7 @@
 import InputModal from '@/shared/components/modals/InputModal';
 import NimoWelcomePng from '@/assets/nimo/nimo_welcome.png';
 import { useModal } from '@/shared/utils/ModalProvider';
+import { useNavigate } from 'react-router';
 
 interface Props {
   onClose: () => void;
@@ -8,6 +9,8 @@ interface Props {
 
 function WelcomeModal({ onClose }: Props) {
   const modal = useModal();
+  const navigate = useNavigate();
+
   return (
     <InputModal
       title={'환영합니다!'}
@@ -19,7 +22,12 @@ function WelcomeModal({ onClose }: Props) {
           <div className="items-center flex flex-col gap-[14px]"></div>
           <button
             className="bg-black text-white py-[14.5px] rounded-xl ml w-[95%]"
-            onClick={() => modal.openModal('createThread', { mode: 'create' })}
+            onClick={() =>
+              modal.openModal('createThread', {
+                mode: 'create',
+                navigateToAdmin: () => navigate('/admin'),
+              })
+            }
           >
             방 만들기
           </button>

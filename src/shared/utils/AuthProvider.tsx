@@ -7,6 +7,7 @@ interface AuthContextType {
   userId: string | null;
   logout: () => void;
   isFirstLogin: boolean;
+  firstLogin: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextType>({
   userId: null,
   logout: () => {},
   isFirstLogin: false,
+  firstLogin: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -47,7 +49,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
 
           if (profile) {
-            // modal.openModal('welcome');
             setIsFirstLogin(true);
             const { error } = await supabase
               .from('users')
@@ -93,11 +94,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoggedIn(false);
   };
 
+  const firstLogin = () => {
+    setIsFirstLogin(false);
+  };
+
   const value: AuthContextType = {
     userId,
     isLoggedIn,
     logout,
     isFirstLogin,
+    firstLogin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

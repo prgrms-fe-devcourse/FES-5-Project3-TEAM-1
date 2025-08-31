@@ -3,6 +3,7 @@ import HeroSection01 from './HeroSection01';
 import HeroSection02 from './HeroSection02';
 import type { HeroSectionProps } from './type/Hero';
 import { Lighter } from './Lighter';
+import { Outlet } from 'react-router';
 
 export default function HomeLayout() {
   const section01Ref = useRef<HeroSectionProps>(null);
@@ -13,13 +14,10 @@ export default function HomeLayout() {
       const scrollTop = window.pageYOffset;
       const vh = window.innerHeight;
 
-      // Section01
       if (section01Ref.current) {
         const progress = Math.min(scrollTop / vh, 1);
         section01Ref.current.tl?.progress(progress);
       }
-
-      // Section02(가로스크롤)는 ScrollTrigger가 내부에서 모든 애니메이션 관리
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -31,6 +29,8 @@ export default function HomeLayout() {
       <Lighter />
       <HeroSection01 ref={section01Ref} />
       <HeroSection02 ref={section02Ref} />
+
+      <Outlet />
     </div>
   );
 }
