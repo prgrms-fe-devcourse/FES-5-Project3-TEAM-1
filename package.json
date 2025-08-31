@@ -17,6 +17,7 @@
     "@supabase/supabase-js": "^2.56.0",
     "@tailwindcss/vite": "^4.1.12",
     "@tanstack/react-virtual": "^3.13.12",
+    "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
     "frimousse": "^0.3.0",
     "gsap": "^3.13.0",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@typescript-eslint/eslint-plugin": "^8.40.0",
