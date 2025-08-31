@@ -66,9 +66,10 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
       const feedId = feedData?.id;
       if (!feedId) throw new Error('feed id를 못가져옴');
 
-      let drawingUrl: string | undefined;
+      // let drawingUrl: string | undefined;
       if (lastType === 'drawing' && blob) {
-        drawingUrl = await uploadDrawing({ feedId, file: blob });
+        // drawingUrl = await uploadDrawing({ feedId, file: blob });
+        await uploadDrawing({ feedId, file: blob });
       }
 
       // 이스터 에그
