@@ -396,6 +396,35 @@ export type Database = {
           },
         ];
       };
+      trigger_events: {
+        Row: {
+          created_at: string;
+          id: string;
+          thread_id: string;
+          trigger_word: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          thread_id?: string;
+          trigger_word: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          thread_id?: string;
+          trigger_word?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'trigger_events_thread_id_fkey';
+            columns: ['thread_id'];
+            isOneToOne: false;
+            referencedRelation: 'threads';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       users: {
         Row: {
           created_at: string | null;

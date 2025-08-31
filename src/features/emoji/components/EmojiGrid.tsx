@@ -22,7 +22,7 @@ const EmojiGrid = ({ onSelect }: Props) => {
     >
       <EmojiPicker.Search
         name="emojiSearchBar"
-        className="z-10 mx-2 mt-2 appearance-none rounded-md bg-neutral-100 px-2.5 py-2 text-sm dark:bg-neutral-800"
+        className="z-10 mx-2 mt-2 appearance-none rounded-md bg-neutral-100 px-2.5 py-2 text-base dark:bg-neutral-800"
         placeholder="이모지를 검색해주세요..."
         autoFocus
       />

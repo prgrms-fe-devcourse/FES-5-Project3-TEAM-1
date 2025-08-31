@@ -1,55 +1,47 @@
-import type { Feed } from '@/shared/types/feed';
-import type { VirtualItem } from '@tanstack/react-virtual';
-import FeedCard from './FeedCard';
+import { Virtualizer, type VirtualItem } from '@tanstack/react-virtual';
+import Card from '@/shared/components/feed-card/Card';
+import ImageFeed from './feed/ImageFeed';
+import { useFeedStore } from '../utils/store';
 
 interface Props {
   virtualItem: VirtualItem;
-  measureElement: (node: Element | null | undefined) => void;
-  feed: Feed;
+  feedId: string;
   token: string;
+  rowVirtualizer: Virtualizer<Window, Element>;
 }
 
-const VirtualFeedItem = ({
-  virtualItem,
-  measureElement,
-  feed,
-  token,
-}: Props) => {
+const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feedId }: Props) => {
+  const feed = useFeedStore((state) => state.feedById[feedId]);
   return (
+    // 가상 아이템 위치 크기 계산
     <div
-      ref={measureElement}
+      ref={rowVirtualizer.measureElement}
       key={virtualItem.key}
       className="absolute top-0 left-0 w-full px-0 py-2"
       data-index={virtualItem.index}
       style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
         transform: `translateY(${virtualItem.start}px)`,
       }}
     >
       {/* 실제 피드 컴포넌트 */}
-      <FeedCard
-        feedId={feed.id}
-        token={token}
-        nickname={feed.nickname}
-        createdAt={feed.created_at}
-        feedExtraContent={
-          feed.type === 'drawing' && feed.drawing_url ? (
-            <div className="flex justify-center px-10">
-              <img
-                src={feed.drawing_url}
-                alt="그린 그림"
-                className="w-full"
-                loading="lazy"
-              />
-            </div>
-          ) : null
-        }
-      >
-        {feed.content}
-      </FeedCard>
+      {feed.type === 'text' ? (
+        <Card
+          feedId={feed.id}
+          content={feed.content}
+          nickname={feed.nickname}
+          createdAt={feed.created_at}
+          commentCount={feed.comment_count}
+        />
+      ) : (
+        <ImageFeed
+          feedId={feed.id}
+          content={feed.content}
+          nickname={feed.nickname}
+          createdAt={feed.created_at}
+          commentCount={feed.comment_count}
+          drawingUrl={feed.drawing_url || ''}
+        />
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import logo from '@/assets/logo.png';
 import moonSVG from '@/assets/icon/moon-20.svg';
 import settingsSVG from '@/assets/icon/settings-32.svg';
@@ -8,8 +8,8 @@ import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import useLogout from '@/features/login/hooks/useLogout';
 import ThreadMenu from '@/shared/components/header/ThreadMenu';
-import { useThreadInfo } from '@/pages/Thread/hooks/useThreadInfo';
 import SettingsMenu from './SettingsMenu';
+import { useThreadStore } from '@/features/thread/utils/store';
 
 interface Props {
   // tabs?: { id: string; label: string }[];
@@ -33,10 +33,9 @@ function Header({
   const isLoginUser = !!loginAuth.userId;
 
   // thread 정보 가져오기
-  const threadParams = useParams<{ threadId: string }>();
-  const threadId = threadParams.threadId;
-
-  const { data, loading } = useThreadInfo(threadId ?? null);
+  // 쓰레드 스토어
+  const thread = useThreadStore((state) => state.thread);
+  const isLoading = useThreadStore((state) => state.isLoading);
 
   // 화면 크기
   const [isXl, setIsXl] = useState(() => window.innerWidth >= 1280);
@@ -77,7 +76,7 @@ function Header({
 
         {isThread && (
           <p className="hidden md:block relative pl-3 w-[100px] text-base md:text-lg md:w-[400px] before:block before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-black truncate">
-            {loading ? '타이틀 가져오는 중 😴' : (data?.title ?? '')}
+            {isLoading ? '타이틀 가져오는 중 😴' : (thread?.title ?? '')}
           </p>
         )}
       </div>
@@ -145,8 +144,8 @@ function Header({
           {isThread ? (
             <ThreadMenu
               isOpen={isOpen}
-              loading={loading}
-              data={data}
+              loading={isLoading}
+              data={thread}
               isLoginUser={isLoginUser}
               logout={logout}
               onClose={() => setIsOpen(false)}

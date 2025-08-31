@@ -25,7 +25,7 @@ export const useInfiniteScroll = ({
       },
       {
         root: null,
-        rootMargin: '100px',
+        rootMargin: '0px',
       },
     );
 
