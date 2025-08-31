@@ -1,4 +1,4 @@
-export const TRIGGER_CATEGORIES = {
+export const TRIGGER_CATEGORIES: Record<string, string[]> = {
   teacher: ['범쌤', '범썜', '강사님', '심선범', '범', '선생님'],
 };
 

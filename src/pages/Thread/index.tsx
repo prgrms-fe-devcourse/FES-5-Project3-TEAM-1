@@ -10,7 +10,7 @@ import { FEED_SORT_BY, type FeedSortBy } from '@/shared/types/enum';
 import PasswordModal from '@/shared/components/modals/PasswordModal';
 import SortSelector from '@/shared/components/selector/SortSelector';
 import { Helmet } from '@dr.pogodin/react-helmet';
-import { useEasterEgg } from '@/features/easter-egg/hook/useEasterEgg';
+import { useCreateTriggerEventChannel } from '@/features/easter-egg/hook/useCreateTriggerEventChannel';
 
 const Thread = () => {
   const { threadId } = useParams();
@@ -35,7 +35,7 @@ const Thread = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   // 이스터 에그
-  useEasterEgg(threadId);
+  useCreateTriggerEventChannel(threadId);
 
   useEffect(() => {
     if (isPasswordRequired) {

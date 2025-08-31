@@ -5,7 +5,7 @@ import { useEasterEggStore } from '../utils/store';
 import { createTriggerEventChannel } from '@/shared/api/easter-egg';
 
 // trigger-events 실시간 감지 hook
-export const useEasterEgg = (threadId: string) => {
+export const useCreateTriggerEventChannel = (threadId: string) => {
   const setTriggerWord = useEasterEggStore((state) => state.setTriggerWord);
 
   useEffect(() => {
