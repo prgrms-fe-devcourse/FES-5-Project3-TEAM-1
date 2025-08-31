@@ -62,7 +62,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   return (
     <section
       ref={sectionRef}
-      className="overlay sticky top-0 h-screen overflow-hidden bg-bg-sub"
+      className="overlay sticky top-0 h-screen overflow-hidden bg-bg-main"
     >
       {/* 검정 overlay */}
       <div

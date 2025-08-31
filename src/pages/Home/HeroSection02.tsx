@@ -12,7 +12,8 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
   const tl = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !containerRef.current) return;
+    if (!sectionRef.current || !containerRef.current || !panel1Ref.current)
+      return;
 
     const panels =
       containerRef.current.querySelectorAll<HTMLDivElement>('.panel');
@@ -24,7 +25,7 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: 'top top',
+        start: 'top+=1px top',
         end: () => (totalWidth - window.innerWidth) * 1.5,
         scrub: true,
         pin: true,
@@ -44,7 +45,7 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
     const introTl = gsap.timeline({
       scrollTrigger: {
         trigger: panels[0],
-        start: 'left center',
+        start: 'top center',
         toggleActions: 'play none none reverse',
       },
     });
@@ -55,20 +56,58 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
       backgroundSize: '100%',
       ease: 'power3.out',
       stagger: 0.3,
+      duration: 1.5,
     });
 
-    // Panel1 배경 스크롤 따라 변화
-    if (panel1Ref.current) {
-      gsap.to(panel1Ref.current, {
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-    }
+    // Panel1 폭죽 이모지 (텍스트 중앙 기준, 위쪽으로 퍼짐)
+    const createEmojiExplosion = () => {
+      const container = panel1Ref.current;
+      if (!container) return;
+
+      const textElement = container.querySelector<HTMLElement>('.text');
+      if (!textElement) return;
+
+      // 패널 내부 좌표 기준 중앙
+      const centerX = textElement.offsetLeft + textElement.offsetWidth / 2;
+      const centerY = textElement.offsetTop + textElement.offsetHeight / 2;
+
+      const emojis = ['❤️', '😊', '🫥', '😍', '🤯', '✨', '🌟', '🎉'];
+      const count = 30;
+
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.position = 'absolute';
+        el.style.left = `${centerX}px`;
+        el.style.top = `${centerY}px`;
+        el.style.fontSize = `${Math.random() * 20 + 30}px`;
+        el.style.opacity = '1';
+        el.style.pointerEvents = 'none';
+        el.style.textShadow = `0 0 ${Math.random() * 10 + 5}px #fff`;
+        container.appendChild(el);
+
+        // -90° ± 45° 범위로 위쪽 퍼지기
+        const angle = -Math.PI / 2 + ((Math.random() - 0.5) * Math.PI) / 2;
+        const distance = Math.random() * 200 + 100;
+        const x = distance * Math.cos(angle);
+        const y = distance * Math.sin(angle);
+
+        gsap.to(el, {
+          x,
+          y,
+          rotation: Math.random() * 360,
+          duration: 2 + Math.random(),
+          ease: 'power2.out',
+          onComplete: () => el.remove(),
+        });
+      }
+    };
+    ScrollTrigger.create({
+      trigger: panel1Ref.current,
+      start: 'top center',
+      onEnter: createEmojiExplosion,
+      onEnterBack: createEmojiExplosion,
+    });
 
     return () => {
       tl.current?.kill();
@@ -86,37 +125,35 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
     fontWeight: 700,
     letterSpacing: '-0.01em',
     color: 'rgba(182,182,182,0.2)',
-    background: 'linear-gradient(to right, #799EFF, #799EFF) no-repeat',
+    background: 'linear-gradient(to right, #FEFAE0, #FEFAE0) no-repeat',
     WebkitBackgroundClip: 'text',
     backgroundClip: 'text',
     backgroundSize: '0%',
     transition: 'background-size cubic-bezier(.1,.5,.5,1) 0.5s',
-    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    textAlign: 'center',
   };
 
   return (
-    <section ref={sectionRef} className="h-screen overflow-hidden">
+    <section ref={sectionRef} className="h-screen overflow-hidden relative">
       <div ref={containerRef} className="flex h-full w-[300%] relative">
         {/* Panel 1 */}
         <div
           ref={panel1Ref}
           className="panel w-screen flex-shrink-0 flex justify-center items-center h-full"
         >
-          <ul className="p-10 grid grid-rows-3 gap-20">
-            {[
-              '서로 반응을 주고 받고',
-              '함께 그림도 그리며',
-              '대화를 나눠보아요',
-            ].map((text, idx) => (
-              <li key={idx}>
-                <h2 className="text group" style={textStyle}>
-                  {text}
-                </h2>
-              </li>
-            ))}
+          <ul className="flex flex-col gap-4">
+            {['다양한 이모지로', '서로의 반응을 주고 받아요'].map(
+              (text, idx) => (
+                <li key={idx}>
+                  <h2 className="text group" style={textStyle}>
+                    {text}
+                  </h2>
+                </li>
+              ),
+            )}
           </ul>
         </div>
 
