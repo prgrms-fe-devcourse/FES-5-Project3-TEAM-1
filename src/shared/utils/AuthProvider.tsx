@@ -71,16 +71,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUserId(session?.user.id || null);
 
         if (_event === 'SIGNED_IN') {
-          const hasShownToast = sessionStorage.getItem('loginToastShown');
+          const hasShownToast = localStorage.getItem('loginToastShown');
 
           if (!hasShownToast) {
             toastUtils.success('로그인 성공!');
-            sessionStorage.setItem('loginToastShown', 'true');
+            localStorage.setItem('loginToastShown', 'true');
           }
         }
 
         if (_event === 'SIGNED_OUT') {
-          sessionStorage.removeItem('loginToastShown');
+          localStorage.removeItem('loginToastShown');
         }
       },
     );
