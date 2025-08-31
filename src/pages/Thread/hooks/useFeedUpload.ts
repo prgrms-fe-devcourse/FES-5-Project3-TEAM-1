@@ -78,6 +78,8 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
       }
 
       setContent('');
+
+      // return { feedId, drawingUrl };
     } catch (error) {
       if (error instanceof Error) {
         toastUtils.error(error.message);
