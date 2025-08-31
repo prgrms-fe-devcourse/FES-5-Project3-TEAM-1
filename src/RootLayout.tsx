@@ -4,6 +4,7 @@ import Header from './shared/components/header/Header';
 import ScrollUpButton from './shared/components/button/ScrollUpButton';
 import clsx from 'clsx';
 import EasterEggSection from './features/easter-egg/components/EasterEggSection';
+import ConfettiComponent from './features/easter-egg/components/Confetti';
 
 // const TABS = [
 //   { id: 'all', label: '전체' },
