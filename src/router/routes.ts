@@ -1,15 +1,28 @@
 import { lazy } from 'react';
 import type { RouteConfig } from './type';
 import RootLayout from '@/RootLayout';
+import HomeLayout from '@/pages/Home/HomeLayout';
 
-// const Home = lazy(() => import('@/pages/Home'));
+const Home = lazy(() => import('@/pages/Home'));
 const Thread = lazy(() => import('@/pages/Thread'));
 const LoginTest = lazy(() => import('@/pages/login-test/LoginTest'));
 const AdminPage = lazy(() => import('@/pages/admin'));
 
 export const routes: RouteConfig[] = [
   {
-    text: 'Home',
+    text: '홈 레이아웃',
+    path: '/',
+    Component: HomeLayout,
+    children: [
+      {
+        text: '홈',
+        path: '/',
+        Component: Home,
+      },
+    ],
+  },
+  {
+    text: '페이지 레이아웃',
     path: '/',
     Component: RootLayout,
     children: [
