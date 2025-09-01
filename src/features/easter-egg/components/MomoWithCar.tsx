@@ -10,12 +10,12 @@ const MomoWithCar = () => {
     if (!image) return;
 
     const tl = gsap.timeline();
-    gsap.set(image, { x: window.innerWidth + 50 });
+    gsap.set(image, { x: window.innerWidth + 30 });
 
     tl.to(image, {
       x: -200,
       duration: 5,
-      ease: 'power3.in',
+      ease: 'power3.inOut',
     }).to(
       image,
       {
