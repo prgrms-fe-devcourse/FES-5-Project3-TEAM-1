@@ -1,13 +1,19 @@
+// HomeLayout.tsx
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { ScrollSmoother, ScrollTrigger } from 'gsap/all';
 import HeroSection01 from './HeroSection01';
 import HeroSection02 from './HeroSection02';
+// import HeroSection03 from './HeroSection03';
+import cloudeImg from '@/assets/cloude.jpg';
+
 import type { HeroSectionProps } from './type/Hero';
 import { Lighter } from './Lighter';
 import { Outlet } from 'react-router';
 import { useModal } from '@/shared/utils/ModalProvider';
 import logoUrl from '@/assets/logo.png';
-// import HeroSection03 from './HeroSection03';
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function HomeLayout() {
   const modal = useModal();
@@ -17,44 +23,70 @@ export default function HomeLayout() {
   const section02Ref = useRef<HeroSectionProps>(null);
   // const section03Ref = useRef<HeroSectionProps>(null);
 
+  const smootherRef = useRef<ScrollSmoother | null>(null);
+
+  // Section01 progress 안전하게 적용
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
+    let rafId: number;
+
+    const updateProgress = () => {
+      if (!smootherRef.current) return;
+
+      const scrollTop = smootherRef.current.scrollTop(); // SMOOTHER 기준
       const vh = window.innerHeight;
 
-      if (section01Ref.current) {
+      if (section01Ref.current?.tl) {
         const progress = Math.min(scrollTop / vh, 1);
-        section01Ref.current.tl?.progress(progress);
+        section01Ref.current.tl.progress(progress);
       }
+
+      rafId = requestAnimationFrame(updateProgress);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    rafId = requestAnimationFrame(updateProgress);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
-  // 버튼 둥둥 떠다니는 GSAP 애니메이션
+  // 버튼 둥둥 애니메이션
   useEffect(() => {
     if (!buttonRef.current) return;
-
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(buttonRef.current!, {
-      y: -6,
-      duration: 1,
-      ease: 'power1.inOut',
+    tl.to(buttonRef.current, { y: -6, duration: 1, ease: 'power1.inOut' });
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  // ScrollSmoother 생성
+  useEffect(() => {
+    smootherRef.current = ScrollSmoother.create({
+      wrapper: '#wrapper',
+      content: '#content',
+      smooth: 1.5,
+      effects: true,
+      normalizeScroll: true,
+      ignoreMobileResize: true,
     });
 
     return () => {
-      tl.kill();
-      // 명시적으로 void 반환
+      smootherRef.current?.kill();
+      smootherRef.current = null;
     };
   }, []);
 
   return (
-    <div className="relative home-font">
-      <Lighter />
-      <HeroSection01 ref={section01Ref} />
-      <HeroSection02 ref={section02Ref} />
-      {/* <HeroSection03 ref={section03Ref} /> */}
+    <div id="wrapper" className="relative home-font">
+      <div id="content">
+        <div
+          className="absolute inset-0 -z-20 bg-cover bg-center opacity-30"
+          style={{ backgroundImage: `url(${cloudeImg})` }}
+        />
+        <Lighter />
+
+        <HeroSection01 ref={section01Ref} />
+        <HeroSection02 ref={section02Ref} />
+        {/* <section ref={section03Ref}><HeroSection03 /></section> */}
+      </div>
 
       <Outlet />
       <div className="fixed top-5 right-5">
@@ -64,7 +96,7 @@ export default function HomeLayout() {
           onClick={() => modal.openModal('login')}
           className="flex items-center justify-center gap-2 px-4 py-2 rounded-3xl shadow-md bg-white hover:shadow-lg transition-shadow text-lg"
         >
-          <img src={logoUrl} className="w-20 " aria-label="anonimo" /> 바로
+          <img src={logoUrl} className="w-20" aria-label="anonimo" /> 바로
           이용하기
         </button>
       </div>

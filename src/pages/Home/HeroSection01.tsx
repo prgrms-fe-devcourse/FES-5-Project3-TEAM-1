@@ -1,7 +1,7 @@
+// HeroSection01.tsx
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { gsap } from 'gsap';
 import type { HeroSectionProps } from './type/Hero';
-import cloudeImg from '@/assets/cloude.jpg';
 
 const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -9,16 +9,21 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   const shapeRef = useRef<HTMLDivElement>(null);
   const eyeRef = useRef<SVGGElement>(null);
 
-  // 타임라인 정의
-  const tl = useRef(gsap.timeline({ paused: true })).current;
+  const tl = useRef<GSAPTimeline | null>(null);
+
+  // 타임라인 생성
   useEffect(() => {
-    tl.to(shapeRef.current, {
-      scale: 50,
-      rotate: 240,
-      transformOrigin: '50% 50%',
-      ease: 'expo.in',
-      duration: 2,
-    })
+    if (!shapeRef.current || !textRef.current) return;
+
+    tl.current = gsap
+      .timeline({ paused: true })
+      .to(shapeRef.current, {
+        scale: 50,
+        rotate: 210,
+        transformOrigin: '50% 50%',
+        ease: 'none',
+        duration: 2,
+      })
       .to(textRef.current, { x: 0, ease: 'power2.in', duration: 0.7 }, '-=1.2')
       .to(
         textRef.current,
@@ -27,13 +32,13 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       );
   }, []);
 
-  // 외부에서 접근 가능하게
+  // 외부에서 접근 가능
   useImperativeHandle(ref, () => ({
-    tl,
+    tl: tl.current,
     section: sectionRef.current,
   }));
 
-  // 마우스에 따른 눈동자 이동만 내부 처리
+  // 마우스 눈동자 이동
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!eyeRef.current) return;
@@ -41,6 +46,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       const mouseX = e.clientX / innerWidth;
       const mouseY = e.clientY / innerHeight;
       const maxMove = 1;
+
       gsap.to(eyeRef.current, {
         x: (mouseX - 0.5) * maxMove * 2,
         y: (mouseY - 0.5) * maxMove * 2,
@@ -53,25 +59,12 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="overlay sticky top-0 h-screen overflow-hidden"
-    >
-      {/* 텍스트 */}
-      <div className="text absolute inset-0 flex justify-center items-center">
-        <div
-          ref={textRef}
-          className="text-black text-[4rem] transform translate-x-[100vw]"
-        >
-          니모의 마을에 오신걸 환영합니다
-        </div>
-      </div>
-
-      {/* Shape */}
-      <div className="shape flex justify-center items-center h-full mix-blend-multiply bg-black">
+    <section ref={sectionRef} className="relative h-[150vh] overflow-hidden">
+      <div className="flex justify-center items-center h-full mix-blend-multiply bg-black">
+        {/* Shape */}
         <div
           ref={shapeRef}
-          className="rotate w-80 h-80 flex justify-center items-center"
+          className="absolute top-1/5 left-1/2 w-80 h-80 -translate-x-1/2 flex justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -104,13 +97,17 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
         </div>
       </div>
 
-      {/* Gradient background */}
-      <div
-        className="fixed inset-0 -z-20 bg-cover bg-center opacity-30"
-        style={{ backgroundImage: `url(${cloudeImg})` }}
-      />
-      {/* <div className="gradient fixed inset-0 bg-gradient-to-br from-secondary via-quaternary via-[65%] to-white -z-10"></div> */}
+      {/* 텍스트 */}
+      <div className="absolute top-1/2 inset-0 flex justify-center items-center">
+        <div
+          ref={textRef}
+          className="text-black text-[4rem] transform translate-x-[100vw]"
+        >
+          니모의 마을에 오신걸 환영합니다
+        </div>
+      </div>
     </section>
   );
 });
+
 export default HeroSection01;
