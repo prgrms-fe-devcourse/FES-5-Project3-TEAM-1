@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { gsap } from 'gsap';
 import type { HeroSectionProps } from './type/Hero';
+import cloudeImg from '@/assets/cloude.jpg';
 
 const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -62,7 +63,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
           ref={textRef}
           className="text-black text-[4rem] transform translate-x-[100vw]"
         >
-          익명으로 자유롭고 편하게
+          니모의 마을에 오신걸 환영합니다
         </div>
       </div>
 
@@ -104,7 +105,11 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       </div>
 
       {/* Gradient background */}
-      <div className="gradient fixed inset-0 bg-gradient-to-br from-secondary via-quaternary via-[65%] to-white -z-10"></div>
+      <div
+        className="fixed inset-0 -z-20 bg-cover bg-center opacity-30"
+        style={{ backgroundImage: `url(${cloudeImg})` }}
+      />
+      {/* <div className="gradient fixed inset-0 bg-gradient-to-br from-secondary via-quaternary via-[65%] to-white -z-10"></div> */}
     </section>
   );
 });

@@ -7,6 +7,7 @@ import { Lighter } from './Lighter';
 import { Outlet } from 'react-router';
 import { useModal } from '@/shared/utils/ModalProvider';
 import logoUrl from '@/assets/logo.png';
+import HeroSection03 from './HeroSection03';
 
 export default function HomeLayout() {
   const modal = useModal();
@@ -14,6 +15,7 @@ export default function HomeLayout() {
 
   const section01Ref = useRef<HeroSectionProps>(null);
   const section02Ref = useRef<HeroSectionProps>(null);
+  // const section03Ref = useRef<HeroSectionProps>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,6 +54,7 @@ export default function HomeLayout() {
       <Lighter />
       <HeroSection01 ref={section01Ref} />
       <HeroSection02 ref={section02Ref} />
+      {/* <HeroSection03 ref={section03Ref} /> */}
 
       <Outlet />
       <div className="fixed top-5 right-5">

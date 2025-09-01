@@ -5,6 +5,7 @@ import type { HeroSectionProps } from './type/Hero';
 import Panel01 from './component/Panel01';
 import Panel02 from './component/Panel02';
 import Panel03 from './component/Panel03';
+import Panel04 from './component/Panel04';
 import nimo from '@/assets/nimo/nimo.png';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,41 +16,44 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
     useRef<HTMLDivElement>(null),
     useRef<HTMLDivElement>(null),
     useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
   ];
 
   useEffect(() => {
     const panels = panelRefs
+      .slice(0, 3)
       .map((r) => r.current)
       .filter(Boolean) as HTMLDivElement[];
 
+    const panel04 = panelRefs[3].current;
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
 
-    // 🔹 초기 위치: 화면 아래에서 중앙으로
+    // 🔹 Panel01~03 초기 위치
     panels.forEach((panel) => {
       panel.style.position = 'absolute';
       panel.style.left = '50%';
-      panel.style.top = '100%'; // 화면 아래쪽
+      panel.style.top = '100%';
       panel.style.transform = 'translate(-50%, -50%) scale(0.5)';
       panel.style.opacity = '0';
     });
 
-    // 🔹 목표 좌표 (퍼지는 느낌)
+    // 🔹 Panel01~03 목표 좌표
     const positions = [
       { x: -0.25 * screenWidth, y: -0.8 * screenHeight },
       { x: -0.1 * screenWidth, y: -0.4 * screenHeight },
       { x: 0.25 * screenWidth, y: -0.6 * screenHeight },
     ];
 
-    // 🔹 스크롤 트리거 + 순차 애니메이션
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: 'top top', // section top이 화면 중앙에 닿았을 때 시작
+        start: 'top top',
         toggleActions: 'play none none none',
       },
     });
 
+    // Panel01~03 등장
     panels.forEach((panel, i) => {
       tl.to(
         panel,
@@ -61,9 +65,30 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
           duration: 1,
           ease: 'power2.out',
         },
-        i * 0.2, // stagger
+        i * 0.2,
       );
     });
+
+    // Panel04 등장 전 Panel01~03 사라짐
+    tl.to(
+      panels,
+      {
+        autoAlpha: 0,
+        duration: 0.2,
+        ease: 'power2.inOut',
+      },
+      '+=0.5',
+    );
+
+    // Panel04 등장
+    if (panel04) {
+      tl.fromTo(
+        panel04,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
+        '-=0.2',
+      );
+    }
   }, []);
 
   useImperativeHandle(ref, () => ({
@@ -78,6 +103,7 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
       <Panel01 ref={panelRefs[0]} className="panel z-10" />
       <Panel02 ref={panelRefs[1]} className="panel z-10" />
       <Panel03 ref={panelRefs[2]} className="panel z-10" />
+      <Panel04 ref={panelRefs[3]} className="panel z-10" />
 
       <div className="absolute bottom-30 z-0">
         <img src={nimo} alt="nimo" className="w-50 h-50 object-cover" />
