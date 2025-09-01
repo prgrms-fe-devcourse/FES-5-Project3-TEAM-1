@@ -10,14 +10,14 @@ import { useEffect, useState } from 'react';
 export const useThreadAuthentication = (threadId: string) => {
   const [token, setToken] = useState<string>('');
   // 쓰레드 스토어
-  const isAuthenticated = useThreadStore((state) => state.isAuthenticated);
-  const fetchThread = useThreadStore((state) => state.fetchThread);
   const isLoading = useThreadStore((state) => state.isLoading);
+  const isAuthenticated = useThreadStore((state) => state.isAuthenticated);
   const thread = useThreadStore((state) => state.thread);
-  const validatePassword = useThreadStore((state) => state.validatePassword);
   const isPasswordRequired = useThreadStore(
     (state) => state.isPasswordRequired,
   );
+  const fetchThread = useThreadStore((state) => state.fetchThread);
+  const validatePassword = useThreadStore((state) => state.validatePassword);
 
   useEffect(() => {
     checkThreadAccess();

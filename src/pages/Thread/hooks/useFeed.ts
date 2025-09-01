@@ -38,30 +38,21 @@ export const useFeeds = ({
     async (isInitialFetch = false) => {
       if (!threadId) return;
       setIsLoading(true);
+
       try {
-        const targetPage = isInitialFetch ? 0 : page;
         const result = await fetchFeedsWithRPC({
           threadId,
-          page: targetPage,
+          page: isInitialFetch ? 0 : page,
           sortBy,
         });
 
-        // drawing data 체크
-        const processedData = (result.data || []).map((f) => ({
-          ...f,
-          drawing_id: f.drawing_id ?? null,
-          drawing_url: f.drawing_url ?? null,
-        }));
-
         // 스토어 저장
-        setFeeds(processedData, isInitialFetch);
+        setFeeds(result.data, isInitialFetch);
 
-        if (isInitialFetch) {
-          setPage(1);
-        } else {
-          setPage((prev) => prev + 1);
-        }
+        setPage((prev) => (isInitialFetch ? 1 : prev + 1));
+
         setHasMore(result.hasMore);
+
         currentSortRef.current = sortBy;
         isInitializedRef.current = true;
       } catch (error) {

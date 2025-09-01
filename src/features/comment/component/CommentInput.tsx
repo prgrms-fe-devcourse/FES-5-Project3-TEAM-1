@@ -16,8 +16,7 @@ const CommentInput = ({ addComment }: Props) => {
     const value = inputRef.current.value.trim();
 
     if (value) {
-      const nickname = getNicknameFromSession() ?? 'nimo';
-      addComment(value, nickname);
+      addComment(value, getNicknameFromSession() ?? 'nimo');
       inputRef.current.value = '';
     }
   };
@@ -50,7 +49,7 @@ const CommentInput = ({ addComment }: Props) => {
         onClick={handleAdd}
         aria-label="댓글 등록"
         tabIndex={0}
-        className="min-w-auto md:min-w-[80px]"
+        className="md:min-w-[80px] max-w-14"
       >
         등록
       </Button>
