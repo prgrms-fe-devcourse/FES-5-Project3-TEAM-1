@@ -6,7 +6,6 @@ import { useFeedStore } from '../utils/store';
 interface Props {
   virtualItem: VirtualItem;
   feedId: string;
-  token: string;
   rowVirtualizer: Virtualizer<Window, Element>;
 }
 

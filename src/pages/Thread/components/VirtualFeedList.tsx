@@ -7,18 +7,40 @@ import { useFeedStore } from '../utils/store';
 import EmptyFeed from './feed/EmptyFeed';
 
 interface Props {
-  token: string;
   hasMore: boolean;
   onLoadMore: () => void;
   isLoading: boolean;
+  isInitialLoading: boolean;
 }
 
-const VirtualFeedList = ({ token, hasMore, isLoading, onLoadMore }: Props) => {
+const VirtualFeedList = ({
+  hasMore,
+  isLoading,
+  onLoadMore,
+  isInitialLoading,
+}: Props) => {
+  // 조건 부 렌더링
+  if (isInitialLoading) {
+    return (
+      <div className="flex-center py-8 lg:py-20">
+        <img
+          className="animate-spin"
+          width={100}
+          height={100}
+          src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/nimo_loading.webp"
+          alt=""
+          loading="eager"
+        />
+        <span>Loading...</span>
+      </div>
+    );
+  }
+
   // 무한 스크롤 hook
   const triggerRef = useInfiniteScroll({ hasMore, isLoading, onLoadMore });
 
-  // 버츄얼 hook
   const feedIds = useFeedStore((state) => state.feedIds);
+  // virtual hook
   const rowVirtualizer = useFeedVirtualizer({ feedIds });
 
   return (
@@ -36,7 +58,6 @@ const VirtualFeedList = ({ token, hasMore, isLoading, onLoadMore }: Props) => {
               <VirtualFeedItem
                 feedId={feedIds[virtualItem.index]}
                 rowVirtualizer={rowVirtualizer}
-                token={token}
                 virtualItem={virtualItem}
                 key={virtualItem.key}
               />
