@@ -1,5 +1,5 @@
 import { useAuth } from '@/shared/utils/AuthProvider';
-import { ModalProvider, useModal } from '@/shared/utils/ModalProvider';
+import { useModal } from '@/shared/utils/ModalProvider';
 import { useEffect } from 'react';
 
 const Home = () => {
@@ -8,14 +8,10 @@ const Home = () => {
   useEffect(() => {
     if (login.isFirstLogin) {
       modal.openModal('welcome');
-      login.isFirstLogin = false;
+      login.firstLogin();
     }
   }, [login.isFirstLogin]);
 
-  return (
-    <ModalProvider>
-      <div className="p-4 flex flex-col gap-2"></div>
-    </ModalProvider>
-  );
+  return <div className="p-4 flex flex-col gap-2"></div>;
 };
 export default Home;

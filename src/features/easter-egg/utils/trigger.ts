@@ -1,4 +1,5 @@
 export const TRIGGER_CATEGORIES: Record<string, string[]> = {
+  congrats: ['ㅊㅋ', '축하', '추카', 'ㅊㅊ', '생일', '파티', '생축', '생신'],
   teacher: ['범쌤', '범썜', '강사님', '심선범', '범', '선생님'],
 };
 

@@ -1,8 +1,9 @@
 import type { ComponentType } from 'react';
 
 export interface RouteConfig {
-  path: string;
+  path?: string;
   Component: ComponentType;
-  text: string;
+  text?: string;
   children?: RouteConfig[];
+  index?: boolean;
 }

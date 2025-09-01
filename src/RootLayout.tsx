@@ -4,6 +4,8 @@ import Header from './shared/components/header/Header';
 import ScrollUpButton from './shared/components/button/ScrollUpButton';
 import clsx from 'clsx';
 import EasterEggSection from './features/easter-egg/components/EasterEggSection';
+import { AuthProvider } from './shared/utils/AuthProvider';
+import { ModalProvider } from './shared/utils/ModalProvider';
 
 // const TABS = [
 //   { id: 'all', label: '전체' },
@@ -18,30 +20,34 @@ const RootLayout = () => {
   const isThread = location.pathname.startsWith('/thread');
 
   return (
-    <div className="flex flex-col relative">
-      <Header
-        // tabs={isThread ? TABS : undefined}
-        // currentTab={tab}
-        // onTabChange={(tabId: string) => setTab(tabId)}
-        hideParticipantCount={isAdmin}
-      />
+    <AuthProvider>
+      <ModalProvider>
+        <div className="flex flex-col relative">
+          <Header
+            // tabs={isThread ? TABS : undefined}
+            // currentTab={tab}
+            // onTabChange={(tabId: string) => setTab(tabId)}
+            hideParticipantCount={isAdmin}
+          />
 
-      <div
-        className={clsx(
-          'pt-12 md:pt-15',
-          isThread ? 'root-min-h-thread' : 'root-min-h',
-        )}
-      >
-        <main className="relative bg-main">
-          <Outlet />
-        </main>
-      </div>
+          <div
+            className={clsx(
+              'pt-12 md:pt-15',
+              isThread ? 'root-min-h-thread' : 'root-min-h',
+            )}
+          >
+            <main className="relative bg-main">
+              <Outlet />
+            </main>
+          </div>
 
-      {!isThread && <Footer />}
+          {!isThread && <Footer />}
 
-      <ScrollUpButton />
-      <EasterEggSection />
-    </div>
+          <ScrollUpButton />
+          <EasterEggSection />
+        </div>
+      </ModalProvider>
+    </AuthProvider>
   );
 };
 export default RootLayout;
