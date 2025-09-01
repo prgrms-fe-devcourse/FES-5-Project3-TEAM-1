@@ -1,16 +1,16 @@
 import nimoHi from '@/assets/images/nimoHi.png';
-import Button from '@/shared/components/button/Button';
+// import Button from '@/shared/components/button/Button';
 import { useModal } from '@/shared/utils/ModalProvider';
 type LandingPageProps = {
   size?: number;
 };
 
 export default function HeroSection03({ size = 600 }: LandingPageProps) {
-  const { openModal } = useModal();
+  // const { openModal } = useModal();
 
-  const handleServiceButtonClick = () => {
-    openModal('login');
-  };
+  // const handleServiceButtonClick = () => {
+  //   openModal('login');
+  // };
 
   return (
     <div className="relative flex flex-col items-center justify-center">
@@ -25,7 +25,7 @@ export default function HeroSection03({ size = 600 }: LandingPageProps) {
         />
       </div>
 
-      <h2 className="text-3xl text-black pt-5 pb-7">
+      {/* <h2 className="text-3xl text-black pt-5 pb-7">
         지금 바로 서비스를 이용해보세요!
       </h2>
 
@@ -36,7 +36,7 @@ export default function HeroSection03({ size = 600 }: LandingPageProps) {
         onClick={handleServiceButtonClick}
       >
         서비스 이용하기
-      </Button>
+      </Button> */}
     </div>
   );
 }

@@ -11,20 +11,40 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
 
   const tl = useRef<GSAPTimeline | null>(null);
 
+  // GPU compositing layer 강제
+  useEffect(() => {
+    if (textRef.current) {
+      textRef.current.style.willChange = 'transform, opacity';
+      textRef.current.style.backfaceVisibility = 'hidden';
+    }
+    if (shapeRef.current) {
+      shapeRef.current.style.willChange = 'transform';
+      shapeRef.current.style.backfaceVisibility = 'hidden';
+    }
+  }, []);
+
   // 타임라인 생성
   useEffect(() => {
     if (!shapeRef.current || !textRef.current) return;
 
+    // 초기 상태
+    gsap.set(textRef.current, { xPercent: 100, autoAlpha: 1 });
+    gsap.set(shapeRef.current, { scale: 1, rotate: 0 });
+
     tl.current = gsap
       .timeline({ paused: true })
       .to(shapeRef.current, {
-        scale: 50,
-        rotate: 210,
+        scale: 60,
+        rotate: 240,
         transformOrigin: '50% 50%',
         ease: 'none',
         duration: 2,
       })
-      .to(textRef.current, { x: 0, ease: 'power2.in', duration: 0.7 }, '-=1.2')
+      .to(
+        textRef.current,
+        { xPercent: 0, ease: 'power2.in', duration: 0.7 },
+        '-=1.2',
+      )
       .to(
         textRef.current,
         { autoAlpha: 0, ease: 'power2.out', duration: 1 },
@@ -99,10 +119,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
 
       {/* 텍스트 */}
       <div className="absolute top-1/2 inset-0 flex justify-center items-center">
-        <div
-          ref={textRef}
-          className="text-black text-[4rem] transform translate-x-[100vw]"
-        >
+        <div ref={textRef} className="text-black text-[4rem]">
           니모의 마을에 오신걸 환영합니다
         </div>
       </div>

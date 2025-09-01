@@ -12,6 +12,8 @@ import { Lighter } from './Lighter';
 import { Outlet } from 'react-router';
 import { useModal } from '@/shared/utils/ModalProvider';
 import logoUrl from '@/assets/logo.png';
+// import HeroSection03 from './HeroSection03';
+import HeroSection02_03 from './HeroSection02_03';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -20,8 +22,7 @@ export default function HomeLayout() {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const section01Ref = useRef<HeroSectionProps>(null);
-  const section02Ref = useRef<HeroSectionProps>(null);
-  // const section03Ref = useRef<HeroSectionProps>(null);
+  const section02_03Ref = useRef<HeroSectionProps>(null);
 
   const smootherRef = useRef<ScrollSmoother | null>(null);
 
@@ -84,8 +85,8 @@ export default function HomeLayout() {
         <Lighter />
 
         <HeroSection01 ref={section01Ref} />
-        <HeroSection02 ref={section02Ref} />
-        {/* <section ref={section03Ref}><HeroSection03 /></section> */}
+
+        <HeroSection02_03 ref={section02_03Ref} />
       </div>
 
       <Outlet />
