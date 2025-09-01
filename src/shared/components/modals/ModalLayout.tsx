@@ -1,6 +1,7 @@
 import tw from '@/shared/utils/style';
 import CloseSvg from '@/assets/icon/close-24.svg?react';
 import Portal from '../portals/Portal';
+import { useMemo } from 'react';
 
 interface Props {
   size?: 'sm' | 'md' | 'lg';
@@ -46,7 +47,12 @@ const ModalLayout = ({
             onClick={onClose}
             tabIndex={0}
           >
-            <CloseSvg aria-hidden />
+            {useMemo(
+              () => (
+                <CloseSvg aria-hidden />
+              ),
+              [],
+            )}
           </button>
         )}
 
