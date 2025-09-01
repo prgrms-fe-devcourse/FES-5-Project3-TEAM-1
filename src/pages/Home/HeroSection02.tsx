@@ -41,37 +41,41 @@ const HeroSection02 = forwardRef((_, ref) => {
     panels.forEach((panel, i) => {
       const pos = panelPositions[i];
 
+      // 초기 설정: GPU 가속, 초기 크기/투명도
       gsap.set(panel, {
         position: 'absolute',
         top: pos.top,
         left: pos.left,
         xPercent: -50,
         yPercent: -50,
-        autoAlpha: 0,
         scale: 0.5,
-      });
-
-      gsap.to(panel, {
-        autoAlpha: 1,
-        scale: 1,
-        scrollTrigger: {
-          trigger: panel,
-          start: 'top 80%', // 패널이 화면에 들어올 때
-          end: 'top 30%', // 화면 지나가면 사라짐
-          scrub: 0.5, // 스크롤 따라 부드럽게
-        },
-      });
-
-      gsap.to(panel, {
         autoAlpha: 0,
-        scale: 0.8,
-        scrollTrigger: {
-          trigger: panel,
-          start: 'top 30%',
-          end: 'top 10%',
-          scrub: 0.5,
-        },
+        willChange: 'transform, opacity',
+        backfaceVisibility: 'hidden',
       });
+
+      // Timeline으로 opacity + scale을 스크롤 따라 부드럽게 처리
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: panel,
+            start: 'top 80%',
+            end: 'top 10%',
+            scrub: 0.5,
+          },
+        })
+        .to(panel, {
+          autoAlpha: 1,
+          scale: 1,
+          ease: 'power2.out',
+          duration: 0.5,
+        })
+        .to(panel, {
+          autoAlpha: 0,
+          scale: 0.8,
+          ease: 'power2.in',
+          duration: 0.5,
+        });
     });
   }, []);
 

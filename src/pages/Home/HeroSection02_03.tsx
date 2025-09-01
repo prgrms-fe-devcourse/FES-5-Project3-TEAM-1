@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroSection02 from './HeroSection02';
 import nimoJump from '@/assets/nimo/nimo-jump.png';
+import house from '@/assets/house.png';
 import type { HeroSectionProps } from './type/Hero';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -67,6 +68,11 @@ const HeroSection02_03 = forwardRef<HeroSectionProps>((_, ref) => {
           </div>
         </div>
       </div> */}
+
+      <div className="absolute bottom-0 w-full h-10 bg-[#AA7134]"></div>
+      <div className="absolute bottom-0 w-full ">
+        <img src={house} height="40" alt="" className="z-10" />
+      </div>
     </div>
   );
 });
