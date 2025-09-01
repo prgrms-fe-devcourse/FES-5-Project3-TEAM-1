@@ -7,7 +7,7 @@ import { Lighter } from './Lighter';
 import { Outlet } from 'react-router';
 import { useModal } from '@/shared/utils/ModalProvider';
 import logoUrl from '@/assets/logo.png';
-import HeroSection03 from './HeroSection03';
+// import HeroSection03 from './HeroSection03';
 
 export default function HomeLayout() {
   const modal = useModal();
