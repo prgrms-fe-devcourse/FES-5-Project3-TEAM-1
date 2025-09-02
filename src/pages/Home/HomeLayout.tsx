@@ -1,30 +1,26 @@
 // HomeLayout.tsx
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all';
 import HeroSection01 from './HeroSection01';
-import HeroSection02 from './HeroSection02';
-// import HeroSection03 from './HeroSection03';
-import cloudeImg from '@/assets/cloude.jpg';
-
 import type { HeroSectionProps } from './type/Hero';
 import { Lighter } from './Lighter';
-import { Outlet } from 'react-router';
-import { useModal } from '@/shared/utils/ModalProvider';
+// import { Outlet } from 'react-router';
+// import { useModal } from '@/shared/utils/ModalProvider';
 import logoUrl from '@/assets/logo.png';
-// import HeroSection03 from './HeroSection03';
-import HeroSection02_03 from './HeroSection02_03';
+import ScrollSvg from '@/assets/icon/scroll-24.svg?react';
+import HeroSection02 from './HeroSection02';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function HomeLayout() {
-  const modal = useModal();
+  // const modal = useModal();
   const buttonRef = useRef<HTMLButtonElement>(null);
-
   const section01Ref = useRef<HeroSectionProps>(null);
-  const section02_03Ref = useRef<HeroSectionProps>(null);
-
+  const section02Ref = useRef<HeroSectionProps>(null);
   const smootherRef = useRef<ScrollSmoother | null>(null);
+  const scrollRef = useRef<HTMLButtonElement>(null);
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
 
   // Section01 progress 안전하게 적용
   useEffect(() => {
@@ -75,32 +71,88 @@ export default function HomeLayout() {
     };
   }, []);
 
+  // scroll 버튼
+  useEffect(() => {
+    if (!scrollRef.current) return;
+
+    const tl = gsap.to(scrollRef.current, {
+      y: 12,
+      repeat: -1,
+      yoyo: true,
+      duration: 0.8,
+      ease: 'power1.inOut',
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, [showScrollBtn]);
+
+  useEffect(() => {
+    const updateScrollBtn = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      setShowScrollBtn(scrollTop < maxScroll - 5);
+    };
+
+    updateScrollBtn(); // 초기 체크
+    window.addEventListener('scroll', updateScrollBtn);
+    window.addEventListener('resize', updateScrollBtn);
+
+    return () => {
+      window.removeEventListener('scroll', updateScrollBtn);
+      window.removeEventListener('resize', updateScrollBtn);
+    };
+  }, []);
+
   return (
     <div id="wrapper" className="relative home-font">
       <div id="content">
         <div
           className="absolute inset-0 -z-20 bg-cover bg-center opacity-30"
-          style={{ backgroundImage: `url(${cloudeImg})` }}
+          style={{
+            backgroundImage: `url(https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/cloude.webp)`,
+          }}
         />
         <Lighter />
 
         <HeroSection01 ref={section01Ref} />
 
-        <HeroSection02_03 ref={section02_03Ref} />
+        <HeroSection02 ref={section02Ref} />
       </div>
 
-      <Outlet />
-      <div className="fixed top-5 right-5">
+      <button
+        type="button"
+        ref={buttonRef}
+        // onClick={() => modal.openModal('login')}
+        className="fixed top-5 right-5 flex items-center justify-center gap-2 px-4 py-2 rounded-3xl shadow-md bg-white hover:shadow-lg transition-shadow text-lg"
+      >
+        <img src={logoUrl} className="w-20" aria-label="anonimo" /> 바로
+        이용하기
+      </button>
+
+      {showScrollBtn && (
         <button
+          ref={scrollRef}
           type="button"
-          ref={buttonRef}
-          onClick={() => modal.openModal('login')}
-          className="flex items-center justify-center gap-2 px-4 py-2 rounded-3xl shadow-md bg-white hover:shadow-lg transition-shadow text-lg"
+          onClick={() => {
+            window.scrollBy({
+              top: 600,
+              behavior: 'smooth',
+            });
+          }}
+          className="absolute bottom-[2.5rem] left-1/2 -translate-x-1/2 flex flex-col flex-center"
         >
-          <img src={logoUrl} className="w-20" aria-label="anonimo" /> 바로
-          이용하기
+          <ScrollSvg className="w-8 h-8" />
+          <span
+            className="text-black text-3xl"
+            style={{ WebkitTextStroke: '1px white' }}
+          >
+            Scroll!
+          </span>
         </button>
-      </div>
+      )}
     </div>
   );
 }

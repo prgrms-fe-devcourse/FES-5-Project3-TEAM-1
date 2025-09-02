@@ -1,92 +1,191 @@
 // HeroSection02.tsx
-import {
-  forwardRef,
-  useLayoutEffect,
-  useImperativeHandle,
-  useRef,
-} from 'react';
+import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Panel01 from './component/Panel01';
-import Panel02 from './component/Panel02';
-import Panel03 from './component/Panel03';
+import nimoJump from '@/assets/nimo/nimo-jump.png';
+import nimoHi from '@/assets/nimo/nimo-hi.gif';
+import type { HeroSectionProps } from './type/Hero';
+import { useModal } from '@/shared/utils/ModalProvider';
+import FeatureList from './FeatureList';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface PanelPosition {
-  top: string;
-  left: string;
-}
+const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const nimoWrapperRef = useRef<HTMLDivElement>(null);
+  const titleWrapperRef = useRef<HTMLDivElement>(null);
+  const nimoRef = useRef<HTMLImageElement>(null);
+  const modal = useModal();
 
-const panelPositions: PanelPosition[] = [
-  { top: '30%', left: '25%' }, // Panel01 위치
-  { top: '50%', left: '75%' }, // Panel02 위치
-  { top: '70%', left: '25%' }, // Panel03 위치
-];
+  useImperativeHandle(ref, () => ({
+    section: wrapperRef.current,
+  }));
 
-const HeroSection02 = forwardRef((_, ref) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const panelRefs = [
-    useRef<HTMLDivElement>(null),
-    useRef<HTMLDivElement>(null),
-    useRef<HTMLDivElement>(null),
-  ];
+  useEffect(() => {
+    if (!wrapperRef.current || !nimoRef.current || !nimoWrapperRef.current)
+      return;
 
-  useLayoutEffect(() => {
-    const panels = panelRefs
-      .map((r) => r.current)
-      .filter(Boolean) as HTMLDivElement[];
-    if (!panels.length || !sectionRef.current) return;
+    const nimo = nimoRef.current;
+    const nimoWrapper = nimoWrapperRef.current;
+    let hasReachedBottom = false;
+    const jumpHeight = 100; // 살짝 점프 높이
 
-    panels.forEach((panel, i) => {
-      const pos = panelPositions[i];
+    nimo.style.willChange = 'transform, opacity';
+    nimo.style.backfaceVisibility = 'hidden';
 
-      // 초기 설정: GPU 가속, 초기 크기/투명도
-      gsap.set(panel, {
-        position: 'absolute',
-        top: pos.top,
-        left: pos.left,
-        xPercent: -50,
-        yPercent: -50,
-        scale: 0.5,
-        autoAlpha: 0,
-        willChange: 'transform, opacity',
-        backfaceVisibility: 'hidden',
-      });
+    const st = ScrollTrigger.create({
+      trigger: wrapperRef.current,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.2,
+      onUpdate: (self) => {
+        const wrapperHeight = wrapperRef.current!.offsetHeight;
+        const wrapperBottomY = wrapperHeight - nimoWrapper.offsetHeight; // div 기준 바닥
 
-      // Timeline으로 opacity + scale을 스크롤 따라 부드럽게 처리
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: panel,
-            start: 'top 50%',
-            end: 'top 5%',
-            scrub: 0.5,
-          },
-        })
-        .to(panel, {
-          autoAlpha: 1,
-          scale: 1,
-          ease: 'power2.out',
-          duration: 0.5,
-        })
-        .to(panel, {
-          autoAlpha: 0,
-          scale: 0.8,
-          ease: 'power2.in',
-          duration: 0.5,
-        });
+        if (self.progress > 0.99 && !hasReachedBottom) {
+          hasReachedBottom = true;
+          st.disable(); // y 컨트롤 잠시 멈춤
+
+          const tl = gsap.timeline({
+            onComplete: () => st.enable(), // 애니 완료 후 재개
+          });
+
+          tl.to(nimoWrapper, {
+            y: wrapperBottomY - jumpHeight, // 살짝 점프
+            duration: 0.4,
+            ease: 'power2.out',
+          })
+            .to(nimo, {
+              opacity: 0,
+              duration: 0.2,
+              onComplete: () => {
+                nimo.src = `${nimoHi}?t=${Date.now()}`; // 이미지 교체
+                nimo.style.width = '20rem';
+              },
+            })
+            .to(nimo, { opacity: 1, duration: 0.2 })
+            .to(nimoWrapper, {
+              keyframes: [
+                { y: wrapperBottomY + 20, duration: 0.1, ease: 'power2.in' }, // 바닥 지나치며 충격
+                { y: wrapperBottomY - 15, duration: 0.15, ease: 'power2.out' }, // 튕겨 올라가는 높이
+                { y: wrapperBottomY, duration: 0.1, ease: 'bounce.out' }, // 최종 착지
+              ],
+            });
+
+          tl.to(
+            titleWrapperRef.current,
+            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+            '<',
+          );
+        } else if (self.progress <= 0.99 && hasReachedBottom) {
+          hasReachedBottom = false;
+          gsap.to(titleWrapperRef.current, {
+            autoAlpha: 0,
+            duration: 0.3,
+            ease: 'power2.out',
+          });
+
+          gsap.to(nimo, {
+            opacity: 0,
+            duration: 0.2,
+            onComplete: () => {
+              nimo.src = nimoJump;
+              nimo.style.width = '15rem';
+            },
+          });
+          gsap.to(nimo, { opacity: 1, duration: 0.2 });
+        }
+
+        if (!hasReachedBottom) {
+          const y = self.progress * wrapperBottomY;
+
+          // x 구불구불 이동
+          const amplitude = 80; // 좌우 이동 폭
+          const frequency = 2; // 주기
+          const x =
+            Math.sin(self.progress * frequency * Math.PI * 2) * amplitude;
+
+          gsap.set(nimoWrapper, {
+            y,
+            x,
+          });
+        }
+      },
     });
+
+    return () => st.kill();
   }, []);
 
-  useImperativeHandle(ref, () => ({ section: sectionRef.current }));
-
   return (
-    <section ref={sectionRef} className="h-[130vh] relative overflow-hidden">
-      <Panel01 ref={panelRefs[0]} />
-      <Panel02 ref={panelRefs[1]} />
-      <Panel03 ref={panelRefs[2]} />
-    </section>
+    <div ref={wrapperRef} className="relative w-full h-[200vh] overflow-hidden">
+      <div
+        ref={titleWrapperRef}
+        className="absolute bottom-[20%] left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center gap-4"
+      >
+        <h2 className="text-2xl md:text-[4rem] text-center">
+          Anonimo를
+          <br />
+          이용해보세요!
+        </h2>
+        <button
+          type="button"
+          onClick={() => modal.openModal('login')}
+          className="w-auto text-xl md:text-3xl bg-primary rounded-4xl px-4 py-2 transform transition duration-150 ease-in-out hover:translate-y-0.25 active:translate-y-0.25 hover:bg-primary-light"
+        >
+          서비스 이용하기
+        </button>
+      </div>
+      {/* 니모 Wrapper */}
+      <div
+        ref={nimoWrapperRef}
+        className="absolute left-1/2 top-0 -translate-x-1/2 flex items-end z-20 "
+        style={{ width: 'auto', height: '22.5rem' }} // ScrollTrigger 기준 높이
+      >
+        <img
+          ref={nimoRef}
+          src={nimoJump}
+          alt="nimo"
+          className="w-[15rem] h-auto"
+        />
+      </div>
+
+      {/* 기능 소개 */}
+      <FeatureList />
+
+      {/* 하단 집 나무 */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-fit after:block after:absolute after:left-0 after:bottom-0 after:w-full after:h-10 after:bg-[#AA7134]">
+        {/* 집 */}
+        <div
+          className="absolute pt-10 pb-0 w-[22.5rem] h-[12.5rem] md:h-[21.875rem] rounded-tl-4xl rounded-tr-4xl left-1/2 -translate-x-1/2 bottom-8 bg-white z-9 flex flex-col gap-2 justify-between"
+          style={{ boxShadow: '0 -10px 20px rgba(0,0,0,0.15)' }}
+        >
+          <div className="flex items-center px-5 py-2 gap-10">
+            <span className="relative block w-30 h-30 rounded-full bg-gray-light after:absolute after:block after:right-4 after:top-1/2 after:-translate-y-1/2 after:w-3 after:h-3 after:rounded-full after:bg-black"></span>
+            <div className="flex flex-col gap-5">
+              <span className="text-4xl">nimo</span>
+              <span className="text-3xl text-gray">welcome!</span>
+            </div>
+          </div>
+          <div className="bg-gray-light h-10 w-full"></div>
+        </div>
+
+        {/* 나무 */}
+        <div>
+          <img
+            src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/tree-lg.webp"
+            height="40"
+            alt=""
+            className="absolute left-[calc(50%-15rem)] -translate-x-1/2 bottom-0 z-10"
+          />
+          <img
+            src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/tree-sm.webp"
+            height="40"
+            alt=""
+            className="absolute bottom-8 left-[calc(50%+13.125rem)] -translate-x-1/2 z-10"
+          />
+        </div>
+      </div>
+    </div>
   );
 });
 

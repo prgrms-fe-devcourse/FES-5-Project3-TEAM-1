@@ -9,8 +9,7 @@ interface PanelProps {
 const Panel01 = forwardRef<HTMLDivElement, PanelProps>(({ className }, ref) => {
   return (
     <div ref={ref} className={clsx('flex flex-col items-end', className)}>
-      {/* GIF 삽입 */}
-      <img src={emoji} className="w-30 h-auto object-cover" />
+      <img src={emoji} className="w-10 md:w-30 h-auto object-cover" />
       <h2 className="text-xl md:text-[56px] text-black">이모지로 표현하고</h2>
     </div>
   );

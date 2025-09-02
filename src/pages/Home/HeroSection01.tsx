@@ -1,6 +1,7 @@
 // HeroSection01.tsx
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { gsap } from 'gsap';
+import logoUrl from '@/assets/logo-white.png';
 import type { HeroSectionProps } from './type/Hero';
 
 const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
@@ -47,11 +48,11 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
         { xPercent: 0, ease: 'power2.in', duration: 1 },
         '-=1.2',
       )
-      .to(
-        textRef.current,
-        { autoAlpha: 0, ease: 'power2.out', duration: 1 },
-        '-=0.2',
-      )
+      // .to(
+      //   textRef.current,
+      //   { autoAlpha: 0, ease: 'power2.out', duration: 1 },
+      //   '-=0.2',
+      // )
       .to(text02Ref.current, {
         autoAlpha: 1,
         xPercent: 0,
@@ -89,10 +90,17 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   return (
     <section ref={sectionRef} className="relative h-[150vh] overflow-hidden">
       <div className="flex justify-center items-center h-full mix-blend-multiply bg-black">
+        <h1 className="absolute top-[calc(50vh+30px)] left-1/2 -translate-x-1/2">
+          <img
+            src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/logo-white.webp"
+            alt=""
+            className="w-[12.5rem]"
+          />
+        </h1>
         {/* Shape */}
         <div
           ref={shapeRef}
-          className="absolute top-1/5 left-1/2 w-80 h-80 -translate-x-1/2 flex justify-center items-center"
+          className="absolute top-1/5 left-1/2 w-30 h-30 md:w-80 md:h-80 -translate-x-1/2 flex justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -127,12 +135,12 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
 
       {/* 텍스트 */}
       <div className="absolute top-1/2 inset-0 flex flex-col gap-[18.75rem] justify-center items-center">
-        <p ref={textRef} className="text-black text-xl md:text-[4rem]">
+        <p ref={textRef} className="text-black text-3xl md:text-[4rem]">
           진짜 나를 보여주세요,
           <br />
           안전한 익명 공간에서
         </p>
-        <p ref={text02Ref} className="text-lg md:text-[3rem]">
+        <p ref={text02Ref} className="text-2xl md:text-[3rem]">
           부담 없이 솔직하게,
         </p>
       </div>
