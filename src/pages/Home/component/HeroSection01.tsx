@@ -45,7 +45,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       })
       .to(
         textRef.current,
-        { xPercent: 0, ease: 'power2.in', duration: 1 },
+        { autoAlpha: 1, xPercent: 0, ease: 'power2.in', duration: 1 },
         '-=1.2',
       )
       // .to(

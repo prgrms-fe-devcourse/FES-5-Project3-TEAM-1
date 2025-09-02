@@ -149,8 +149,14 @@ const Home = () => {
           aria-expanded={isOpen}
           aria-label="설정"
           onClick={() => setIsOpen((prev) => !prev)}
+          className="group place-items-center grid"
         >
-          <img src={settingsSVG} alt="" aria-hidden="true" className="w-12" />
+          <img
+            src={settingsSVG}
+            alt=""
+            aria-hidden="true"
+            className="block w-12 origin-center motion-safe:group-hover:animate-[spin_1300ms_linear_infinite]"
+          />
         </button>
 
         <SettingsMenu
