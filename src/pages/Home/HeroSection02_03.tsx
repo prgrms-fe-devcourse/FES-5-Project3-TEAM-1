@@ -13,6 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection02_03 = forwardRef<HeroSectionProps>((_, ref) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const nimoWrapperRef = useRef<HTMLDivElement>(null); // div wrapper
   const nimoRef = useRef<HTMLImageElement>(null);
 
   useImperativeHandle(ref, () => ({
@@ -20,102 +21,131 @@ const HeroSection02_03 = forwardRef<HeroSectionProps>((_, ref) => {
   }));
 
   useEffect(() => {
-    if (!wrapperRef.current || !nimoRef.current) return;
+    if (!wrapperRef.current || !nimoRef.current || !nimoWrapperRef.current)
+      return;
 
     const nimo = nimoRef.current;
+    const nimoWrapper = nimoWrapperRef.current;
     let hasReachedBottom = false;
-    const bottomOffset = 40; // 추가로 내려오는 거리
+    const jumpHeight = 100; // 살짝 점프 높이
 
     nimo.style.willChange = 'transform, opacity';
     nimo.style.backfaceVisibility = 'hidden';
 
-    gsap.to(nimo, {
-      y: () => {
-        const wrapper = wrapperRef.current!;
-        const wrapperHeight = wrapper.offsetHeight;
-        const nimoHeight = nimo.offsetHeight;
-        return wrapperHeight - nimoHeight;
-      },
-      ease: 'none',
-      scrollTrigger: {
-        trigger: wrapperRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1.2,
-        onUpdate: (self) => {
-          if (self.progress > 0.99 && !hasReachedBottom) {
-            gsap.to(nimo, {
-              y: `+=${bottomOffset}`, // 바닥에서 추가 하강
+    const st = ScrollTrigger.create({
+      trigger: wrapperRef.current,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.2,
+      onUpdate: (self) => {
+        const wrapperHeight = wrapperRef.current!.offsetHeight;
+        const wrapperBottomY = wrapperHeight - nimoWrapper.offsetHeight; // div 기준 바닥
+
+        if (self.progress > 0.99 && !hasReachedBottom) {
+          hasReachedBottom = true;
+          st.disable(); // y 컨트롤 잠시 멈춤
+
+          const tl = gsap.timeline({
+            onComplete: () => st.enable(), // 애니 완료 후 재개
+          });
+
+          tl.to(nimoWrapper, {
+            y: wrapperBottomY - jumpHeight, // 살짝 점프
+            duration: 0.5,
+            ease: 'power2.out',
+          })
+            .to(nimo, {
               opacity: 0,
               duration: 0.2,
               onComplete: () => {
                 nimo.src = `${nimoHi}?t=${Date.now()}`; // 이미지 교체
-                nimo.style.height = 'auto';
-                gsap.to(nimo, { opacity: 1, duration: 0.2 });
+                nimo.style.width = '20rem';
               },
+            })
+            .to(nimo, { opacity: 1, duration: 0.2 })
+            .to(nimoWrapper, {
+              keyframes: [
+                { y: wrapperBottomY + 20, duration: 0.2, ease: 'power2.in' }, // 바닥 지나치며 충격
+                { y: wrapperBottomY - 15, duration: 0.15, ease: 'power2.out' }, // 튕겨 올라가는 높이
+                { y: wrapperBottomY, duration: 0.1, ease: 'bounce.out' }, // 최종 착지
+              ],
             });
-            hasReachedBottom = true;
-          } else if (self.progress <= 0.99 && hasReachedBottom) {
-            gsap.to(nimo, {
-              y: `-=${bottomOffset}`, // 원래 위치 복구
-              opacity: 0,
-              duration: 0.2,
-              onComplete: () => {
-                nimo.src = nimoJump;
-                nimo.style.width = '10rem'; // 원래 크기
-                nimo.style.height = 'auto';
-                gsap.to(nimo, { opacity: 1, duration: 0.2 });
-              },
-            });
-            hasReachedBottom = false;
-          }
-        },
+        } else if (self.progress <= 0.99 && hasReachedBottom) {
+          hasReachedBottom = false;
+          gsap.to(nimo, {
+            opacity: 0,
+            duration: 0.2,
+            onComplete: () => {
+              nimo.src = nimoJump;
+              nimo.style.width = '15rem';
+            },
+          });
+          gsap.to(nimo, { opacity: 1, duration: 0.2 });
+        }
+
+        // ScrollTrigger가 y를 계속 적용 (점프 전)
+        if (!hasReachedBottom) {
+          gsap.set(nimoWrapper, {
+            y: self.progress * wrapperBottomY,
+          });
+        }
       },
     });
+
+    return () => st.kill();
   }, []);
 
   return (
     <div ref={wrapperRef} className="relative w-full h-[200vh] overflow-hidden">
-      {/* 니모는 wrapper 기준 absolute */}
-      <img
-        ref={nimoRef}
-        src={nimoJump}
-        alt="nimo"
-        className="absolute left-1/2 top-0 w-[15rem] -translate-x-1/2 z-20"
-      />
-
-      {/* 섹션들 */}
-      <HeroSection02 />
-
-      {/* 집 & 나무 */}
+      {/* 니모 Wrapper */}
       <div
-        className="absolute pt-10 pb-0 w-[360px] h-fit rounded-tl-4xl rounded-tr-4xl left-[300px] bottom-8 bg-white z-9 flex flex-col gap-2 justify-between"
-        style={{ boxShadow: '0 -10px 20px rgba(0,0,0,0.15)' }}
+        ref={nimoWrapperRef}
+        className="absolute left-1/2 top-0 -translate-x-1/2 flex items-end z-20 "
+        style={{ width: 'auto', height: '22.5rem' }} // ScrollTrigger 기준 높이
       >
-        <div className="flex items-center px-5 py-2 gap-10">
-          <span className="relative block w-30 h-30 rounded-full bg-gray-light after:absolute after:block after:right-4 after:top-1/2 after:-translate-Y-1/2 after:w-3 after:h-3 after:rounded-full after:bg-black"></span>
-          <div className="flex flex-col gap-5">
-            <span className="text-4xl">nimo</span>
-            <span className="text-3xl text-gray">welcome!</span>
-          </div>
-        </div>
-        <div className="bg-gray-light h-10 w-full"></div>
+        <img
+          ref={nimoRef}
+          src={nimoJump}
+          alt="nimo"
+          className="w-[15rem] h-auto"
+        />
       </div>
 
-      <div className="absolute bottom-0 w-full h-10 bg-[#AA7134]"></div>
-      <div className="">
-        <img
-          src={treeLg}
-          height="40"
-          alt=""
-          className="absolute left-0 bottom-0 z-10"
-        />
-        <img
-          src={treeSm}
-          height="40"
-          alt=""
-          className="absolute bottom-8 left-[560px] z-10"
-        />
+      {/* 기능 소개 */}
+      <HeroSection02 />
+
+      {/* 하단 집 나무 */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-fit">
+        {/* 집 */}
+        <div
+          className="absolute pt-10 pb-0 w-[22.5rem] h-[12.5rem] md:h-[21.875rem] rounded-tl-4xl rounded-tr-4xl left-1/2 -translate-x-1/2 bottom-8 bg-white z-9 flex flex-col gap-2 justify-between"
+          style={{ boxShadow: '0 -10px 20px rgba(0,0,0,0.15)' }}
+        >
+          <div className="flex items-center px-5 py-2 gap-10">
+            <span className="relative block w-30 h-30 rounded-full bg-gray-light after:absolute after:block after:right-4 after:top-1/2 after:-translate-y-1/2 after:w-3 after:h-3 after:rounded-full after:bg-black"></span>
+            <div className="flex flex-col gap-5">
+              <span className="text-4xl">nimo</span>
+              <span className="text-3xl text-gray">welcome!</span>
+            </div>
+          </div>
+          <div className="bg-gray-light h-10 w-full"></div>
+        </div>
+
+        {/* 나무 */}
+        <div>
+          <img
+            src={treeLg}
+            height="40"
+            alt=""
+            className="absolute left-[calc(50%-15rem)] -translate-x-1/2 bottom-0 z-10"
+          />
+          <img
+            src={treeSm}
+            height="40"
+            alt=""
+            className="absolute bottom-8 left-[calc(50%+13.125rem)] -translate-x-1/2 z-10"
+          />
+        </div>
       </div>
     </div>
   );

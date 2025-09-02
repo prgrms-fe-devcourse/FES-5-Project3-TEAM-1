@@ -119,7 +119,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
 
       {/* 텍스트 */}
       <div className="absolute top-1/2 inset-0 flex justify-center items-center">
-        <div ref={textRef} className="text-black text-[4rem]">
+        <div ref={textRef} className="text-black text-xl md:text-[4rem]">
           니모의 마을에 오신걸 환영합니다
         </div>
       </div>

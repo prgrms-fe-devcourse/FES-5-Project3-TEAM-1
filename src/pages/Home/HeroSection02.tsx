@@ -82,7 +82,7 @@ const HeroSection02 = forwardRef((_, ref) => {
   useImperativeHandle(ref, () => ({ section: sectionRef.current }));
 
   return (
-    <section ref={sectionRef} className="h-[200vh] relative overflow-hidden">
+    <section ref={sectionRef} className="h-[150vh] relative overflow-hidden">
       <Panel01 ref={panelRefs[0]} />
       <Panel02 ref={panelRefs[1]} />
       <Panel03 ref={panelRefs[2]} />
