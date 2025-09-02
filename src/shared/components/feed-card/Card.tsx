@@ -1,6 +1,6 @@
 import tw from '@/shared/utils/style';
 import CardHeader from './CardHeader';
-import { memo, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { useFeedStore } from '@/pages/Thread/utils/store';
 import { useEmoji } from '@/features/emoji/hook/useEmoji';
 import { EmojiPicker } from '@/features/emoji/ui/EmojiPicker';
@@ -33,6 +33,8 @@ const Card = ({
   const { emojiCounts, handleEmojiClick, myReactions } = useEmoji({
     feedId,
   });
+  const markAsRead = useFeedStore((state) => state.markAsRead);
+  const feed = useFeedStore((state) => state.feedById[feedId]);
 
   const handleToggle = () => {
     setIsExpanded(feedId);
@@ -61,12 +63,25 @@ const Card = ({
       }
     }, 0);
   };
+  //3초 후에 자동 읽음 처리
+  useEffect(() => {
+    if (feed?.isNew) {
+      const timer = setTimeout(() => {
+        markAsRead(feedId);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [feed?.isNew, feedId, markAsRead]);
 
   return (
     <article
       ref={cardRef}
       className={tw(
-        'bg-white rounded-xl border border-gray-light transition hover:shadow-md',
+        'bg-white rounded-xl border transition hover:shadow-md',
+        feed?.isNew
+          ? 'border-tertiary border-2 animate-pulse'
+          : 'border-gray-light',
         className,
       )}
     >
