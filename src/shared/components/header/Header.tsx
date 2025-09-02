@@ -137,8 +137,14 @@ function Header({
             aria-expanded={isOpen}
             aria-label="설정"
             onClick={() => setIsOpen((prev) => !prev)}
+            className="group place-items-center grid"
           >
-            <img src={settingsSVG} alt="" aria-hidden="true" />
+            <img
+              src={settingsSVG}
+              alt=""
+              aria-hidden="true"
+              className="block origin-center motion-safe:group-hover:animate-[spin_1300ms_linear_infinite]"
+            />
           </button>
 
           {isThread ? (

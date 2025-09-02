@@ -1,7 +1,7 @@
 import type { Feed } from '@/shared/types/feed';
 import { create } from 'zustand';
 
-type FeedWithIsExpanded = Feed & { isExpanded: boolean };
+type FeedWithIsExpanded = Feed & { isExpanded: boolean; isNew?: boolean };
 
 type Store = {
   feedById: { [feedId: string]: FeedWithIsExpanded };
@@ -12,6 +12,7 @@ type Action = {
   updateFeed: (feed: Feed) => void;
   setFeeds: (feeds: Feed[], rest: boolean) => void;
   setIsExpanded: (feedId: string) => void;
+  markAsRead: (feedId: string) => void;
 };
 
 export const useFeedStore = create<Store & Action>()((set) => ({
@@ -24,7 +25,7 @@ export const useFeedStore = create<Store & Action>()((set) => ({
       return {
         feedById: {
           ...state.feedById,
-          [feed.id]: { ...feed, isExpanded: false },
+          [feed.id]: { ...feed, isExpanded: false, isNew: true },
         },
         feedIds: [feed.id, ...state.feedIds],
       };
@@ -45,7 +46,7 @@ export const useFeedStore = create<Store & Action>()((set) => ({
         const newFeedById: Record<string, FeedWithIsExpanded> = {};
         const newFeedIds: string[] = [];
         feeds.forEach((feed) => {
-          newFeedById[feed.id] = { ...feed, isExpanded: false };
+          newFeedById[feed.id] = { ...feed, isExpanded: false, isNew: false };
           newFeedIds.push(feed.id);
         });
         return { feedById: newFeedById, feedIds: newFeedIds };
@@ -56,13 +57,14 @@ export const useFeedStore = create<Store & Action>()((set) => ({
         const newFeedIds = [...state.feedIds];
         feeds.forEach((feed) => {
           if (!newFeedById[feed.id]) {
-            newFeedById[feed.id] = { ...feed, isExpanded: false };
+            newFeedById[feed.id] = { ...feed, isExpanded: false, isNew: false };
             newFeedIds.push(feed.id);
           }
         });
         return { feedById: newFeedById, feedIds: newFeedIds };
       }
     }),
+
   setIsExpanded: (feedId) =>
     set((state) => ({
       feedById: {
@@ -70,6 +72,18 @@ export const useFeedStore = create<Store & Action>()((set) => ({
         [feedId]: {
           ...state.feedById[feedId],
           isExpanded: !state.feedById[feedId].isExpanded,
+        },
+      },
+    })),
+
+  //새 피드 읽음 처리
+  markAsRead: (feedId) =>
+    set((state) => ({
+      feedById: {
+        ...state.feedById,
+        [feedId]: {
+          ...state.feedById[feedId],
+          isNew: false,
         },
       },
     })),
