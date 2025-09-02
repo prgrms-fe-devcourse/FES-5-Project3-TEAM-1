@@ -7,6 +7,14 @@
   .overflow-hidden {
     overflow: hidden !important;
   }
+
+  .text-stroke-black {
+    text-shadow:
+      -3px -3px 0 #000,
+      3px -3px 0 #000,
+      -3px 3px 0 #000,
+      3px 3px 0 #000;
+  }
 }
 
 @layer utilities {

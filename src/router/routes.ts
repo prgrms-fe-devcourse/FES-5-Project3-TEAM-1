@@ -1,13 +1,13 @@
 import { lazy } from 'react';
 import type { RouteConfig } from './type';
-import RootLayout from '@/RootLayout';
 import HeaderLessLayout from '@/shared/layout/HeaderLessLayout';
 import PageLayout from '@/shared/layout/PageLayout';
+import RootLayout from '@/shared/layout/RootLayout';
 
 const Home = lazy(() => import('@/pages/Home'));
 const Thread = lazy(() => import('@/pages/Thread'));
-const LoginTest = lazy(() => import('@/pages/login-test/LoginTest'));
 const AdminPage = lazy(() => import('@/pages/admin'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
 
 export const routes: RouteConfig[] = [
   {
@@ -42,49 +42,13 @@ export const routes: RouteConfig[] = [
             path: '/admin',
             Component: AdminPage,
           },
-          {
-            text: '로그인 테스트',
-            path: '/login',
-            Component: LoginTest,
-          },
         ],
+      },
+      {
+        text: '404 페이지',
+        path: '*',
+        Component: NotFound,
       },
     ],
   },
 ];
-
-// export const routes: RouteConfig[] = [
-//   {
-//     path: '/',
-//     Component: RootLayout,
-//     children: [
-//       // HomeLayout을 사용하는 경로
-//       {
-//         path: '/',
-//         Component: Home,
-//         children: [
-//           {
-//             index: true,
-//             Component: Home,
-//           },
-//         ],
-//       },
-//       // RootLayout의 직접적인 자식 경로들
-//       {
-//         path: '/thread/:threadId',
-//         Component: Thread,
-//         text: 'Thread',
-//       },
-//       {
-//         path: '/admin',
-//         Component: AdminPage,
-//         text: 'Admin Page',
-//       },
-//       {
-//         path: '/login',
-//         Component: LoginTest,
-//         text: '로그인 테스트',
-//       },
-//     ],
-//   },
-// ];
