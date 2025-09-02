@@ -5,7 +5,8 @@ import type { HeroSectionProps } from './type/Hero';
 
 const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const text02Ref = useRef<HTMLParagraphElement>(null);
   const shapeRef = useRef<HTMLDivElement>(null);
   const eyeRef = useRef<SVGGElement>(null);
 
@@ -29,6 +30,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
 
     // 초기 상태
     gsap.set(textRef.current, { xPercent: 100, autoAlpha: 1 });
+    gsap.set(text02Ref.current, { autoAlpha: 0 });
     gsap.set(shapeRef.current, { scale: 1, rotate: 0 });
 
     tl.current = gsap
@@ -42,14 +44,20 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       })
       .to(
         textRef.current,
-        { xPercent: 0, ease: 'power2.in', duration: 0.7 },
+        { xPercent: 0, ease: 'power2.in', duration: 1 },
         '-=1.2',
       )
       .to(
         textRef.current,
         { autoAlpha: 0, ease: 'power2.out', duration: 1 },
         '-=0.2',
-      );
+      )
+      .to(text02Ref.current, {
+        autoAlpha: 1,
+        xPercent: 0,
+        ease: 'power2.in',
+        duration: 0.7,
+      });
   }, []);
 
   // 외부에서 접근 가능
@@ -118,10 +126,15 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       </div>
 
       {/* 텍스트 */}
-      <div className="absolute top-1/2 inset-0 flex justify-center items-center">
-        <div ref={textRef} className="text-black text-xl md:text-[4rem]">
-          니모의 마을에 오신걸 환영합니다
-        </div>
+      <div className="absolute top-1/2 inset-0 flex flex-col gap-[18.75rem] justify-center items-center">
+        <p ref={textRef} className="text-black text-xl md:text-[4rem]">
+          진짜 나를 보여주세요,
+          <br />
+          안전한 익명 공간에서
+        </p>
+        <p ref={text02Ref} className="text-lg md:text-[3rem]">
+          부담 없이 솔직하게,
+        </p>
       </div>
     </section>
   );

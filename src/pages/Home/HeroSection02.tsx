@@ -19,9 +19,9 @@ interface PanelPosition {
 }
 
 const panelPositions: PanelPosition[] = [
-  { top: '50%', left: '25%' }, // Panel01 위치
-  { top: '70%', left: '75%' }, // Panel02 위치
-  { top: '80%', left: '25%' }, // Panel03 위치
+  { top: '30%', left: '25%' }, // Panel01 위치
+  { top: '50%', left: '75%' }, // Panel02 위치
+  { top: '70%', left: '25%' }, // Panel03 위치
 ];
 
 const HeroSection02 = forwardRef((_, ref) => {
@@ -59,8 +59,8 @@ const HeroSection02 = forwardRef((_, ref) => {
         .timeline({
           scrollTrigger: {
             trigger: panel,
-            start: 'top 80%',
-            end: 'top 10%',
+            start: 'top 50%',
+            end: 'top 5%',
             scrub: 0.5,
           },
         })
@@ -82,7 +82,7 @@ const HeroSection02 = forwardRef((_, ref) => {
   useImperativeHandle(ref, () => ({ section: sectionRef.current }));
 
   return (
-    <section ref={sectionRef} className="h-[150vh] relative overflow-hidden">
+    <section ref={sectionRef} className="h-[130vh] relative overflow-hidden">
       <Panel01 ref={panelRefs[0]} />
       <Panel02 ref={panelRefs[1]} />
       <Panel03 ref={panelRefs[2]} />

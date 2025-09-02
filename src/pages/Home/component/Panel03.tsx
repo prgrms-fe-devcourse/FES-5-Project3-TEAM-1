@@ -9,7 +9,7 @@ const Panel03 = forwardRef<HTMLDivElement, Panel03Props>(
   ({ className }, ref) => {
     return (
       <div ref={ref} className={`${className}`}>
-        <img src={draw} alt="" />
+        <img src={draw} alt="" className="w-50" />
         <h2 className="text-xl md:text-[3.5rem] text-black">그림도 그리고</h2>
       </div>
     );

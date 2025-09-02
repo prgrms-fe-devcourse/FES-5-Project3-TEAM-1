@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import emoji from '@/assets/emoji.gif';
+import clsx from 'clsx';
 
 interface PanelProps {
   className?: string;
@@ -7,10 +8,10 @@ interface PanelProps {
 
 const Panel01 = forwardRef<HTMLDivElement, PanelProps>(({ className }, ref) => {
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={clsx('flex flex-col items-end', className)}>
       {/* GIF 삽입 */}
-      <img src={emoji} className="w-20 h-auto object-cover" />
-      <h2 className="text-xl md:text-[3.5rem] text-black">이모지로 표현하고</h2>
+      <img src={emoji} className="w-30 h-auto object-cover" />
+      <h2 className="text-xl md:text-[56px] text-black">이모지로 표현하고</h2>
     </div>
   );
 });
