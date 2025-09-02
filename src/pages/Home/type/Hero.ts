@@ -1,4 +1,4 @@
 export interface HeroSectionProps {
-  tl?: gsap.core.Timeline;
-  section: HTMLDivElement | null;
+  tl?: gsap.core.Timeline | null;
+  section?: HTMLDivElement | null;
 }
