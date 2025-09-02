@@ -14,51 +14,45 @@ import SortTab from '@/shared/components/tab/SortTab';
 
 const Thread = () => {
   const { threadId } = useParams();
-
-  // TODO:
-  if (!threadId) {
-    return <Navigate to="/" replace />;
-  }
+  // 검증 모달 상태 state
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  // 피드 정렬
+  const [sortBy, setSortBy] = useState<FeedSortBy>(FEED_SORT_BY.LATEST);
 
   // 이스터 에그 구독 hook
   useCreateTriggerEventChannel(threadId);
   // 쓰레드 정보 및 검증 hook
-  const { isPasswordRequired, validatePassword, token, thread } =
+  const { isPasswordRequired, validatePassword, token, thread, notFound } =
     useThreadAuthentication(threadId);
-
-  // 검증이 필요한 쓰레드인지 파악
-  useEffect(() => {
-    if (isPasswordRequired) {
-      setShowPasswordModal(true);
-    }
-  }, [isPasswordRequired]);
-
-  // 검증 모달 상태 state
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-
-  // 피드 정렬
-  const [sortBy, setSortBy] = useState<FeedSortBy>(FEED_SORT_BY.LATEST);
-
   // 피드 리스트 페치 hook
   const { hasMore, loadMore, isFetchFeedLoading, isInitialLoading } = useFeeds({
     threadId,
     sortBy,
   });
 
+  // 검증이 필요한 쓰레드인지 파악
+  useEffect(() => {
+    if (!notFound && isPasswordRequired) {
+      setShowPasswordModal(true);
+    }
+  }, [isPasswordRequired, notFound]);
   // 쓰레드 비밀번호 검증 헨들러
-  const handlePasswordValidate = async (password: string) => {
-    const result = await validatePassword(password);
+  const handlePasswordValidate = async (password: string, threadId: string) => {
+    const result = await validatePassword(password, threadId);
 
     if (result.success) {
       setShowPasswordModal(false);
     }
     return result;
   };
-
   // 정렬 핸들러
   const handleSortChange = useCallback((option: FeedSortBy) => {
     setSortBy(option);
   }, []);
+
+  if (!threadId || notFound) {
+    return <Navigate to="/404" replace />;
+  }
 
   return (
     <>
@@ -73,6 +67,7 @@ const Thread = () => {
       <div className="flex justify-center py-10 bg-bg-main min-h-[calc(100vh-48px)] md:min-h-[calc(100vh-60px)]">
         {/* 비밀번호 모달 */}
         <PasswordModal
+          threadId={threadId}
           isOpen={showPasswordModal}
           onValidate={handlePasswordValidate}
           onClose={() => setShowPasswordModal(false)}

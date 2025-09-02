@@ -5,14 +5,16 @@ import { toastUtils } from '@/shared/utils/toastUtils';
 import { useRef, useState } from 'react';
 
 interface Props {
+  threadId: string;
   isOpen: boolean;
   onValidate: (
     password: string,
+    threadId: string,
   ) => Promise<{ success: boolean; message: string }>;
   onClose: () => void;
 }
 
-const PasswordModal = ({ isOpen, onClose, onValidate }: Props) => {
+const PasswordModal = ({ isOpen, onClose, onValidate, threadId }: Props) => {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>('');
@@ -22,7 +24,10 @@ const PasswordModal = ({ isOpen, onClose, onValidate }: Props) => {
     e.preventDefault();
     setIsLoading(true);
     if (passwordRef.current && passwordRef?.current?.value.trim().length > 0) {
-      const { message, success } = await onValidate(passwordRef.current.value);
+      const { message, success } = await onValidate(
+        passwordRef.current.value,
+        threadId,
+      );
 
       if (success) {
         toastUtils.success(message);

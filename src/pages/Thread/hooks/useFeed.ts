@@ -15,7 +15,7 @@ export const useFeeds = ({
   threadId,
   sortBy,
 }: {
-  threadId: string;
+  threadId?: string;
   sortBy: FeedSortBy;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
