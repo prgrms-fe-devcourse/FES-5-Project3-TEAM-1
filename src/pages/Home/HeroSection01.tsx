@@ -1,8 +1,8 @@
 // HeroSection01.tsx
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { gsap } from 'gsap';
-import logoUrl from '@/assets/logo-white.png';
 import type { HeroSectionProps } from './type/Hero';
+import { Lighter } from './Lighter';
 
 const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -89,6 +89,8 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
 
   return (
     <section ref={sectionRef} className="relative h-[150vh] overflow-hidden">
+      <Lighter />
+
       <div className="flex justify-center items-center h-full mix-blend-multiply bg-black">
         <h1 className="absolute top-[calc(50vh+30px)] left-1/2 -translate-x-1/2">
           <img

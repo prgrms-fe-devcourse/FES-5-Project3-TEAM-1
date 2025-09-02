@@ -15,15 +15,6 @@ export const Lighter = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // HomeLayout 범위 기준 스크롤 보정
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollOffset({ x: window.scrollX, y: window.scrollY });
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const style = {
     background: `radial-gradient(600px at ${mousePos.x}px ${mousePos.y}px, rgba(6, 182, 212, 0.12), transparent 80%)`,
     // background: `radial-gradient(600px at ${mousePos.x}px ${mousePos.y}px, rgba(6, 182, 212, 0.12), transparent 80%)`,

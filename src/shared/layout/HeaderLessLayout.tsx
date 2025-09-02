@@ -1,4 +1,10 @@
+import { Outlet } from 'react-router';
+
 function HeaderLessLayout() {
-  return <div>HeaderLessLayout</div>;
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 }
 export default HeaderLessLayout;

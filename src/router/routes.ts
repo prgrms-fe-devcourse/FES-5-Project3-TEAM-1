@@ -1,7 +1,6 @@
 import { lazy } from 'react';
 import type { RouteConfig } from './type';
 import RootLayout from '@/RootLayout';
-import HomeLayout from '@/pages/Home/HomeLayout';
 import HeaderLessLayout from '@/shared/layout/HeaderLessLayout';
 import PageLayout from '@/shared/layout/PageLayout';
 
@@ -62,7 +61,7 @@ export const routes: RouteConfig[] = [
 //       // HomeLayout을 사용하는 경로
 //       {
 //         path: '/',
-//         Component: HomeLayout,
+//         Component: Home,
 //         children: [
 //           {
 //             index: true,
