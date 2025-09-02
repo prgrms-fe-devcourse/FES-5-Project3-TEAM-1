@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 export const Lighter = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [scrollOffset, setScrollOffset] = useState({ x: 0, y: 0 });
 
   // 마우스 위치 추적
   useEffect(() => {
