@@ -122,11 +122,6 @@ function FeedInput({
               alt="미리보기"
               className="block w-full rounded-lg"
             />
-            {/* <img
-            src={URL.createObjectURL(imageFile)}
-            alt="미리보기"
-            className="block w-full max-w-[12.5rem]"
-          /> */}
             <button
               type="button"
               onClick={() => {
@@ -148,16 +143,13 @@ function FeedInput({
       <div
         className={`flex flex-wrap items-center gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-[62.5rem] pt-5' : 'overflow-hidden max-h-0'}`}
       >
-        <FeedOptions
-          selected={selectedChkbox}
-          onSelect={handleSelect}
-          setImageFile={setImageFile}
-        />
+        <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
         <FeedOptionsSection
           selectedChkbox={selectedChkbox}
           chkboxContentRef={chkboxContentRef}
           drawingRef={drawingRef}
+          setImageFile={setImageFile}
         />
 
         <div className="ml-auto">
