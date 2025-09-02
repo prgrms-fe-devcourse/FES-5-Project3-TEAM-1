@@ -30,7 +30,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
     if (!shapeRef.current || !textRef.current) return;
 
     // 초기 상태
-    gsap.set(textRef.current, { xPercent: 100, autoAlpha: 1 });
+    gsap.set(textRef.current, { xPercent: 100, autoAlpha: 0 });
     gsap.set(text02Ref.current, { autoAlpha: 0 });
     gsap.set(shapeRef.current, { scale: 1, rotate: 0 });
 
@@ -45,7 +45,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       })
       .to(
         textRef.current,
-        { xPercent: 0, ease: 'power2.in', duration: 1 },
+        { autoAlpha: 1, xPercent: 0, ease: 'power2.in', duration: 1 },
         '-=1.2',
       )
       // .to(
@@ -92,17 +92,10 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       <Lighter />
 
       <div className="flex justify-center items-center h-full mix-blend-multiply bg-black">
-        <h1 className="absolute top-[calc(50vh+30px)] left-1/2 -translate-x-1/2">
-          <img
-            src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/logo-white.webp"
-            alt=""
-            className="w-[12.5rem]"
-          />
-        </h1>
         {/* Shape */}
         <div
           ref={shapeRef}
-          className="absolute top-1/5 left-1/2 w-30 h-30 md:w-80 md:h-80 -translate-x-1/2 flex justify-center items-center"
+          className="absolute top-[calc(50vh-6.25rem)] md:top-[calc(50vh-16.25rem)] left-1/2 w-30 h-30 md:w-80 md:h-80 -translate-x-1/2 flex flex-col justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -132,6 +125,14 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
               </clipPath>
             </defs>
           </svg>
+
+          <h1 className="">
+            <img
+              src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/logo-white.webp"
+              alt=""
+              className="w-[12.5rem]"
+            />
+          </h1>
         </div>
       </div>
 
