@@ -15,6 +15,8 @@ interface Props {
   setType: Dispatch<React.SetStateAction<FeedType>>;
   drawingRef: React.RefObject<CanvasRefHandle | null>;
   type: FeedType;
+  imageFile: File | null;
+  setImageFile: Dispatch<React.SetStateAction<File | null>>;
 }
 
 function FeedInput({
@@ -24,6 +26,8 @@ function FeedInput({
   setType,
   drawingRef,
   type,
+  imageFile,
+  setImageFile,
 }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   // const [textareaText, setTextareaText] = useState('');
@@ -111,7 +115,30 @@ function FeedInput({
           className="pr-7 py-3 w-full min-h-12 resize-none overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
           onKeyDown={handleKeyDown}
         ></TextareaAutoSize>
-        {/* <img src="" alt="" className="block w-full max-w-[12.5rem]" /> */}
+        {imageFile && (
+          <div className="relative group w-full max-w-[12.5rem]">
+            <img
+              src={URL.createObjectURL(imageFile)}
+              alt="미리보기"
+              className="block w-full rounded-lg"
+            />
+            {/* <img
+            src={URL.createObjectURL(imageFile)}
+            alt="미리보기"
+            className="block w-full max-w-[12.5rem]"
+          /> */}
+            <button
+              type="button"
+              onClick={() => {
+                setImageFile(null);
+              }}
+              className="absolute top-1 right-1 hidden group-hover:flex items-center justify-center 
+                 w-6 h-6 rounded-full bg-black/60 text-white text-sm"
+            >
+              X
+            </button>
+          </div>
+        )}
         <span
           className={`block absolute right-0 bottom-0 ml-auto text-gray-dark transition-opacity duration-300 ease-in-out ${isFocused ? 'opacity-100' : 'opacity-0'}`}
         >
@@ -121,7 +148,11 @@ function FeedInput({
       <div
         className={`flex flex-wrap items-center gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-[62.5rem] pt-5' : 'overflow-hidden max-h-0'}`}
       >
-        <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
+        <FeedOptions
+          selected={selectedChkbox}
+          onSelect={handleSelect}
+          setImageFile={setImageFile}
+        />
 
         <FeedOptionsSection
           selectedChkbox={selectedChkbox}

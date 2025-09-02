@@ -2,11 +2,13 @@ import PicSVG from '@/assets/icon/pic-16.svg?react';
 // import VoteSVG from '@/assets/icon/vote-16.svg?react';
 // import BalanceSVG from '@/assets/icon/balance-16.svg?react';
 import DrawSVG from '@/assets/icon/draw-16.svg?react';
+import { type Dispatch } from 'react';
 import React from 'react';
 
 interface FeedOptionsProps {
   selected: string | null;
   onSelect: (id: string | null) => void;
+  setImageFile: Dispatch<React.SetStateAction<File | null>>;
 }
 
 const feedOptions = [
@@ -16,7 +18,7 @@ const feedOptions = [
   { id: 'drawing', icon: DrawSVG, label: '그림그리기', type: 'checkbox' },
 ];
 
-function FeedOptions({ selected, onSelect }: FeedOptionsProps) {
+function FeedOptions({ selected, onSelect, setImageFile }: FeedOptionsProps) {
   return (
     <ul className="flex gap-2">
       {feedOptions.map(({ id, icon: Icon, label, type }) => (
@@ -32,6 +34,12 @@ function FeedOptions({ selected, onSelect }: FeedOptionsProps) {
                 accept="image/*"
                 id={`feedOptions-${id}`}
                 className="sr-only"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    setImageFile(e.target.files[0]);
+                    onSelect(selected === id ? null : id);
+                  }
+                }}
               />
               <Icon aria-hidden />
               <span className="sr-only md:not-sr-only md:text-sm">{label}</span>
