@@ -1,14 +1,17 @@
 import type { Feed } from '@/shared/types/feed';
 import { create } from 'zustand';
 
+type FeedWithIsExpanded = Feed & { isExpanded: boolean };
+
 type Store = {
-  feedById: { [feedId: string]: Feed };
+  feedById: { [feedId: string]: FeedWithIsExpanded };
   feedIds: string[];
 };
 type Action = {
   addFeed: (feed: Feed) => void;
   updateFeed: (feed: Feed) => void;
   setFeeds: (feeds: Feed[], rest: boolean) => void;
+  setIsExpanded: (feedId: string) => void;
 };
 
 export const useFeedStore = create<Store & Action>()((set) => ({
@@ -19,28 +22,30 @@ export const useFeedStore = create<Store & Action>()((set) => ({
     set((state) => {
       if (state.feedById[feed.id]) return state;
       return {
-        feedById: { ...state.feedById, [feed.id]: feed },
+        feedById: {
+          ...state.feedById,
+          [feed.id]: { ...feed, isExpanded: false },
+        },
         feedIds: [feed.id, ...state.feedIds],
       };
     }),
   // 업데이트 피드
-  updateFeed: (feed) => {
+  updateFeed: (feed) =>
     set((state) => ({
       feedById: {
         ...state.feedById,
         [feed.id]: { ...state.feedById[feed.id], ...feed },
       },
-    }));
-  },
+    })),
   // fetch 피드
   setFeeds: (feeds, isInitialFetch = false) =>
     set((state) => {
       // initial fetch 인 경우
       if (isInitialFetch) {
-        const newFeedById: { [key: string]: Feed } = {};
+        const newFeedById: Record<string, FeedWithIsExpanded> = {};
         const newFeedIds: string[] = [];
         feeds.forEach((feed) => {
-          newFeedById[feed.id] = feed;
+          newFeedById[feed.id] = { ...feed, isExpanded: false };
           newFeedIds.push(feed.id);
         });
         return { feedById: newFeedById, feedIds: newFeedIds };
@@ -51,11 +56,21 @@ export const useFeedStore = create<Store & Action>()((set) => ({
         const newFeedIds = [...state.feedIds];
         feeds.forEach((feed) => {
           if (!newFeedById[feed.id]) {
-            newFeedById[feed.id] = feed;
+            newFeedById[feed.id] = { ...feed, isExpanded: false };
             newFeedIds.push(feed.id);
           }
         });
         return { feedById: newFeedById, feedIds: newFeedIds };
       }
     }),
+  setIsExpanded: (feedId) =>
+    set((state) => ({
+      feedById: {
+        ...state.feedById,
+        [feedId]: {
+          ...state.feedById[feedId],
+          isExpanded: !state.feedById[feedId].isExpanded,
+        },
+      },
+    })),
 }));
