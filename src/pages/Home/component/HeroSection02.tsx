@@ -122,7 +122,7 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
     <div ref={wrapperRef} className="relative w-full h-[200vh] overflow-hidden">
       <div
         ref={titleWrapperRef}
-        className="absolute bottom-[20%] left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center gap-4"
+        className="absolute bottom-[calc(50vh-1.875rem)] left-1/2 -translate-x-1/2 opacity-0 flex flex-col items-center gap-4"
       >
         <h2 className="text-2xl md:text-[4rem] text-center">
           Anonimo를
@@ -137,6 +137,7 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
           서비스 이용하기
         </button>
       </div>
+
       {/* 니모 Wrapper */}
       <div
         ref={nimoWrapperRef}

@@ -92,7 +92,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
       <Lighter />
 
       <div className="flex justify-center items-center h-full mix-blend-multiply bg-black">
-        <h1 className="absolute top-[calc(50vh+30px)] left-1/2 -translate-x-1/2">
+        <h1 className="absolute top-[calc(50vh+1.875rem)] left-1/2 -translate-x-1/2">
           <img
             src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/logo-white.webp"
             alt=""
@@ -102,7 +102,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
         {/* Shape */}
         <div
           ref={shapeRef}
-          className="absolute top-1/5 left-1/2 w-30 h-30 md:w-80 md:h-80 -translate-x-1/2 flex justify-center items-center"
+          className="absolute top-[calc(50vh-16.25rem)] left-1/2 w-30 h-30 md:w-80 md:h-80 -translate-x-1/2 flex justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
