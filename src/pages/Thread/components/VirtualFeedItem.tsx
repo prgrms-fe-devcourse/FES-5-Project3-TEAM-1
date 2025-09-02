@@ -4,13 +4,14 @@ import ImageFeed from './feed/ImageFeed';
 import { useFeedStore } from '../utils/store';
 
 interface Props {
-  virtualItem: VirtualItem;
   feedId: string;
+  virtualItem: VirtualItem;
   rowVirtualizer: Virtualizer<Window, Element>;
 }
 
 const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feedId }: Props) => {
   const feed = useFeedStore((state) => state.feedById[feedId]);
+
   return (
     // 가상 아이템 위치 크기 계산
     <div
@@ -30,6 +31,7 @@ const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feedId }: Props) => {
           nickname={feed.nickname}
           createdAt={feed.created_at}
           commentCount={feed.comment_count}
+          isExpanded={feed.isExpanded}
         />
       ) : (
         <ImageFeed
@@ -39,6 +41,7 @@ const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feedId }: Props) => {
           createdAt={feed.created_at}
           commentCount={feed.comment_count}
           drawingUrl={feed.drawing_url || ''}
+          isExpanded={feed.isExpanded}
         />
       )}
     </div>

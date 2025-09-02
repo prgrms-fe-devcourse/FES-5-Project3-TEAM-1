@@ -8,6 +8,7 @@ interface ImageCardProps {
   createdAt: string;
   drawingUrl: string;
   content: string;
+  isExpanded: boolean;
   className?: string;
 }
 
@@ -18,6 +19,7 @@ const ImageFeed = ({
   content,
   className,
   drawingUrl,
+  isExpanded,
   commentCount,
 }: ImageCardProps) => {
   return (
@@ -28,6 +30,7 @@ const ImageFeed = ({
       commentCount={commentCount}
       feedId={feedId}
       content={content}
+      isExpanded={isExpanded}
     >
       <div className="px-5 pb-3 before:block before:h-[2px] before:bg-gray-light before:mb-3">
         <div className="flex justify-center px-10">
