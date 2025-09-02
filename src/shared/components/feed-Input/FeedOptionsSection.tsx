@@ -42,9 +42,11 @@ function FeedOptionsSection({
             <div
               className={`flex gap-2 flex-col w-full h-[232px] rounded-[20px] items-center justify-center relative transition-colors duration-200 overflow-hidden
           ${
-            isDragActive
-              ? 'border-2 border-dashed border-blue-500 bg-blue-100'
-              : 'border border-gray-300 bg-secondary'
+            imageFile
+              ? 'border-0'
+              : isDragActive
+                ? 'border-2 border-dashed border-blue-500 bg-blue-100'
+                : 'border border-gray-dark border-dashed'
           }`}
               onDragOver={(e) => {
                 e.preventDefault();
