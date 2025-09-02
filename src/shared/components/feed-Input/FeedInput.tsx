@@ -115,25 +115,6 @@ function FeedInput({
           className="pr-7 py-3 w-full min-h-12 resize-none overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
           onKeyDown={handleKeyDown}
         ></TextareaAutoSize>
-        {imageFile && (
-          <div className="relative group w-full max-w-[12.5rem]">
-            <img
-              src={URL.createObjectURL(imageFile)}
-              alt="미리보기"
-              className="block w-full rounded-lg"
-            />
-            <button
-              type="button"
-              onClick={() => {
-                setImageFile(null);
-              }}
-              className="absolute top-1 right-1 hidden group-hover:flex items-center justify-center 
-                 w-6 h-6 rounded-full bg-black/60 text-white text-sm"
-            >
-              X
-            </button>
-          </div>
-        )}
         <span
           className={`block absolute right-0 bottom-0 ml-auto text-gray-dark transition-opacity duration-300 ease-in-out ${isFocused ? 'opacity-100' : 'opacity-0'}`}
         >
@@ -150,6 +131,7 @@ function FeedInput({
           chkboxContentRef={chkboxContentRef}
           drawingRef={drawingRef}
           setImageFile={setImageFile}
+          imageFile={imageFile}
         />
 
         <div className="ml-auto">
