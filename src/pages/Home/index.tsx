@@ -3,11 +3,11 @@ import { useModal } from '@/shared/utils/ModalProvider';
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all';
-import HeroSection01 from './HeroSection01';
+import HeroSection01 from './component/HeroSection01';
 import type { HeroSectionProps } from './type/Hero';
 import logoUrl from '@/assets/logo.png';
 import ScrollSvg from '@/assets/icon/scroll-24.svg?react';
-import HeroSection02 from './HeroSection02';
+import HeroSection02 from './component/HeroSection02';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 const Home = () => {

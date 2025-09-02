@@ -7,9 +7,9 @@ import {
 } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Panel01 from './component/Panel01';
-import Panel02 from './component/Panel02';
-import Panel03 from './component/Panel03';
+import Panel01 from './Panel01';
+import Panel02 from './Panel02';
+import Panel03 from './Panel03';
 
 gsap.registerPlugin(ScrollTrigger);
 

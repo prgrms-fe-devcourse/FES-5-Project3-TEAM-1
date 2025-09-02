@@ -1,7 +1,7 @@
 // HeroSection01.tsx
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { gsap } from 'gsap';
-import type { HeroSectionProps } from './type/Hero';
+import type { HeroSectionProps } from '../type/Hero';
 import { Lighter } from './Lighter';
 
 const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {

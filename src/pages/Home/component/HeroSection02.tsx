@@ -2,9 +2,8 @@
 import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import nimoJump from '@/assets/nimo/nimo-jump.png';
 import nimoHi from '@/assets/nimo/nimo-hi.gif';
-import type { HeroSectionProps } from './type/Hero';
+import type { HeroSectionProps } from '../type/Hero';
 import { useModal } from '@/shared/utils/ModalProvider';
 import FeatureList from './FeatureList';
 
@@ -16,6 +15,9 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
   const titleWrapperRef = useRef<HTMLDivElement>(null);
   const nimoRef = useRef<HTMLImageElement>(null);
   const modal = useModal();
+
+  const nimoJump =
+    'https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/nimo-jump.webp';
 
   useImperativeHandle(ref, () => ({
     section: wrapperRef.current,
