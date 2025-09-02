@@ -134,15 +134,40 @@ function FeedInput({
           imageFile={imageFile}
         />
 
-        <div className="ml-auto">
+        <div className="ml-auto relative group inline-block ">
           <Button
             size="sm"
             color="blue"
             onClick={handleSubmit}
             disabled={type === 'text' && content.length <= 0}
+            className="
+              relative overflow-hidden isolate z-0
+              enabled:active:translate-y-[2px]
+              before:content-[''] before:absolute before:inset-y-0 before:left-0
+              before:w-0 before:h-full
+              before:transition-[width] before:duration-500 before:ease-in-out
+              before:bg-primary-light
+              before:shadow-[-7px_-7px_20px_0px_#fff9,_-4px_-4px_5px_0px_#fff9,_7px_7px_20px_0px_#0002,_4px_4px_5px_0px_#0001]
+              before:-z-10
+              enabled:hover:before:w-full
+              disabled:before:!w-0 disabled:shadow-none
+              "
           >
             올리기
           </Button>
+          {/*툴팁*/}
+          {type === 'text' && content.length <= 0 && (
+            <span
+              className="
+              absolute left-1/2 -translate-x-1/2 top-full mt-1
+              whitespace-nowrap rounded-md
+              bg-black text-white text-xs px-2 py-1
+              opacity-0 group-hover:opacity-100 transition-opacity
+            "
+            >
+              내용을 입력해주세요
+            </span>
+          )}
         </div>
       </div>
     </div>

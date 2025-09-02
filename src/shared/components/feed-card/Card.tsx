@@ -65,7 +65,10 @@ const Card = ({
   return (
     <article
       ref={cardRef}
-      className={tw('bg-white rounded-xl border border-gray-light', className)}
+      className={tw(
+        'bg-white rounded-xl border border-gray-light transition hover:shadow-md',
+        className,
+      )}
     >
       {/* 카드 헤더 */}
       <CardHeader createdAt={createdAt} nickname={nickname} />
