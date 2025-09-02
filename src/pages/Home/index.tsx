@@ -4,10 +4,13 @@ import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all';
 import HeroSection01 from './component/HeroSection01';
+import settingsSVG from '@/assets/icon/settings-32.svg';
 import type { HeroSectionProps } from './type/Hero';
-import logoUrl from '@/assets/logo.png';
 import ScrollSvg from '@/assets/icon/scroll-24.svg?react';
 import HeroSection02 from './component/HeroSection02';
+import SettingsMenu from '@/shared/components/header/SettingsMenu';
+import useLogout from '@/features/login/hooks/useLogout';
+import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 const Home = () => {
@@ -27,6 +30,13 @@ const Home = () => {
   const smootherRef = useRef<ScrollSmoother | null>(null);
   const scrollRef = useRef<HTMLButtonElement>(null);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const settingsMenuRef = useRef<HTMLDivElement>(null);
+  const loginAuth = useAuth();
+  const logout = useLogout();
+
+  const isLoginUser = !!loginAuth.userId;
 
   // Section01 progress 안전하게 적용
   useEffect(() => {
@@ -112,6 +122,12 @@ const Home = () => {
     };
   }, []);
 
+  /* 훅 이용 (esc or 밖 클릭 시 settingsMenu 닫힘) xl일 시는 안함*/
+  useCloseOnOutsideOrEsc<HTMLDivElement>({
+    ref: settingsMenuRef,
+    onClose: () => setIsOpen(false),
+  });
+
   return (
     <div id="wrapper" className="relative home-font">
       <div id="content">
@@ -127,15 +143,24 @@ const Home = () => {
         <HeroSection02 ref={section02Ref} />
       </div>
 
-      <button
-        type="button"
-        ref={buttonRef}
-        onClick={() => modal.openModal('login')}
-        className="fixed top-5 right-5 flex items-center justify-center gap-2 px-4 py-2 rounded-3xl shadow-md bg-white hover:shadow-lg transition-shadow text-lg"
-      >
-        <img src={logoUrl} className="w-20" aria-label="anonimo" /> 바로
-        이용하기
-      </button>
+      <div ref={settingsMenuRef} className="absolute right-3 top-3">
+        <button
+          aria-haspopup="menu"
+          aria-expanded={isOpen}
+          aria-label="설정"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <img src={settingsSVG} alt="" aria-hidden="true" className="w-12" />
+        </button>
+
+        <SettingsMenu
+          isOpen={isOpen}
+          isLoginUser={isLoginUser}
+          logout={logout}
+          onClose={() => setIsOpen(false)}
+          className="settings-menu"
+        ></SettingsMenu>
+      </div>
 
       {showScrollBtn && (
         <button
