@@ -9,7 +9,7 @@ import { getNicknameFromSession } from '@/shared/utils/nickname';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import { insertTriggerEvent } from '@/shared/api/easter-egg';
 import { checkTriggerWord } from '@/features/easter-egg/utils/trigger';
-import uploadImage from '@/features/upload-image/image';
+import uploadImage from '@/shared/api/image';
 
 interface Props {
   threadId: string;
