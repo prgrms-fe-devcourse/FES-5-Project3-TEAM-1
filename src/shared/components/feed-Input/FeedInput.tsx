@@ -15,6 +15,8 @@ interface Props {
   setType: Dispatch<React.SetStateAction<FeedType>>;
   drawingRef: React.RefObject<CanvasRefHandle | null>;
   type: FeedType;
+  imageFile: File | null;
+  setImageFile: Dispatch<React.SetStateAction<File | null>>;
 }
 
 function FeedInput({
@@ -24,6 +26,8 @@ function FeedInput({
   setType,
   drawingRef,
   type,
+  imageFile,
+  setImageFile,
 }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   // const [textareaText, setTextareaText] = useState('');
@@ -111,7 +115,6 @@ function FeedInput({
           className="pr-7 py-3 w-full min-h-12 resize-none overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
           onKeyDown={handleKeyDown}
         ></TextareaAutoSize>
-        {/* <img src="" alt="" className="block w-full max-w-[12.5rem]" /> */}
         <span
           className={`block absolute right-0 bottom-0 ml-auto text-gray-dark transition-opacity duration-300 ease-in-out ${isFocused ? 'opacity-100' : 'opacity-0'}`}
         >
@@ -127,6 +130,8 @@ function FeedInput({
           selectedChkbox={selectedChkbox}
           chkboxContentRef={chkboxContentRef}
           drawingRef={drawingRef}
+          setImageFile={setImageFile}
+          imageFile={imageFile}
         />
 
         <div className="ml-auto">

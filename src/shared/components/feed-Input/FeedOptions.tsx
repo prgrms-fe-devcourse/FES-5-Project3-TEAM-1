@@ -28,10 +28,15 @@ function FeedOptions({ selected, onSelect }: FeedOptionsProps) {
             >
               {' '}
               <input
-                type="file"
-                accept="image/*"
+                type="checkbox"
+                accept="feedOptions"
                 id={`feedOptions-${id}`}
                 className="sr-only"
+                onChange={() => {
+                  onSelect(selected === id ? null : id);
+                }}
+                aria-controls="feedsContent"
+                aria-expanded={selected === id}
               />
               <Icon aria-hidden />
               <span className="sr-only md:not-sr-only md:text-sm">{label}</span>

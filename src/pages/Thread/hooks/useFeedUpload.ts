@@ -9,6 +9,7 @@ import { getNicknameFromSession } from '@/shared/utils/nickname';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import { insertTriggerEvent } from '@/shared/api/easter-egg';
 import { checkTriggerWord } from '@/features/easter-egg/utils/trigger';
+import uploadImage from '@/shared/api/image';
 
 interface Props {
   threadId: string;
@@ -22,6 +23,7 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
   const [type, setType] = useState<FeedType>('text');
   const [isUploading, setIsUploading] = useState(false);
   const drawingRef = useRef<CanvasRefHandle>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   // 이스터 에그 업로드
   const throttleInsertTrigger = useThrottle(async (word: string) => {
@@ -71,6 +73,10 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
         // drawingUrl = await uploadDrawing({ feedId, file: blob });
         await uploadDrawing({ feedId, file: blob });
       }
+      if (lastType === 'image' && imageFile) {
+        await uploadImage({ feedId, file: imageFile });
+        setImageFile(null);
+      }
 
       // 이스터 에그
       const word = checkTriggerWord(content);
@@ -98,5 +104,7 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
     onSubmit: handleUploadFeed,
     isUploading: isUploading,
     type,
+    imageFile,
+    setImageFile,
   };
 };
