@@ -32,12 +32,14 @@ const ImageFeed = ({
     >
       <div className="px-5 pb-3 before:block before:h-[2px] before:bg-gray-light before:mb-3">
         <div className="flex justify-center px-10">
-          <img
-            src={drawingUrl}
-            alt="그린 그림"
-            className="max-w-[80%] h-auto"
-            loading="lazy"
-          />
+          {drawingUrl && (
+            <img
+              src={drawingUrl}
+              alt="사진"
+              className="max-w-[80%] h-auto"
+              loading="lazy"
+            />
+          )}
         </div>
       </div>
     </Card>

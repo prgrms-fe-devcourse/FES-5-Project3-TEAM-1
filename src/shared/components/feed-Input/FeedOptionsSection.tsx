@@ -47,7 +47,7 @@ function FeedOptionsSection({
       id="feedsContent"
       role="region"
       aria-live="polite"
-      tabIndex={-1}
+      tabIndex={0}
       aria-label="선택된 옵션"
       className={`w-full border-t-1 border-dashed border-gray-dark order-3 transition-all duration-500 ease-in-out focus:ring-none ${selectedChkbox ? 'max-h-[62.5rem] opacity-100 mt-3 pt-2' : 'opacity-0 max-h-0'}`}
     >

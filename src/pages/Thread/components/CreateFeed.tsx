@@ -3,6 +3,8 @@ import { useFeedUpload } from '../hooks/useFeedUpload';
 import { useEffect, useRef, useState } from 'react';
 import BackSvg from '@/assets/icon/back02-24.svg?react';
 import Portal from '@/shared/components/portals/Portal';
+import gsap from 'gsap';
+import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 
 interface Props {
   threadId: string;
@@ -15,8 +17,13 @@ const CreateFeed = ({ threadId, token }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isModalOpen && modalRef.current) {
-      const timer = setTimeout(() => modalRef.current?.focus(), 0);
+    if (isModalOpen) {
+      const timer = setTimeout(() => {
+        const input = modalRef.current?.querySelector<
+          HTMLInputElement | HTMLTextAreaElement
+        >('input, textarea');
+        input?.focus();
+      }, 0);
       return () => clearTimeout(timer);
     }
   }, [isModalOpen]);
@@ -27,6 +34,36 @@ const CreateFeed = ({ threadId, token }: Props) => {
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
+
+  useEffect(() => {
+    if (isModalOpen && modalRef.current) {
+      requestAnimationFrame(() => {
+        gsap.to(modalRef.current, {
+          autoAlpha: 1, // opacity 1 + visibility visible
+          duration: 0.3,
+          ease: 'power1.out',
+        });
+      });
+    }
+  }, [isModalOpen]);
+
+  // 닫기
+  const handleCloseModal = () => {
+    if (!modalRef.current) return;
+
+    gsap.to(modalRef.current, {
+      opacity: 0, // 서서히 투명해짐
+      duration: 0.25, // 0.25초 동안
+      ease: 'power1.in',
+      onComplete: () => setIsModalOpen(false), // 완료 후 모달 상태 false
+    });
+  };
+
+  // 바깥 클릭 또는 ESC 누르면 닫히도록
+  useCloseOnOutsideOrEsc({
+    ref: modalRef,
+    onClose: () => handleCloseModal(),
+  });
 
   const {
     content,
@@ -67,46 +104,44 @@ const CreateFeed = ({ threadId, token }: Props) => {
 
       {/* 모바일 모달 레이어 */}
       {isMobile && isModalOpen && (
-        <Portal
-          hasOverlay={true}
-          overlayType="dim"
-          onOverlayClick={() => setIsModalOpen(false)}
+        <div
+          role="dialog"
+          aria-modal="true"
+          tabIndex={-1}
+          ref={modalRef}
+          aria-hidden={!isModalOpen}
+          className="fixed left-0 top-0 opacity-0 z-50"
         >
-          <div
-            ref={modalRef}
-            role="dialog"
-            aria-modal="true"
-            aria-hidden={!isModalOpen}
-            tabIndex={-1}
-            className="bg-gray-light w-screen h-screen overflow-auto relative"
-          >
-            <div className="flex items-center px-2 py-2 h-12 bg-primary-light">
-              <button
-                className="flex gap-1 text-black"
-                onClick={() => setIsModalOpen(false)}
-                aria-label="피드 목록으로 돌아가기"
-              >
-                <BackSvg aria-hidden className="w-5 h-5" />
-                피드 목록
-              </button>
-            </div>
+          <div className="bg-gray-light w-screen h-screen overflow-auto relative ">
+            <div
+              className="flex items-center px-2 py-2 h-12 bg-primary-light"
+              aria-hidden
+            ></div>
 
             {/* 모달 안 FeedInput */}
             <FeedInput
               content={content}
               setContent={setContent}
               onSubmit={onSubmit}
-              onSuccess={() => setIsModalOpen(false)}
+              onSuccess={() => handleCloseModal()}
               setType={setType}
               drawingRef={drawingRef}
               type={type}
               imageFile={imageFile}
               setImageFile={setImageFile}
-              autoFocus={true}
-              className="rounded-none pb-10"
+              className="rounded-none"
             />
+
+            <button
+              className="absolute left-2 top-3 flex items-center gap-1 text-black "
+              onClick={() => handleCloseModal()}
+              aria-label="피드 목록으로 돌아가기"
+            >
+              <BackSvg aria-hidden className="w-5 h-5" />
+              피드 목록
+            </button>
           </div>
-        </Portal>
+        </div>
       )}
     </div>
   );
