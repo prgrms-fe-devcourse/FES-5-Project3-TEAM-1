@@ -20,7 +20,14 @@ function FeedOptions({ selected, onSelect }: FeedOptionsProps) {
       {feedOptions.map(({ id, icon: Icon, label }) => (
         <li key={id}>
           <label
+            tabIndex={0}
             htmlFor={`feedOptions-${id}`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelect(selected === id ? null : id);
+              }
+            }}
             className={`flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-visible:outline-1 focus-visible:outline-slate-900 ${selected === id ? 'bg-primary' : 'bg-secondary'}
                       `}
           >
