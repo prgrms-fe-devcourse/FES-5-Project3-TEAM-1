@@ -43,7 +43,7 @@ const Canvas = forwardRef<CanvasRefHandle, Props>(
     useEffect(() => {
       const updateWidth = () => {
         if (drawContainerRef.current?.offsetWidth) {
-          setStageWidth(drawContainerRef.current.offsetWidth - 12);
+          setStageWidth(drawContainerRef.current.offsetWidth - 2);
         }
       };
 
@@ -117,7 +117,7 @@ const Canvas = forwardRef<CanvasRefHandle, Props>(
           width={stageWidth}
           height={320}
           style={{ cursor: ChangeCursor() }}
-          className="h-fit p-0 border-1 border-gray rounded-sm"
+          className="h-fit p-0 border-1 border-gray"
         >
           <Layer>
             <Rect x={0} y={0} width={stageWidth} height={320} fill={fill} />

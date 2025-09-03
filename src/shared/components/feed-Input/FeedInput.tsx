@@ -139,7 +139,7 @@ function FeedInput({
         </span>
       </div>
       <div
-        className={`flex flex-wrap items-center gap-2 md:gap-0 transition-height duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-[62.5rem] pt-5' : 'overflow-hidden max-h-0'}`}
+        className={`flex flex-wrap items-center gap-2 md:gap-0 transition-height duration-500 overflow-hidden ease-out ${isFocused || selectedChkbox ? 'max-h-[62.5rem] opacity-100 pt-5' : 'opacity-0 max-h-0'}`}
       >
         <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
