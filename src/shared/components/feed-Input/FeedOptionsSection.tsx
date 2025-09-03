@@ -3,6 +3,7 @@ import DrawingForm from '@/features/drawing/ui/DrawingForm';
 import { useEffect, useRef, useState, type Dispatch } from 'react';
 import ImageAddSVG from '@/assets/icon/image-add.svg';
 import React from 'react';
+import CloseSvg from '@/assets/icon/close-24.svg?react';
 import { gsap } from 'gsap';
 
 interface Props {
@@ -107,14 +108,14 @@ function FeedOptionsSection({
                     />
                     <button
                       type="button"
+                      aria-label="삭제"
                       onClick={(e) => {
                         e.preventDefault(); // label 클릭 방지
                         setImageFile(null);
                       }}
-                      className="absolute top-2 right-2 hidden group-hover:flex items-center justify-center 
-                w-8 h-8 rounded-full bg-black/60 text-white text-lg font-bold"
+                      className="absolute top-0 right-2 flex flex-center w-7 h-7 rounded-full bg-gray-dark text-white"
                     >
-                      ×
+                      <CloseSvg aria-hidden className="w-4 h-4" />
                     </button>
                   </div>
                 )}
