@@ -42,7 +42,7 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
 
   const handleUploadFeed = async () => {
     const nickname = getNicknameFromSession();
-    if (type !== 'drawing' && !content.trim()) return;
+    if (!(type === 'drawing' || type === 'image') && !content.trim()) return;
 
     setIsUploading(true);
     try {
@@ -55,6 +55,10 @@ export const useFeedUpload = ({ threadId, token }: Props) => {
         } else {
           blob = await drawingRef.current.changeToBlob();
         }
+      }
+
+      if (type === 'image') {
+        if (!imageFile) lastType = 'text';
       }
 
       const feedData = await uploadFeed({
