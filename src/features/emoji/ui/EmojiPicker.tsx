@@ -47,7 +47,7 @@ export function EmojiPicker({
       ref={wrapperRef}
       className="relative flex items-center gap-2 flex-nowrap"
     >
-      <div className="flex gap-2 overflow-hidden h-7">
+      <div className="flex gap-2 overflow-hidden min-h-7">
         <EmojiButton onClick={handleToggle} />
 
         <EmojiList>
