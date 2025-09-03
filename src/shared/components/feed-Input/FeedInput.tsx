@@ -19,7 +19,6 @@ interface Props {
   imageFile: File | null;
   setImageFile: Dispatch<React.SetStateAction<File | null>>;
   className?: string;
-  autoFocus?: boolean;
 }
 
 function FeedInput({
@@ -33,7 +32,6 @@ function FeedInput({
   imageFile,
   setImageFile,
   className,
-  autoFocus,
 }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -119,6 +117,8 @@ function FeedInput({
         await onSubmit();
         setSelectedChkbox(null);
         setType('text');
+
+        onSuccess?.();
       }
     }
   };
@@ -143,7 +143,6 @@ function FeedInput({
           }}
           placeholder="익명으로 자유롭게 의견을 나눠보세요."
           onKeyDown={handleKeyDown}
-          autoFocus={autoFocus}
           className="pr-7 py-3 w-full h-[3rem] resize-none overflow-hidden focus:outline-none"
         ></textarea>
         <span
