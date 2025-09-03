@@ -78,10 +78,8 @@ const Card = ({
     <article
       ref={cardRef}
       className={tw(
-        'bg-white rounded-xl border transition hover:shadow-md',
-        feed?.isNew
-          ? 'border-tertiary border-2 animate-pulse'
-          : 'border-gray-light',
+        'bg-white rounded-xl border transition duration-200 ease-in border-gray-light hover:shadow-md',
+        feed?.isNew ? 'animate-shadowPulse' : '',
         className,
       )}
     >
