@@ -92,6 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     setIsLoggedIn(false);
+    setUserId(null);
   };
 
   const firstLogin = () => {

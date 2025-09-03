@@ -9,16 +9,8 @@ function useLogout() {
   const location = useLocation();
   const Logout = async () => {
     try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-      } else {
-        console.warn('로그아웃 중 세션을 찾지 못했습니다.');
-      }
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
     } catch (error) {
       console.error('로그아웃 중 에러 : ', error);
       return { success: false, error };
