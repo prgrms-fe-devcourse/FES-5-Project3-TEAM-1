@@ -10,57 +10,33 @@ interface FeedOptionsProps {
 }
 
 const feedOptions = [
-  { id: 'image', icon: PicSVG, label: '사진', type: 'file' },
-  // { id: 'poll', icon: VoteSVG, label: '투표', type: 'checkbox' },
-  // { id: 'balance', icon: BalanceSVG, label: '밸런스게임', type: 'checkbox' },
-  { id: 'drawing', icon: DrawSVG, label: '그림그리기', type: 'checkbox' },
+  { id: 'image', icon: PicSVG, label: '사진' },
+  { id: 'drawing', icon: DrawSVG, label: '그림그리기' },
 ];
 
 function FeedOptions({ selected, onSelect }: FeedOptionsProps) {
   return (
     <ul className="flex gap-2">
-      {feedOptions.map(({ id, icon: Icon, label, type }) => (
+      {feedOptions.map(({ id, icon: Icon, label }) => (
         <li key={id}>
-          {type === 'file' ? (
-            <label
-              htmlFor={`feedOptions-${id}`}
-              className="flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 bg-secondary rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out active:bg-primary  hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900"
-            >
-              {' '}
-              <input
-                type="checkbox"
-                accept="feedOptions"
-                id={`feedOptions-${id}`}
-                className="sr-only"
-                onChange={() => {
-                  onSelect(selected === id ? null : id);
-                }}
-                aria-controls="feedsContent"
-                aria-expanded={selected === id}
-              />
-              <Icon aria-hidden />
-              <span className="sr-only md:not-sr-only md:text-sm">{label}</span>
-            </label>
-          ) : (
-            <label
-              htmlFor={`feedOptions-${id}`}
-              className={`flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900 ${selected === id ? 'bg-primary' : 'bg-secondary'}
+          <label
+            htmlFor={`feedOptions-${id}`}
+            className={`flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900 ${selected === id ? 'bg-primary' : 'bg-secondary'}
                       `}
-            >
-              <input
-                type="checkbox"
-                name="feedOptions"
-                id={`feedOptions-${id}`}
-                checked={selected === id}
-                onChange={() => onSelect(selected === id ? null : id)}
-                aria-controls="feedsContent"
-                aria-expanded={selected === id}
-                className="sr-only"
-              />
-              <Icon aria-hidden />
-              <span className="sr-only md:not-sr-only md:text-sm">{label}</span>
-            </label>
-          )}
+          >
+            <input
+              type="checkbox"
+              name="feedOptions"
+              id={`feedOptions-${id}`}
+              checked={selected === id}
+              onChange={() => onSelect(selected === id ? null : id)}
+              aria-controls="feedsContent"
+              aria-expanded={selected === id}
+              className="sr-only"
+            />
+            <Icon aria-hidden />
+            <span className="sr-only md:not-sr-only md:text-sm">{label}</span>
+          </label>
         </li>
       ))}
     </ul>
