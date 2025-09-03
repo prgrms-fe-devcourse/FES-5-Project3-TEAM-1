@@ -8,6 +8,7 @@ interface AuthContextType {
   logout: () => void;
   isFirstLogin: boolean;
   firstLogin: () => void;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,12 +17,14 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
   isFirstLogin: false,
   firstLogin: () => {},
+  isLoading: true,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [isFirstLogin, setIsFirstLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   // const modal = useModal();
 
   useEffect(() => {
@@ -61,6 +64,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       } catch (error) {
         console.error('유저 데이터 처리 중 에러 : ', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -85,6 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       },
     );
+
     return () => {
       authListener.subscription.unsubscribe();
     };
@@ -105,6 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     logout,
     isFirstLogin,
     firstLogin,
+    isLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
