@@ -13,4 +13,5 @@ export interface CanvasRefHandle {
 
 export interface DrawingRefProps {
   drawingRef: React.RefObject<CanvasRefHandle | null>;
+  onDrawChange?: (hasDrawing: boolean) => void;
 }

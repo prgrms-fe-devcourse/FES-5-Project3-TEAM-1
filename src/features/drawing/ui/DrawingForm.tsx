@@ -16,7 +16,7 @@ const colors = [
   { name: '흰색', value: '#FFFFFF' },
 ];
 
-const DrawingForm = ({ drawingRef }: DrawingRefProps) => {
+const DrawingForm = ({ drawingRef, onDrawChange }: DrawingRefProps) => {
   const [tool, setTool] = useState<Tool>('pen');
   const [lines, setLines] = useState<Lines[]>([]);
   const [selectedColor, setSelectedColor] = useState(colors[0].value);
@@ -24,7 +24,11 @@ const DrawingForm = ({ drawingRef }: DrawingRefProps) => {
 
   /* 뒤로가기 기능 */
   const handleUndo = () => {
-    setLines((prev) => prev.slice(0, prev.length - 1));
+    setLines((prev) => {
+      const newLines = prev.slice(0, prev.length - 1);
+      onDrawChange?.(newLines.length > 0);
+      return newLines;
+    });
   };
 
   /* 새그림판(리셋) 기능 */
@@ -32,6 +36,7 @@ const DrawingForm = ({ drawingRef }: DrawingRefProps) => {
     setLines([]);
     setFill('#ffffff');
     setTool('pen');
+    onDrawChange?.(false);
   };
 
   return (
@@ -51,7 +56,10 @@ const DrawingForm = ({ drawingRef }: DrawingRefProps) => {
           ref={drawingRef}
           tool={tool}
           lines={lines}
-          setLines={setLines}
+          setLines={(newLines) => {
+            setLines(newLines);
+            onDrawChange?.(newLines.length > 0);
+          }}
           selectedColor={selectedColor}
           fill={fill}
           setFill={setFill}

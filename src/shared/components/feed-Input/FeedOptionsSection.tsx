@@ -11,6 +11,7 @@ interface Props {
   drawingRef: React.RefObject<CanvasRefHandle | null>;
   setImageFile: Dispatch<React.SetStateAction<File | null>>;
   imageFile: File | null;
+  onDrawChange?: (hasDrawing: boolean) => void;
 }
 
 function FeedOptionsSection({
@@ -19,6 +20,7 @@ function FeedOptionsSection({
   drawingRef,
   setImageFile,
   imageFile,
+  onDrawChange,
 }: Props) {
   const [isDragActive, setIsDragActive] = useState(false);
   const drawingContainerRef = useRef(null);
@@ -51,7 +53,7 @@ function FeedOptionsSection({
     >
       <div ref={drawingContainerRef} className="opacity-0 oveflow-hidden">
         {selectedChkbox === 'drawing' && (
-          <DrawingForm drawingRef={drawingRef} />
+          <DrawingForm drawingRef={drawingRef} onDrawChange={onDrawChange} />
         )}
       </div>
       <div ref={imageContainerRef} className="opacity-0 oveflow-hidden">
