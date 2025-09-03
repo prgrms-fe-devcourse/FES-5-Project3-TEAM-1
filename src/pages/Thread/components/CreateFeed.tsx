@@ -2,7 +2,6 @@ import FeedInput from '@/shared/components/feed-Input/FeedInput';
 import { useFeedUpload } from '../hooks/useFeedUpload';
 import { useEffect, useRef, useState } from 'react';
 import BackSvg from '@/assets/icon/back02-24.svg?react';
-import Portal from '@/shared/components/portals/Portal';
 import gsap from 'gsap';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 
@@ -39,7 +38,7 @@ const CreateFeed = ({ threadId, token }: Props) => {
     if (isModalOpen && modalRef.current) {
       requestAnimationFrame(() => {
         gsap.to(modalRef.current, {
-          autoAlpha: 1, // opacity 1 + visibility visible
+          autoAlpha: 1,
           duration: 0.3,
           ease: 'power1.out',
         });
@@ -52,10 +51,10 @@ const CreateFeed = ({ threadId, token }: Props) => {
     if (!modalRef.current) return;
 
     gsap.to(modalRef.current, {
-      opacity: 0, // 서서히 투명해짐
-      duration: 0.25, // 0.25초 동안
+      opacity: 0,
+      duration: 0.25,
       ease: 'power1.in',
-      onComplete: () => setIsModalOpen(false), // 완료 후 모달 상태 false
+      onComplete: () => setIsModalOpen(false),
     });
   };
 
