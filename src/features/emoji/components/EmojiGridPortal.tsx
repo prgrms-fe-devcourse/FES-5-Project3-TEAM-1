@@ -1,40 +1,48 @@
-import { useLayoutEffect, useState } from 'react';
+import type { Position } from '@/shared/types/position';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 interface Props {
-  pickerRef: React.RefObject<HTMLDivElement | null>;
   children: React.ReactNode;
+  buttonRef: React.RefObject<HTMLButtonElement | null>;
   onClick: () => void;
+  position: Position;
 }
 
-const EmojiGridPortal = ({ pickerRef, children, onClick }: Props) => {
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+const EmojiGridPortal = ({ children, onClick, position }: Props) => {
+  const overlayRoot = document.getElementById('emoji-overlay');
 
-  useLayoutEffect(() => {
-    const el = pickerRef.current;
-    if (!el) return;
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault();
+      if (e.key === 'Escape') {
+        onClick();
+      }
+    };
 
-    const rect = el.getBoundingClientRect();
-    setPosition({
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX,
-    });
-  }, [pickerRef]);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClick]);
 
+  if (!overlayRoot) return null;
   return createPortal(
-    <div className="fixed inset-0" onClick={onClick}>
+    <div
+      className="fixed inset-0"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClick();
+      }}
+    >
       <div
         className="absolute z-[9999]"
         style={{
-          top: `${position.top - 5}px`,
-          left: `${position.left - 5}px`,
-          position: 'absolute',
+          top: `${position.y}px`,
+          left: `${position.x}px`,
         }}
       >
         {children}
       </div>
     </div>,
-    document.body,
+    overlayRoot,
   );
 };
 export default EmojiGridPortal;
