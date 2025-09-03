@@ -14,7 +14,7 @@ interface Props {
 
 function ColorPalette({ colors, selectedColor, onSelectedColor }: Props) {
   return (
-    <ul className="flex flex-col flex-wrap gap-2 md:gap-2">
+    <ul className="flex flex-col flex-wrap pl-0.5 gap-2 md:gap-2">
       {colors.map(({ name, value }, i) => (
         <li key={i}>
           <button

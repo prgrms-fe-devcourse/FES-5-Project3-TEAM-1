@@ -21,7 +21,7 @@ function FeedOptions({ selected, onSelect }: FeedOptionsProps) {
         <li key={id}>
           <label
             htmlFor={`feedOptions-${id}`}
-            className={`flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-within:outline-1 focus-within:outline-slate-900 ${selected === id ? 'bg-primary' : 'bg-secondary'}
+            className={`flex-center flex-col md:flex-row gap-1 px-2 py-2 md:px-2 md:py-0.5 rounded-2xl cursor-pointer transition-colors duration-150 ease-in-out hover:bg-primary-light focus-visible:outline-1 focus-visible:outline-slate-900 ${selected === id ? 'bg-primary' : 'bg-secondary'}
                       `}
           >
             <input
