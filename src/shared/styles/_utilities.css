@@ -3,11 +3,9 @@
   .flex-center {
     @apply flex justify-center items-center;
   }
-
   .overflow-hidden {
     overflow: hidden !important;
   }
-
   .text-stroke-black {
     text-shadow:
       -3px -3px 0 #000,
@@ -15,26 +13,34 @@
       -3px 3px 0 #000,
       3px 3px 0 #000;
   }
+  @keyframes shadowPulse {
+    0%,
+    100% {
+      box-shadow: 0 0 5px rgba(255, 188, 76, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 12px rgba(255, 188, 76, 0.6);
+    }
+  }
+  .animate-shadowPulse {
+    animation: shadowPulse 1.2s ease-in-out 2;
+  }
 }
-
 @layer utilities {
   .root-min-h {
     min-height: calc(min(100vh, 100svh) - 6.25rem);
     padding-bottom: env(safe-area-inset-bottom);
   }
-
   .root-min-h-thread {
     min-height: calc(min(100vh, 100svh));
     padding-bottom: env(safe-area-inset-bottom);
   }
-
   @media (min-width: 768px) {
     .root-min-h {
       min-height: calc(min(100vh, 100svh) - 5.5rem);
     }
   }
 }
-
 /*가로 스크롤 영역에서 스크롤바 숨김*/
 .no-scrollbar::-webkit-scrollbar {
   display: none;
