@@ -1,19 +1,11 @@
 import Button from '@/shared/components/button/Button';
 import AdminTable from './component/AdminTable';
 import { useModal } from '@/shared/utils/ModalProvider';
-import { Navigate, useNavigate } from 'react-router';
-import { useAuth } from '@/shared/utils/AuthProvider';
-import { toastUtils } from '@/shared/utils/toastUtils';
+import { useNavigate } from 'react-router';
 
 const AdminPage = () => {
   const modal = useModal();
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
-
-  if (!isLoggedIn) {
-    toastUtils.error('로그인이 필요한 서비스입니다.');
-    return <Navigate to="/" replace />;
-  }
 
   const openModal = () => {
     modal.openModal('createThread', {
