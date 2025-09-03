@@ -1,4 +1,3 @@
-import TextareaAutoSize from 'react-textarea-autosize';
 import { useCallback, useEffect, useRef, useState, type Dispatch } from 'react';
 import React from 'react';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
@@ -7,38 +6,60 @@ import FeedOptions from './FeedOptions';
 import type { FeedType } from '@/shared/types/feed';
 import FeedOptionsSection from './FeedOptionsSection';
 import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
+import tw from '@/shared/utils/style';
 
 interface Props {
   content: string;
   setContent: Dispatch<React.SetStateAction<string>>;
   onSubmit: () => Promise<void>;
+  onSuccess?: () => void;
   setType: Dispatch<React.SetStateAction<FeedType>>;
   drawingRef: React.RefObject<CanvasRefHandle | null>;
   type: FeedType;
   imageFile: File | null;
   setImageFile: Dispatch<React.SetStateAction<File | null>>;
+  className?: string;
 }
 
 function FeedInput({
   content,
   setContent,
   onSubmit,
+  onSuccess,
   setType,
   drawingRef,
   type,
   imageFile,
   setImageFile,
+  className,
 }: Props) {
   const [isFocused, setIsFocused] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   // const [textareaText, setTextareaText] = useState('');
   const [selectedChkbox, setSelectedChkbox] = useState<string | null>(null);
   const feedsInputRef = useRef<HTMLDivElement>(null);
   const chkboxContentRef = useRef<HTMLDivElement | null>(null);
   const textLength = 200;
+  const [hasDrawing, setHasDrawing] = useState(false);
+
+  /* textarea 글자 수만큼 height 늘어나도록 */
+  const handleTextareaAutoSize = () => {
+    if (!textareaRef.current) return;
+
+    const minHeight = 48; // 기본 높이(px)
+
+    if (!textareaRef.current.value) {
+      textareaRef.current.style.height = `${minHeight}px`;
+    } else {
+      textareaRef.current.style.height = `${minHeight}px`; // 초기화
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
 
   /* textarea 글자 수 표시(감소 형태) */
   const handleCountText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value.slice(0, textLength));
+    handleTextareaAutoSize();
   };
 
   /* 옵션 선택 시 */
@@ -75,6 +96,8 @@ function FeedInput({
       await onSubmit();
       setSelectedChkbox(null);
       setType('text');
+
+      onSuccess?.();
     } catch (error) {
       console.error(error);
     }
@@ -94,6 +117,8 @@ function FeedInput({
         await onSubmit();
         setSelectedChkbox(null);
         setType('text');
+
+        onSuccess?.();
       }
     }
   };
@@ -101,20 +126,25 @@ function FeedInput({
   return (
     <div
       ref={feedsInputRef}
-      className="flex flex-col px-5 py-3 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10"
+      className={tw(
+        'flex flex-col px-5 py-3 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10',
+        className,
+      )}
     >
       <div className="flex flex-col relative w-full ">
-        <TextareaAutoSize
-          min-rows={1}
+        <textarea
+          ref={textareaRef}
           name="feedsInput"
           value={content}
           maxLength={textLength}
           onChange={handleCountText}
-          onFocus={() => setIsFocused(true)}
+          onFocus={() => {
+            (setIsFocused(true), handleTextareaAutoSize());
+          }}
           placeholder="익명으로 자유롭게 의견을 나눠보세요."
-          className="pr-7 py-3 w-full min-h-12 resize-none overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
           onKeyDown={handleKeyDown}
-        ></TextareaAutoSize>
+          className="pr-7 py-3 w-full h-[3rem] resize-none overflow-hidden focus:outline-none"
+        ></textarea>
         <span
           className={`block absolute right-0 bottom-0 ml-auto text-gray-dark transition-opacity duration-300 ease-in-out ${isFocused ? 'opacity-100' : 'opacity-0'}`}
         >
@@ -122,7 +152,7 @@ function FeedInput({
         </span>
       </div>
       <div
-        className={`flex flex-wrap items-center gap-2 md:gap-0 transition-all duration-300 ease-in-out ${isFocused || selectedChkbox ? 'overflow-visible max-h-[62.5rem] pt-5' : 'overflow-hidden max-h-0'}`}
+        className={`flex flex-wrap items-center gap-2 md:gap-0 transition-all duration-400  ease-out max-h-[62.5rem] mt-5 md:mt-0 opacity-100 ${isFocused || selectedChkbox ? 'md:max-h-[62.5rem]  md:opacity-100 md:mt-5' : 'md:max-h-0 md:opacity-0'}`}
       >
         <FeedOptions selected={selectedChkbox} onSelect={handleSelect} />
 
@@ -132,6 +162,7 @@ function FeedInput({
           drawingRef={drawingRef}
           setImageFile={setImageFile}
           imageFile={imageFile}
+          onDrawChange={setHasDrawing}
         />
 
         <div className="ml-auto relative group inline-block ">
@@ -139,7 +170,11 @@ function FeedInput({
             size="sm"
             color="blue"
             onClick={handleSubmit}
-            disabled={type === 'text' && content.length <= 0}
+            disabled={
+              (type === 'text' && content.length <= 0) ||
+              (type === 'image' && !imageFile && content.trim().length === 0) ||
+              (type === 'drawing' && !hasDrawing && content.trim().length === 0)
+            }
             className="
               relative overflow-hidden isolate z-0
               enabled:active:translate-y-[2px]
