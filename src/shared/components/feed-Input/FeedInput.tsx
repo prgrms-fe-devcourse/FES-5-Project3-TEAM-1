@@ -173,8 +173,8 @@ function FeedInput({
             onClick={handleSubmit}
             disabled={
               (type === 'text' && content.length <= 0) ||
-              (type === 'image' && !imageFile) ||
-              (type === 'drawing' && !hasDrawing)
+              (type === 'image' && !imageFile && content.trim().length === 0) ||
+              (type === 'drawing' && !hasDrawing && content.trim().length === 0)
             }
             className="
               relative overflow-hidden isolate z-0
