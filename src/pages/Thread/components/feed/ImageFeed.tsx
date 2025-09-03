@@ -1,6 +1,5 @@
 import Card from '@/shared/components/feed-card/Card';
 import { memo } from 'react';
-
 interface ImageCardProps {
   feedId: string;
   nickname: string;
@@ -11,7 +10,6 @@ interface ImageCardProps {
   isExpanded: boolean;
   className?: string;
 }
-
 const ImageFeed = ({
   feedId,
   nickname,
@@ -37,7 +35,7 @@ const ImageFeed = ({
           <img
             src={drawingUrl}
             alt="그린 그림"
-            className="w-full"
+            className="max-w-[80%] h-auto"
             loading="lazy"
           />
         </div>
@@ -45,5 +43,4 @@ const ImageFeed = ({
     </Card>
   );
 };
-
 export default memo(ImageFeed);
