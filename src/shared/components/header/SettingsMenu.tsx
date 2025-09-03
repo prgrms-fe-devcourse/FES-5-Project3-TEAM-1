@@ -29,7 +29,7 @@ function SettingsMenu({
       tabIndex={-1}
       aria-label="설정 메뉴"
       className={tw(
-        'absolute top-full -mt-8 md:mt-2 right-4 flex flex-col justify-between gap-10 px-3 py-2 w-50 max-h-60 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.40)] transition-all duration-400 ease-out',
+        'absolute top-12 md:top-17 right-4 flex flex-col justify-between gap-10 px-3 py-2 w-50 max-h-60 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.40)] transition-all duration-400 ease-out',
         isOpen
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 -translate-y-3 pointer-events-none',
