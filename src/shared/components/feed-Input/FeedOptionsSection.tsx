@@ -2,6 +2,7 @@ import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 import DrawingForm from '@/features/drawing/ui/DrawingForm';
 import { useState, type Dispatch } from 'react';
 import ImageAddSVG from '@/assets/icon/image-add.svg';
+import React from 'react';
 
 interface Props {
   selectedChkbox: string | null;
@@ -18,7 +19,6 @@ function FeedOptionsSection({
   setImageFile,
   imageFile,
 }: Props) {
-  if (!selectedChkbox) return null;
   const [isDragActive, setIsDragActive] = useState(false);
 
   return (
@@ -29,8 +29,7 @@ function FeedOptionsSection({
       aria-live="polite"
       tabIndex={-1}
       aria-label="선택된 옵션"
-      className="mt-3 pt-5 w-full border-t-1 border-dashed border-gray-dark order-3 focus:ring-none"
-      style={{ maxHeight: selectedChkbox ? '62.5rem' : '0px' }}
+      className={`w-full border-t-1 border-dashed border-gray-dark order-3 transition-all duration-500 ease-in-out focus:ring-none ${selectedChkbox ? 'max-h-[62.5rem] opacity-100 mt-3 pt-2' : 'opacity-0 max-h-0'}`}
     >
       {selectedChkbox === 'drawing' && <DrawingForm drawingRef={drawingRef} />}
       {selectedChkbox === 'image' && (
@@ -114,4 +113,4 @@ function FeedOptionsSection({
     </div>
   );
 }
-export default FeedOptionsSection;
+export default React.memo(FeedOptionsSection);
