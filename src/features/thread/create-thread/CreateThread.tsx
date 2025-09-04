@@ -35,6 +35,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [titleError, setTitleError] = useState(false);
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     const initUpdateForm = async () => {
@@ -169,13 +170,11 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
             tabIndex={0}
             ref={titleRef}
             autoFocus
-            className={titleError ? 'border-red-400' : ''}
+            value={title}
             onChange={(e) => {
-              if (e.target.value.trim()) {
-                setTitleError(false);
-              } else {
-                setTitleError(true);
-              }
+              const value = e.target.value;
+              setTitle(value);
+              setTitleError(!value.trim());
             }}
           />
           <Textarea
@@ -197,6 +196,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
             color="default"
             onClick={handleSubmit}
             fullWidth
+            disabled={title.trim().length === 0}
           >
             {mode === 'create' ? '만들기' : '수정'}
           </Button>
