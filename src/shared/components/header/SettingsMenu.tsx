@@ -1,16 +1,23 @@
-import clsx from 'clsx';
 import { NavLink } from 'react-router';
 import Button from '../button/Button';
 import { useHeaderMenuModal } from '@/shared/hook/useHeaderMenuModal';
+import tw from '@/shared/utils/style';
 
 interface Props {
   isOpen: boolean;
   isLoginUser: boolean;
   logout: () => void;
   onClose: () => void;
+  className?: string;
 }
 
-function SettingsMenu({ isOpen, isLoginUser, logout, onClose }: Props) {
+function SettingsMenu({
+  isOpen,
+  isLoginUser,
+  logout,
+  onClose,
+  className,
+}: Props) {
   const { handleActionModal } = useHeaderMenuModal({
     isLoginUser,
     logout,
@@ -21,11 +28,12 @@ function SettingsMenu({ isOpen, isLoginUser, logout, onClose }: Props) {
     <div
       tabIndex={-1}
       aria-label="설정 메뉴"
-      className={clsx(
-        'absolute top-full -mt-8 md:mt-2 right-4 flex flex-col justify-between gap-10 px-3 py-2 w-50 max-h-60 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.40)] transition-all duration-400 ease-out',
+      className={tw(
+        'absolute top-12 md:top-17 right-4 flex flex-col justify-between gap-10 px-3 py-2 w-50 max-h-60 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.40)] transition-all duration-400 ease-out',
         isOpen
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 -translate-y-3 pointer-events-none',
+        className,
       )}
     >
       {isLoginUser && (

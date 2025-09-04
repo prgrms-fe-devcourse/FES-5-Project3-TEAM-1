@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router';
 import logo from '@/assets/logo.png';
+import logoDark from '@/assets/logo-dark-mode.png';
 import moonSVG from '@/assets/icon/moon-20.svg';
+import sunSVG from '@/assets/icon/sun-02.svg';
 import settingsSVG from '@/assets/icon/settings-32.svg';
 import usersSVG from '@/assets/icon/users-16.svg';
 import { useEffect, useRef, useState } from 'react';
@@ -10,6 +12,7 @@ import useLogout from '@/features/login/hooks/useLogout';
 import ThreadMenu from '@/shared/components/header/ThreadMenu';
 import SettingsMenu from './SettingsMenu';
 import { useThreadStore } from '@/features/thread/utils/store';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   // tabs?: { id: string; label: string }[];
@@ -29,6 +32,8 @@ function Header({
   const isThread = location.pathname.startsWith('/thread');
   const loginAuth = useAuth();
   const logout = useLogout();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const handleSwitchTheme = useThemeStore((state) => state.toggleDarkMode);
 
   const isLoginUser = !!loginAuth.userId;
 
@@ -71,7 +76,7 @@ function Header({
     <header className="flex fixed left-0 top-0 justify-between items-center flex-wrap md:flex-nowrap gap-2 md:gap-4 w-full h-auto md:h-15 px-5 py-2 md:py-0 bg-white shadow-slate-200 shadow-sm z-50">
       <div className="flex align-items order-1 gap-3">
         <Link to="/" className="w-20 md:w-25">
-          <img src={logo} alt="Anonimo" />
+          <img src={isDarkMode ? logoDark : logo} alt="Anonimo" />
         </Link>
 
         {isThread && (
@@ -109,10 +114,15 @@ function Header({
       {/* 추가 메뉴 */}
       <div className="flex gap-2 md:gap-4 order-2 md:order-3">
         <button
-          className="flex justify-center items-center w-8 h-8 rounded-full bg-secondary"
+          className={`flex justify-center items-center w-8 h-8 rounded-full ${isDarkMode ? 'bg-[#f7f9fb]' : 'bg-black'}`}
           aria-label="다크 모드"
+          onClick={handleSwitchTheme}
         >
-          <img src={moonSVG} aria-hidden="true" className="w-5 h-5" />
+          <img
+            src={isDarkMode ? sunSVG : moonSVG}
+            aria-hidden="true"
+            className="w-5 h-5"
+          />
         </button>
         {!hideParticipantCount && (
           <div className="flex justify-center items-center gap-1 min-w-16 bg-primary rounded-4xl">
@@ -137,8 +147,14 @@ function Header({
             aria-expanded={isOpen}
             aria-label="설정"
             onClick={() => setIsOpen((prev) => !prev)}
+            className="group place-items-center grid"
           >
-            <img src={settingsSVG} alt="" aria-hidden="true" />
+            <img
+              src={settingsSVG}
+              alt=""
+              aria-hidden="true"
+              className="block origin-center motion-safe:group-hover:animate-[spin_1300ms_linear_infinite]"
+            />
           </button>
 
           {isThread ? (

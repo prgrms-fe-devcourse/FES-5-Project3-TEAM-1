@@ -6,3 +6,21 @@
 @import './_base.css';
 @import './_components.css';
 @import './_utilities.css';
+
+@font-face {
+  font-family: 'OngleipParkDahyeon';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Home 전용 클래스 */
+.home-font {
+  font-family: 'OngleipParkDahyeon', sans-serif;
+}
+
+.home-font .settings-menu {
+  font-family: 'Pretendard Variable';
+}

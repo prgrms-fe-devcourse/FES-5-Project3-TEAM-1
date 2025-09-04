@@ -6,10 +6,7 @@ interface Props {
 export const useFeedVirtualizer = ({ feedIds }: Props) => {
   return useWindowVirtualizer({
     count: feedIds.length,
-    estimateSize: () => 150,
-    measureElement: (element) => {
-      return element?.getBoundingClientRect().height ?? 150;
-    },
+    estimateSize: () => 400,
     overscan: 5,
   });
 };

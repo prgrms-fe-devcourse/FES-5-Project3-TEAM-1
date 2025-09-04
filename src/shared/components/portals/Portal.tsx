@@ -33,7 +33,6 @@ const Portal = ({
   }, [targetId]);
 
   useLayoutEffect(() => {
-    if (!hasOverlay) return;
     const body = document.body;
     body.classList.add('overflow-hidden');
     return () => {

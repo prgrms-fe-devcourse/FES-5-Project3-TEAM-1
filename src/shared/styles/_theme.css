@@ -21,3 +21,27 @@
   --color-error-400: #981b1b;
   --color-info-400: #1e3fae;
 }
+
+.dark {
+  --color-primary: #9cbaff; /* 조금 더 밝은 블루 */
+  --color-primary-light: #bfd0ff; /* primary light 강조 */
+  --color-secondary: #2a3350; /* 어두운 보라빛 톤 */
+  --color-tertiary: #e6a73d; /* 조금 차분한 옐로우 */
+  --color-quaternary: #3a3525; /* 어두운 베이지톤 */
+  --color-bg-main: #1a1a1a; /* 다크 배경 메인 */
+  --color-bg-sub: #2a2a2a; /* 다크 배경 서브 */
+  --color-gray-light: #555555; /* 라이트 → 어둡게 */
+  --color-gray: #888888; /* 기본 회색 톤 */
+  --color-gray-dark: #aaaaaa; /* 다크 모드에서는 더 밝게 */
+  --color-danger: #f28b82; /* 조금 더 밝은 레드 */
+  --color-black: #f9fafb; /* 반전 (텍스트용 밝은색) */
+  --color-black-light: #e5e7eb; /* 한 톤 낮춘 밝은색 */
+  --color-white: #0d0d0d; /* 반전 (배경용 어두운색) */
+  --color-violet: var(--color-violet-200);
+  --color-green: var(--color-green-200);
+  --color-yellow: var(--color-yellow-200);
+  --color-red: var(--color-red-200);
+  --color-success-400: #22c55e; /* 밝은 그린 */
+  --color-error-400: #f87171; /* 밝은 레드 */
+  --color-info-400: #60a5fa; /* 밝은 블루 */
+}

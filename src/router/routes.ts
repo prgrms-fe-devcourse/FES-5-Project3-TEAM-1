@@ -1,81 +1,53 @@
 import { lazy } from 'react';
 import type { RouteConfig } from './type';
-import RootLayout from '@/RootLayout';
-import HomeLayout from '@/pages/Home/HomeLayout';
+import HeaderLessLayout from '@/shared/layout/HeaderLessLayout';
+import PageLayout from '@/shared/layout/PageLayout';
+import RootLayout from '@/shared/layout/RootLayout';
 
 const Home = lazy(() => import('@/pages/Home'));
 const Thread = lazy(() => import('@/pages/Thread'));
-const LoginTest = lazy(() => import('@/pages/login-test/LoginTest'));
 const AdminPage = lazy(() => import('@/pages/admin'));
-
-// export const routes: RouteConfig[] = [
-//   {
-//     text: '홈 레이아웃',
-//     path: '/',
-//     Component: HomeLayout,
-//     children: [
-//       {
-//         text: '홈',
-//         path: '/',
-//         Component: Home,
-//       },
-//     ],
-//   },
-//   {
-//     text: '페이지 레이아웃',
-//     path: '/',
-//     Component: RootLayout,
-//     children: [
-//       {
-//         text: 'Thread',
-//         path: '/thread/:threadId',
-//         Component: Thread,
-//       },
-//       {
-//         text: 'Admin Page',
-//         path: '/admin',
-//         Component: AdminPage,
-//       },
-//       {
-//         text: '로그인 테스트',
-//         path: '/login',
-//         Component: LoginTest,
-//       },
-//     ],
-//   },
-// ];
+const NotFound = lazy(() => import('@/pages/NotFound'));
 
 export const routes: RouteConfig[] = [
   {
+    text: '전체 레이아웃',
     path: '/',
     Component: RootLayout,
     children: [
-      // HomeLayout을 사용하는 경로
       {
+        text: '헤더리스 레이아웃',
         path: '/',
-        Component: HomeLayout,
+        Component: HeaderLessLayout,
         children: [
           {
-            index: true,
+            text: '홈',
+            path: '/',
             Component: Home,
           },
         ],
       },
-      // RootLayout의 직접적인 자식 경로들
       {
-        path: '/thread/:threadId',
-        Component: Thread,
-        text: 'Thread',
+        text: '페이지 레이아웃',
+        path: '/',
+        Component: PageLayout,
+        children: [
+          {
+            text: 'Thread',
+            path: '/thread/:threadId',
+            Component: Thread,
+          },
+          {
+            text: 'Admin Page',
+            path: '/admin',
+            Component: AdminPage,
+          },
+        ],
       },
       {
-        path: '/admin',
-        Component: AdminPage,
-        text: 'Admin Page',
-      },
-      {
-        path: '/login',
-        Component: LoginTest,
-        text: '로그인 테스트',
+        text: '404 페이지',
+        path: '*',
+        Component: NotFound,
       },
     ],
   },

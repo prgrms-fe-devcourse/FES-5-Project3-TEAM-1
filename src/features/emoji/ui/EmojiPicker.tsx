@@ -5,6 +5,7 @@ import EmojiList from '../components/EmojiList';
 import EmojiItem from '../components/EmojiItem';
 import EmojiButton from '../components/EmojiButton';
 import EmojiGrid from '../components/EmojiGrid';
+import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 
 interface Props {
   emojiCounts: Array<{ emoji: string; counts: number }>;
@@ -19,24 +20,38 @@ export function EmojiPicker({
   onEmojiClick,
   isLoading,
 }: Props) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  const handleOpenEmojiGrid = useCallback(() => {
+  const handleToggle = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
   const handleEmojiSelect = useCallback(
-    (emoji: string) => {
+    (emoji: string, e?: React.MouseEvent) => {
       onEmojiClick(emoji);
-      setIsOpen(false);
+      if (!e?.shiftKey) {
+        setIsOpen(false);
+      }
     },
     [onEmojiClick],
   );
+
+  // 바깥 클릭 또는 ESC 누르면 닫히도록
+  useCloseOnOutsideOrEsc({
+    ref: wrapperRef,
+    onClose: () => setIsOpen(false),
+    enabled: isOpen,
+  });
   return (
-    <div className="flex items-center gap-2 flex-nowrap " ref={ref}>
-      <div className="flex gap-2 overflow-hidden h-7">
-        <EmojiButton onClick={handleOpenEmojiGrid} />
+    <div
+      ref={wrapperRef}
+      className="relative flex items-center gap-2 flex-nowrap"
+    >
+      <div className="flex gap-2 min-h-7">
+        <div className="relative">
+          <EmojiButton onClick={handleToggle} />
+          {isOpen && <EmojiGrid onSelect={handleEmojiSelect} />}
+        </div>
 
         <EmojiList>
           {isLoading ? (
@@ -55,8 +70,6 @@ export function EmojiPicker({
           )}
         </EmojiList>
       </div>
-
-      {isOpen && <EmojiGrid onSelect={handleEmojiSelect} />}
     </div>
   );
 }

@@ -29,6 +29,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type="button"
+        disabled={disabled}
         className={tw(
           //공통 스타일
           'inline-flex items-center justify-center rounded-xl text-base',
@@ -36,17 +37,19 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           'transition-transform duration-150 ease-in-out',
           'hover:cursor-pointer',
           'min-w-[80px]',
+          'disabled:cursor-not-allowed',
+          'enabled:hover:cursor-pointer',
 
           disabled
-            ? 'bg-gray text-white cursor-not-allowed'
+            ? 'bg-gray text-white'
             : [
                 color === 'default' &&
-                  'bg-black text-white hover:bg-black-light',
+                  'bg-black text-white enabled:hover:bg-black-light',
                 color === 'blue' &&
-                  'bg-primary text-black hover:bg-primary-light',
+                  'bg-primary text-black enabled:hover:bg-primary-light',
 
-                'hover:shadow-md',
-                'active:translate-y-[2px] active:shadow-sm',
+                'enabled:hover:shadow-md',
+                'enabled:active:translate-y-[2px] active:shadow-sm',
               ],
 
           // size

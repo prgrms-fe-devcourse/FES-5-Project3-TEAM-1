@@ -4,20 +4,18 @@ import tw from '@/shared/utils/style';
 import { memo } from 'react';
 
 interface Props {
-  onSelect: (emoji: string) => void;
+  onSelect: (
+    emoji: string,
+    event?: React.MouseEvent<HTMLButtonElement>,
+  ) => void;
 }
 
 const EmojiGrid = ({ onSelect }: Props) => {
-  const handleEmojiClick = ({ emoji }: { emoji: string; label: string }) => {
-    onSelect(emoji);
-  };
-
   return (
     <EmojiPicker.Root
       className={tw(
-        'absolute bottom-5 left-0 h-[280px] w-[320px] flex flex-col bg-white dark:bg-neutral-900 p-2 border border-gray-light rounded-2xl shadow-lg',
+        'absolute -top-[17.5rem] left-3 h-[17.5rem] w-[18rem] md:w-[20rem] flex flex-col bg-white dark:bg-neutral-900 p-2 border border-gray-light rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.3)]',
       )}
-      onEmojiSelect={handleEmojiClick}
       locale="ko"
     >
       <EmojiPicker.Search
@@ -59,6 +57,7 @@ const EmojiGrid = ({ onSelect }: Props) => {
               <button
                 className="flex size-8 items-center justify-center rounded-md text-lg data-[active]:bg-neutral-100 dark:data-[active]:bg-neutral-800"
                 {...props}
+                onClick={(e) => onSelect(emoji.emoji, e)}
               >
                 {emoji.emoji}
               </button>

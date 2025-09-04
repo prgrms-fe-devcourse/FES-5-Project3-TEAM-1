@@ -7,17 +7,18 @@ import {
 } from '@/shared/utils/token';
 import { useEffect, useState } from 'react';
 
-export const useThreadAuthentication = (threadId: string) => {
+export const useThreadAuthentication = (threadId?: string) => {
   const [token, setToken] = useState<string>('');
+  const [notFound, setNotFound] = useState<boolean>(false);
   // 쓰레드 스토어
-  const isAuthenticated = useThreadStore((state) => state.isAuthenticated);
-  const fetchThread = useThreadStore((state) => state.fetchThread);
   const isLoading = useThreadStore((state) => state.isLoading);
+  const isAuthenticated = useThreadStore((state) => state.isAuthenticated);
   const thread = useThreadStore((state) => state.thread);
-  const validatePassword = useThreadStore((state) => state.validatePassword);
   const isPasswordRequired = useThreadStore(
     (state) => state.isPasswordRequired,
   );
+  const fetchThread = useThreadStore((state) => state.fetchThread);
+  const validatePassword = useThreadStore((state) => state.validatePassword);
 
   useEffect(() => {
     checkThreadAccess();
@@ -40,6 +41,7 @@ export const useThreadAuthentication = (threadId: string) => {
   };
 
   const checkThreadAccess = async () => {
+    if (!threadId) return;
     try {
       // 토큰이 없다면 발급
       const currentToken = getBrowserTokenFromSession();
@@ -47,18 +49,24 @@ export const useThreadAuthentication = (threadId: string) => {
         genToken();
       }
 
-      await fetchThread(threadId);
+      const isExisting = await fetchThread(threadId);
+
+      if (!isExisting) {
+        setNotFound(true);
+      }
       // 쓰레드 정보 가져오기
     } catch (error) {
       if (error instanceof Error) {
         toastUtils.error(error.message);
       }
+      setNotFound(true);
     }
   };
 
   // 비밀번호 검증
   const handleValidatePassword = async (
     inputPassword: string,
+    threadId: string,
   ): Promise<{ success: boolean; message: string }> => {
     const success = await validatePassword(threadId, inputPassword);
     return { success: success, message: success ? '인증 성공' : '인증 실패' };
@@ -71,5 +79,6 @@ export const useThreadAuthentication = (threadId: string) => {
     isAuthenticated,
     isPasswordRequired,
     validatePassword: handleValidatePassword,
+    notFound,
   };
 };

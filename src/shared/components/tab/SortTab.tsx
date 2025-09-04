@@ -16,7 +16,7 @@ const SortTab = ({ onChange, currentSort = FEED_SORT_BY.LATEST }: Props) => {
   ];
 
   return (
-    <nav aria-label="피드 정렬 옵션">
+    <nav aria-label="피드 정렬 옵션" className="mb-3">
       <ul role="tablist" className="flex gap-4">
         {sortOptions.map((option) => (
           <li key={option.value} role="presentation">
@@ -24,16 +24,19 @@ const SortTab = ({ onChange, currentSort = FEED_SORT_BY.LATEST }: Props) => {
               type="button"
               role="tab"
               className={tw(
-                'text-gray text-base py-1',
-                currentSort === option.value &&
-                  'text-black  border-b font-semibold',
+                'relative text-gray text-base py-1 transition-colors',
+                currentSort === option.value ? 'text-black font-semibold' : '',
               )}
               aria-selected={currentSort === option.value}
-              onClick={() => {
-                onChange(option.value);
-              }}
+              onClick={() => onChange(option.value)}
             >
               {option.label}
+              <span
+                className={tw(
+                  'absolute left-0 bottom-0 h-0.5 bg-black transition-all duration-300',
+                  currentSort === option.value ? 'w-full' : 'w-0',
+                )}
+              />
             </button>
           </li>
         ))}

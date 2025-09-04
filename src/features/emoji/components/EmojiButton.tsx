@@ -9,12 +9,12 @@ const EmojiButton = ({ onClick }: Props) => {
     <button
       type="button"
       aria-label="이모지 피커"
-      className="flex-center rounded-full hover:bg-gray-50"
+      className="group flex-center rounded-full h-[26px] hover:bg-gray-50"
       onClick={onClick}
     >
       {useMemo(
         () => (
-          <AddEmojiSvg className="text-gray-dark" />
+          <AddEmojiSvg className="text-gray-dark group-hover:text-black" />
         ),
         [],
       )}
