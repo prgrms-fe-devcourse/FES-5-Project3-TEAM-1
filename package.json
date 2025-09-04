@@ -17,6 +17,7 @@
     "@supabase/supabase-js": "^2.56.0",
     "@tailwindcss/vite": "^4.1.12",
     "@tanstack/react-virtual": "^3.13.12",
+    "browser-image-compression": "^2.0.2",
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
     "frimousse": "^0.3.0",

@@ -14,79 +14,6 @@ export type Database = {
   };
   public: {
     Tables: {
-      balance: {
-        Row: {
-          created_at: string | null;
-          end_date: string;
-          feed_id: string;
-          id: string;
-          option_1: string;
-          option_2: string;
-          start_date: string;
-          status: Database['public']['Enums']['status'];
-        };
-        Insert: {
-          created_at?: string | null;
-          end_date: string;
-          feed_id: string;
-          id?: string;
-          option_1: string;
-          option_2: string;
-          start_date?: string;
-          status?: Database['public']['Enums']['status'];
-        };
-        Update: {
-          created_at?: string | null;
-          end_date?: string;
-          feed_id?: string;
-          id?: string;
-          option_1?: string;
-          option_2?: string;
-          start_date?: string;
-          status?: Database['public']['Enums']['status'];
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'balance_feed_id_fkey';
-            columns: ['feed_id'];
-            isOneToOne: false;
-            referencedRelation: 'feeds';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
-      balance_result: {
-        Row: {
-          balance_id: string;
-          created_at: string | null;
-          id: string;
-          option_choice: number;
-          token: string;
-        };
-        Insert: {
-          balance_id: string;
-          created_at?: string | null;
-          id?: string;
-          option_choice: number;
-          token: string;
-        };
-        Update: {
-          balance_id?: string;
-          created_at?: string | null;
-          id?: string;
-          option_choice?: number;
-          token?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'balance_result_balance_id_fkey';
-            columns: ['balance_id'];
-            isOneToOne: false;
-            referencedRelation: 'balance';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
       comment: {
         Row: {
           content: string;
@@ -282,79 +209,6 @@ export type Database = {
           },
         ];
       };
-      poll_options: {
-        Row: {
-          created_at: string | null;
-          id: string;
-          option_order: number;
-          option_text: string;
-          poll_id: string;
-        };
-        Insert: {
-          created_at?: string | null;
-          id?: string;
-          option_order: number;
-          option_text: string;
-          poll_id: string;
-        };
-        Update: {
-          created_at?: string | null;
-          id?: string;
-          option_order?: number;
-          option_text?: string;
-          poll_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'poll_options_poll_id_fkey';
-            columns: ['poll_id'];
-            isOneToOne: false;
-            referencedRelation: 'polls';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
-      polls: {
-        Row: {
-          created_at: string;
-          end_date: string;
-          feed_id: string;
-          id: string;
-          multiple_choice: boolean | null;
-          start_date: string;
-          status: Database['public']['Enums']['status'];
-          title: string;
-        };
-        Insert: {
-          created_at?: string;
-          end_date: string;
-          feed_id: string;
-          id?: string;
-          multiple_choice?: boolean | null;
-          start_date?: string;
-          status?: Database['public']['Enums']['status'];
-          title: string;
-        };
-        Update: {
-          created_at?: string;
-          end_date?: string;
-          feed_id?: string;
-          id?: string;
-          multiple_choice?: boolean | null;
-          start_date?: string;
-          status?: Database['public']['Enums']['status'];
-          title?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'polls_feed_id_fkey';
-            columns: ['feed_id'];
-            isOneToOne: false;
-            referencedRelation: 'feeds';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
       threads: {
         Row: {
           created_at: string | null;
@@ -442,45 +296,6 @@ export type Database = {
           welcome_shown?: boolean;
         };
         Relationships: [];
-      };
-      votes: {
-        Row: {
-          created_at: string | null;
-          id: string;
-          option_id: string;
-          poll_id: string;
-          token: string;
-        };
-        Insert: {
-          created_at?: string | null;
-          id?: string;
-          option_id: string;
-          poll_id: string;
-          token: string;
-        };
-        Update: {
-          created_at?: string | null;
-          id?: string;
-          option_id?: string;
-          poll_id?: string;
-          token?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'votes_option_id_fkey';
-            columns: ['option_id'];
-            isOneToOne: false;
-            referencedRelation: 'poll_options';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'votes_poll_id_fkey';
-            columns: ['poll_id'];
-            isOneToOne: false;
-            referencedRelation: 'polls';
-            referencedColumns: ['id'];
-          },
-        ];
       };
     };
     Views: {
