@@ -67,9 +67,9 @@ const VirtualFeedList = ({
         const animateItems = Array.from(feedItems).slice(0, 10);
 
         gsap.from(animateItems, {
-          duration: 0.5,
+          duration: 0.8,
           opacity: 0,
-          y: -30,
+          y: 20,
           stagger: 0.1,
           ease: 'power2.out',
         });
@@ -79,11 +79,11 @@ const VirtualFeedList = ({
   }, [isInitialLoading, virtualItems.length]);
 
   return (
-    <div className="flex flex-col py-3">
+    <div className="flex flex-col">
       <div
         ref={listContainerRef}
         style={{
-          height: `${rowVirtualizer.getTotalSize()}px`,
+          height: `${rowVirtualizer.getTotalSize() || 100}px`,
           width: '100%',
           position: 'relative',
         }}
