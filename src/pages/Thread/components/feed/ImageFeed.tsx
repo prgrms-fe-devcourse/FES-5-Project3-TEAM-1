@@ -43,7 +43,7 @@ const ImageFeed = ({
                 <img
                   src={drawingUrl}
                   alt="사진"
-                  className="h-auto "
+                  className="h-auto"
                   loading="lazy"
                 />
               </div>
@@ -51,7 +51,9 @@ const ImageFeed = ({
                 <TooltipButton
                   label="이미지 다운로드"
                   tooltip="이미지 다운로드"
-                  onClick={() => downloadImage(drawingUrl)}
+                  onClick={() =>
+                    downloadImage(drawingUrl.replace(/_400_\.png$/, '.png'))
+                  }
                   className="flex-center w-7 h-7 text-gray-dark rounded-full transition-[background] duration-200 hover:bg-primary/30 active:bg-primary/30"
                 >
                   <MdOutlineFileDownload size={24} aria-hidden="true" />
