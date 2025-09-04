@@ -4,7 +4,7 @@ import logoDark from '@/assets/logo-dark-mode.png';
 import moonSVG from '@/assets/icon/moon-20.svg';
 import sunSVG from '@/assets/icon/sun-02.svg';
 import settingsSVG from '@/assets/icon/settings-32.svg';
-import usersSVG from '@/assets/icon/users-16.svg';
+// import usersSVG from '@/assets/icon/users-16.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import { useAuth } from '@/shared/utils/AuthProvider';
@@ -21,12 +21,14 @@ interface Props {
   hideParticipantCount?: boolean;
 }
 
-function Header({
-  // tabs,
-  // currentTab,
-  // onTabChange,
-  hideParticipantCount,
-}: Props) {
+function Header(
+  {
+    // tabs,
+    // currentTab,
+    // onTabChange,
+    // hideParticipantCount,
+  }: Props,
+) {
   const settingsMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const isThread = location.pathname.startsWith('/thread');
