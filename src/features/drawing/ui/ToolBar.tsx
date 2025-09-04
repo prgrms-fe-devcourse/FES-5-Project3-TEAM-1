@@ -34,7 +34,7 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('undo', onUndo)}
         className={toolBtnCss('undo')}
       >
-        <BackSVG aria-hidden />
+        <BackSVG aria-hidden className="text-black" />
       </TooltipButton>
       <TooltipButton
         label="지우개"
@@ -42,7 +42,10 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('eraser', () => onSelectedTool('eraser'))}
         className={toolBtnCss('eraser')}
       >
-        <EraserSVG aria-hidden />
+        <EraserSVG
+          aria-hidden
+          className="[--icon-fill-color:var(--color-white)] [--icon-stroke-color:var(--color-black)]"
+        />
       </TooltipButton>
       <TooltipButton
         label="배경 색 바꾸기"
@@ -50,7 +53,10 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('fill', () => onSelectedTool('fill'))}
         className={toolBtnCss('fill')}
       >
-        <FillSVG aria-hidden />
+        <FillSVG
+          aria-hidden
+          className="[--icon-fill-color:var(--color-white)] [--icon-stroke-color:var(--color-black)]"
+        />
       </TooltipButton>
       <TooltipButton
         label="새 그림판"
@@ -58,7 +64,7 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('reset', onReset)}
         className={toolBtnCss('reset')}
       >
-        <RefreshSVG aria-hidden />
+        <RefreshSVG aria-hidden className="text-black" />
       </TooltipButton>
     </div>
   );
