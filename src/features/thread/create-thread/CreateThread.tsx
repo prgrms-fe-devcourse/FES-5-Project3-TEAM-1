@@ -160,7 +160,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
       {/* children */}
       {/* 방 생성 폼 */}
       {modalStep === 'form' && (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 text-black">
           <Input
             label="제목"
             placeholder="20자 내외로 입력해 주세요."
