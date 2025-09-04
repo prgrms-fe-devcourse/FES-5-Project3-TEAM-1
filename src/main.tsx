@@ -11,13 +11,11 @@ import ThemeManager from './features/dark-mode/ThemeManager.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeManager>
-      {/* 리액트 헬멧 */}
-      <HelmetProvider>
-        {/* 리액트 라우터 Data 셋팅 */}
-        <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
-        <RouterProvider router={router} />
-      </HelmetProvider>
-    </ThemeManager>
+    {/* 리액트 헬멧 */}
+    <HelmetProvider>
+      {/* 리액트 라우터 Data 셋팅 */}
+      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
+      <RouterProvider router={router} />
+    </HelmetProvider>
   </StrictMode>,
 );
