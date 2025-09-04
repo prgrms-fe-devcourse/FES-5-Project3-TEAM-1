@@ -8,8 +8,9 @@ import { toastUtils } from '@/shared/utils/toastUtils';
 const AdminPage = () => {
   const modal = useModal();
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isLoading } = useAuth();
 
+  if (isLoading) return <div>Loading..</div>;
   if (!isLoggedIn) {
     toastUtils.error('로그인이 필요한 서비스입니다.');
     return <Navigate to="/" replace />;
