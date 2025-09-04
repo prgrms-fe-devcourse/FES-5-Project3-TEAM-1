@@ -5,6 +5,8 @@ import logoUrl from '@/assets/logo.png';
 import { useFeedVirtualizer } from '../hooks/useFeedVirtualizer';
 import { useFeedStore } from '../utils/store';
 import EmptyFeed from './feed/EmptyFeed';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
 interface Props {
   hasMore: boolean;
@@ -42,10 +44,44 @@ const VirtualFeedList = ({
   const feedIds = useFeedStore((state) => state.feedIds);
   // virtual hook
   const rowVirtualizer = useFeedVirtualizer({ feedIds });
+  const virtualItems = rowVirtualizer.getVirtualItems();
+  const listContainerRef = useRef<HTMLDivElement>(null);
+  const animationPlayed = useRef(false);
+
+  useEffect(() => {
+    // 정렬 변경 시 애니메이션 다시 재생
+    if (isInitialLoading) {
+      animationPlayed.current = false;
+    }
+
+    // 초기 로딩이 끝나고 랜더링할 아이템이 있을때 애니메이션
+    if (
+      !isInitialLoading &&
+      virtualItems.length > 0 &&
+      listContainerRef.current &&
+      !animationPlayed.current
+    ) {
+      const feedItems =
+        listContainerRef.current.querySelectorAll('.feed-item-inner');
+      if (feedItems.length > 0) {
+        const animateItems = Array.from(feedItems).slice(0, 10);
+
+        gsap.from(animateItems, {
+          duration: 0.5,
+          opacity: 0,
+          y: -30,
+          stagger: 0.1,
+          ease: 'power2.out',
+        });
+        animationPlayed.current = true;
+      }
+    }
+  }, [isInitialLoading, virtualItems.length]);
 
   return (
     <div className="flex flex-col py-3">
       <div
+        ref={listContainerRef}
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,
           width: '100%',
@@ -54,7 +90,7 @@ const VirtualFeedList = ({
       >
         {feedIds.length > 0 ? (
           <>
-            {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+            {virtualItems.map((virtualItem) => (
               <VirtualFeedItem
                 feedId={feedIds[virtualItem.index]}
                 rowVirtualizer={rowVirtualizer}
