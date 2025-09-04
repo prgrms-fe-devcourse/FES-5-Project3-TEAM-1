@@ -38,30 +38,16 @@ const Card = ({
 
   const handleToggle = () => {
     setIsExpanded(feedId);
-    const el = cardRef.current;
-    const prevElTop = el?.getBoundingClientRect().top;
-    const viewPort = window.innerHeight;
 
-    setTimeout(() => {
-      if (!cardRef.current) return;
-      const el = cardRef.current;
-      const nextElTop = el?.getBoundingClientRect().top;
-
-      if (nextElTop < viewPort * 0.25 && !isExpanded) {
-        window.scrollBy({
-          top: -250,
+    // 펼칠 때만 화면 가운대로 이동
+    if (!isExpanded) {
+      setTimeout(() => {
+        cardRef.current?.scrollIntoView({
           behavior: 'smooth',
+          block: 'center',
         });
-      }
-
-      // 댓글을 접을 때 스크롤 위치 복원
-      if (prevElTop! < viewPort * 0.25 && isExpanded) {
-        window.scrollBy({
-          top: 250,
-          behavior: 'instant',
-        });
-      }
-    }, 0);
+      }, 0);
+    }
   };
   //3초 후에 자동 읽음 처리
   useEffect(() => {
