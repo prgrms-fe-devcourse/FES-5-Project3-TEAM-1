@@ -7,7 +7,7 @@ interface Props {
 
 const CommentList = ({ comments }: Props) => {
   return (
-    <ul className="mt-4 h-full overflow-y-scroll">
+    <ul className="mt-4 h-full pr-2 overflow-y-auto">
       {comments.length > 0 ? (
         comments.map((comment) => (
           <CommentItem comment={comment} key={comment.id} />
