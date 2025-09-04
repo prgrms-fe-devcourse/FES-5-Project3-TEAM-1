@@ -75,7 +75,7 @@ export default function ThreadRow({
             tooltip="링크 복사"
             onClick={() => handleCopyClipBoard(`${data.link}`)}
           >
-            <CopySVG aria-hidden />
+            <CopySVG aria-hidden className="text-black" />
           </TooltipButton>
         </div>
       </td>
@@ -119,7 +119,7 @@ export default function ThreadRow({
           onClick={() => onEdit?.(data.id)}
           title="수정"
         >
-          <Edit className="w-5 h-5" aria-hidden />
+          <Edit className="w-5 h-5 text-black" aria-hidden />
         </button>
       </td>
 
@@ -132,7 +132,7 @@ export default function ThreadRow({
           onClick={() => onDelete?.(data.id)}
           title="삭제"
         >
-          <Delete className="w-5 h-5" aria-hidden />
+          <Delete className="w-5 h-5 text-black" aria-hidden />
         </button>
       </td>
     </tr>
