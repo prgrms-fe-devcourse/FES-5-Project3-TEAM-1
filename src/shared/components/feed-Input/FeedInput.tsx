@@ -8,6 +8,7 @@ import FeedOptionsSection from './FeedOptionsSection';
 import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 import tw from '@/shared/utils/style';
 import { useFeedStore } from '@/pages/Thread/utils/store';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   content: string;
@@ -42,6 +43,7 @@ function FeedInput({
   const chkboxContentRef = useRef<HTMLDivElement | null>(null);
   const textLength = 200;
   const [hasDrawing, setHasDrawing] = useState(false);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   // 모든 댓글 닫기
   const closeAllExpanded = useFeedStore((state) => state.closeAllExpanded);
@@ -131,7 +133,8 @@ function FeedInput({
     <div
       ref={feedsInputRef}
       className={tw(
-        'flex flex-col px-5 py-3 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10',
+        'flex flex-col px-5 py-3 rounded-xl  mb-10 bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] border-gray-light',
+        isDarkMode ? 'border border-gray-light' : '',
         className,
       )}
     >
