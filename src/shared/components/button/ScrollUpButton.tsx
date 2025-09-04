@@ -33,7 +33,7 @@ const ScrollUpButton = () => {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-5 md:bottom-10 right-5 md:right-10 w-10 h-10 bg-primary-light hover:bg-primary 
+      className="fixed bottom-6 md:bottom-10 right-6 md:right-10 w-10 h-10 bg-primary-light hover:bg-primary 
                      border border-gray-200 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.25)] 
                      flex items-center justify-center
                      transition-all duration-200 hover:shadow-xl
