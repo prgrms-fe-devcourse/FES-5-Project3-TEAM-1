@@ -7,7 +7,6 @@ import { RouterProvider } from 'react-router';
 import './shared/styles/global.css';
 import { Toaster } from 'react-hot-toast';
 import router from './router/index.tsx';
-import ThemeManager from './features/dark-mode/ThemeManager.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
