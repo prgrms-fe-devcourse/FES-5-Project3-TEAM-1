@@ -23,7 +23,7 @@ type CreateModalStep = 'form' | 'success';
 function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const [modalStep, setModalStep] = useState<CreateModalStep>('form');
   const [link, setLink] = useState('');
-
+  const [title, setTitle] = useState('');
   const { userId } = useAuth();
 
   const handleGoToAdminAndClose = () => {
@@ -34,8 +34,6 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [titleError, setTitleError] = useState(false);
-  const [title, setTitle] = useState('');
 
   useEffect(() => {
     const initUpdateForm = async () => {
@@ -75,12 +73,10 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
     const domain = window.location.origin;
     const link = `${domain}/thread/${id}`;
 
-    if (!title) {
-      setTitleError(true);
+    if (!title.trim()) {
       toastUtils.error('제목을 입력해 주세요.');
       return;
     }
-    setTitleError(false);
 
     await insertThreads({
       id: id,
@@ -114,12 +110,10 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
     const password = passwordRef.current?.value ?? '';
     const isPrivate = password === '' ? false : true;
 
-    if (!title) {
-      setTitleError(true);
+    if (!title.trim()) {
       toastUtils.error('제목을 입력해 주세요.');
       return;
     }
-    setTitleError(false);
 
     if (mode === 'create') {
       await handleCreateInfo();
@@ -174,7 +168,6 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
             onChange={(e) => {
               const value = e.target.value;
               setTitle(value);
-              setTitleError(!value.trim());
             }}
           />
           <Textarea
