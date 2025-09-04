@@ -11,7 +11,7 @@ function PageLayout() {
   const isThread = location.pathname.startsWith('/thread');
 
   return (
-    <div className="flex flex-col relative">
+    <div className="flex flex-col relative text-[var(--color-black)]">
       <Header
         // tabs={isThread ? TABS : undefined}
         // currentTab={tab}
