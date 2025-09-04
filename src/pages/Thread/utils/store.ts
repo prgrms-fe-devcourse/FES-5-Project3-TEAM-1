@@ -13,6 +13,7 @@ type Action = {
   setFeeds: (feeds: Feed[], rest: boolean) => void;
   setIsExpanded: (feedId: string) => void;
   markAsRead: (feedId: string) => void;
+  closeAllExpanded: () => void;
 };
 
 export const useFeedStore = create<Store & Action>()((set) => ({
@@ -87,4 +88,17 @@ export const useFeedStore = create<Store & Action>()((set) => ({
         },
       },
     })),
+  // 모든 댓글 닫기
+  closeAllExpanded: () =>
+    set((state) => {
+      const newFeedById = { ...state.feedById };
+      Object.keys(newFeedById).forEach((feedId) => {
+        newFeedById[feedId] = {
+          ...newFeedById[feedId],
+          isExpanded: false,
+        };
+      });
+
+      return { feedById: newFeedById };
+    }),
 }));
