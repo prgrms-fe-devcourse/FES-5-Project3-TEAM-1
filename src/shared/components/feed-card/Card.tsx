@@ -38,7 +38,6 @@ const Card = ({
 
   const handleToggle = () => {
     setIsExpanded(feedId);
-
     // 펼칠 때만 화면 가운대로 이동
     if (!isExpanded) {
       setTimeout(() => {
@@ -46,9 +45,10 @@ const Card = ({
           behavior: 'smooth',
           block: 'center',
         });
-      }, 0);
+      }, 20);
     }
   };
+
   //3초 후에 자동 읽음 처리
   useEffect(() => {
     if (feed?.isNew) {

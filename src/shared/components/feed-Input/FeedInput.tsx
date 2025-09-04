@@ -7,6 +7,7 @@ import type { FeedType } from '@/shared/types/feed';
 import FeedOptionsSection from './FeedOptionsSection';
 import type { CanvasRefHandle } from '@/features/drawing/types/drawing';
 import tw from '@/shared/utils/style';
+import { useFeedStore } from '@/pages/Thread/utils/store';
 
 interface Props {
   content: string;
@@ -41,6 +42,9 @@ function FeedInput({
   const chkboxContentRef = useRef<HTMLDivElement | null>(null);
   const textLength = 200;
   const [hasDrawing, setHasDrawing] = useState(false);
+
+  // 모든 댓글 닫기
+  const closeAllExpanded = useFeedStore((state) => state.closeAllExpanded);
 
   /* textarea 글자 수만큼 height 늘어나도록 */
   const handleTextareaAutoSize = () => {
@@ -140,6 +144,9 @@ function FeedInput({
           onChange={handleCountText}
           onFocus={() => {
             (setIsFocused(true), handleTextareaAutoSize());
+
+            // 포커스 시 모든 댓글 닫기
+            closeAllExpanded();
           }}
           placeholder="익명으로 자유롭게 의견을 나눠보세요."
           onKeyDown={handleKeyDown}
