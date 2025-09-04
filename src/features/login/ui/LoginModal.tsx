@@ -18,7 +18,7 @@ function LoginModal({ onClose }: Props) {
       children={
         <div className="items-center flex flex-col gap-[20px] pt-[20px]">
           <img src={NimoWelcomePng} alt="nimo_welcome" />
-          <div className="items-center flex flex-col gap-[14px] py-[20px]">
+          <div className="items-center flex flex-col gap-[14px] py-[20px] text-black">
             <GoogleLoginButton />
             <GithubLoginButton />
           </div>
