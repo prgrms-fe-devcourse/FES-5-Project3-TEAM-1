@@ -3,6 +3,9 @@ import Edit from '@/assets/icon/edit-24.svg?react';
 import Delete from '@/assets/icon/delete-24.svg?react';
 import EyeOpen from '@/assets/icon/eye-open-15.svg?react';
 import EyeClose from '@/assets/icon/eye-close-15.svg?react';
+import { toastUtils } from '@/shared/utils/toastUtils';
+import CopySVG from '@/assets/icon/copy-right-24.svg?react';
+import TooltipButton from '@/shared/components/button/TooltipButton';
 
 export type ThreadRowData = {
   id: string;
@@ -29,6 +32,16 @@ export default function ThreadRow({
   const maskedPw = data.password ? '•'.repeat(data.password.length) : '-';
 
   const tdCss = 'px-2 h-[50px] align-middel text-center text-base text-black';
+
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+
+      toastUtils.success('복사 성공😊');
+    } catch (error) {
+      toastUtils.error('복사 실패🥲 다시 시도해 주세요.');
+    }
+  };
   return (
     <tr className="bg-white border-b border-gray-light">
       {/* 번호 */}
@@ -57,6 +70,13 @@ export default function ThreadRow({
           >
             {data.link}
           </a>
+          <TooltipButton
+            label="링크 복사"
+            tooltip="링크 복사"
+            onClick={() => handleCopyClipBoard(`${data.link}`)}
+          >
+            <CopySVG aria-hidden />
+          </TooltipButton>
         </div>
       </td>
 
