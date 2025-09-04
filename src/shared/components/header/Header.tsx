@@ -10,6 +10,7 @@ import useLogout from '@/features/login/hooks/useLogout';
 import ThreadMenu from '@/shared/components/header/ThreadMenu';
 import SettingsMenu from './SettingsMenu';
 import { useThreadStore } from '@/features/thread/utils/store';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   // tabs?: { id: string; label: string }[];
@@ -29,6 +30,8 @@ function Header({
   const isThread = location.pathname.startsWith('/thread');
   const loginAuth = useAuth();
   const logout = useLogout();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const handleSwitchTheme = useThemeStore((state) => state.toggleDarkMode);
 
   const isLoginUser = !!loginAuth.userId;
 
@@ -109,8 +112,9 @@ function Header({
       {/* 추가 메뉴 */}
       <div className="flex gap-2 md:gap-4 order-2 md:order-3">
         <button
-          className="flex justify-center items-center w-8 h-8 rounded-full bg-secondary"
+          className={`flex justify-center items-center w-8 h-8 rounded-full ${isDarkMode ? 'bg-gray-dark' : 'bg-secondary'}`}
           aria-label="다크 모드"
+          onClick={handleSwitchTheme}
         >
           <img src={moonSVG} aria-hidden="true" className="w-5 h-5" />
         </button>
