@@ -36,27 +36,28 @@ const ImageFeed = ({
       isExpanded={isExpanded}
     >
       <div className="px-5 pb-3 before:block before:h-[2px] before:bg-gray-light before:mb-3">
-        <div className="flex justify-center px-10">
+        <div className="flex relative justify-center px-10">
           {drawingUrl && (
-            <div className="relative max-w-[80%] group/overlay">
-              <img
-                src={drawingUrl}
-                alt="사진"
-                className="h-auto "
-                loading="lazy"
-              />
-              <div className="absolute inset-0 flex justify-end p-4 items-end bg-black/0 group-hover/overlay:bg-black/20 transition-all duration-300">
+            <>
+              <div className="relative max-w-[80%]">
+                <img
+                  src={drawingUrl}
+                  alt="사진"
+                  className="h-auto "
+                  loading="lazy"
+                />
+              </div>
+              <div className="absolute right-0 -bottom-2 z-20">
                 <TooltipButton
                   label="이미지 다운로드"
                   tooltip="이미지 다운로드"
-                  className="opacity-0  group-hover/overlay:opacity-100 text-white transition-all duration-200 active:scale-95"
-                  aria-label="이미지 다운로드"
                   onClick={() => downloadImage(drawingUrl)}
+                  className="flex-center w-7 h-7 text-gray-dark rounded-full transition-[background] duration-200 hover:bg-primary/30 active:bg-primary/30"
                 >
-                  <MdOutlineFileDownload size={25} aria-hidden="true" />
+                  <MdOutlineFileDownload size={24} aria-hidden="true" />
                 </TooltipButton>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>
