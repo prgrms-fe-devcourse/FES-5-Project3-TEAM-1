@@ -124,7 +124,7 @@ function Header({
             className="w-5 h-5"
           />
         </button>
-        {!hideParticipantCount && (
+        {/* {!hideParticipantCount && (
           <div className="flex justify-center items-center gap-1 min-w-16 bg-primary rounded-4xl">
             <img
               className="flex w-4 h-4"
@@ -140,7 +140,7 @@ function Header({
               30
             </span>
           </div>
-        )}
+        )} */}
         <div ref={settingsMenuRef} className="w-8 h-8">
           <button
             aria-haspopup="menu"
