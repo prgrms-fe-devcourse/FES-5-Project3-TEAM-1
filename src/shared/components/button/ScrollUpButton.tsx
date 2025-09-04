@@ -5,7 +5,7 @@ const ScrollUpButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
-    if (window.pageYOffset > 500) {
+    if (window.pageYOffset > 100) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -37,7 +37,7 @@ const ScrollUpButton = () => {
                      border border-gray-200 rounded-full shadow-lg 
                      flex items-center justify-center
                      transition-all duration-200 hover:shadow-xl
-                     focus:outline-none focus:ring-2 focus:ring-yellow"
+                     focus:outline-none focus:ring-2 focus:ring-yellow z-50"
       aria-label="맨 위로 이동"
     >
       <GoChevronUp size={20} className="text-gray-700" />

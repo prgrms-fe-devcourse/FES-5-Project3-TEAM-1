@@ -122,7 +122,7 @@ function ThreadMenu({
           </div>
 
           <address className="flex flex-col gap-1 not-italic">
-            <div className="flex gap-2">
+            <div className="flex gap-1">
               <strong className="pr-1 relative w-20 after:content-[''] after:block after:absolute after:right-0 after:top-2.5 after:w-0.25 after:h-2 after:bg-slate-900">
                 Contact
               </strong>
@@ -150,8 +150,9 @@ function ThreadMenu({
               </a>
             </div>
 
-            <small className="pt-1 text-base text-gray-dark">
-              &copy; 2025 Anónimo. All rights reserved.
+            <small className="pt-1 text-sm text-gray-dark">
+              &copy; 2025 Anónimo. <br />
+              All rights reserved.
             </small>
           </address>
         </div>
