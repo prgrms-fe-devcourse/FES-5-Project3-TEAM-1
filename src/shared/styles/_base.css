@@ -8,7 +8,7 @@
       system-ui,
       sans-serif;
 
-    scrollbar-gutter: stable both-edges;
+    scrollbar-gutter: stable;
   }
 
   button {

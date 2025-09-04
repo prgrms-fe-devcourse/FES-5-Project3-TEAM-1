@@ -73,7 +73,7 @@ const Thread = () => {
           onClose={() => setShowPasswordModal(false)}
         />
 
-        <div className="max-w-[640px] w-full px-2">
+        <div className="max-w-[40rem] w-full px-4">
           {/* 피드 input */}
           <CreateFeed threadId={threadId} token={token} />
           {/* 정렬 tab */}
