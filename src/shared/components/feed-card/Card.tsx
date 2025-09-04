@@ -64,7 +64,7 @@ const Card = ({
     <article
       ref={cardRef}
       className={tw(
-        'bg-white rounded-xl border transition duration-200 ease-in border-gray-light hover:shadow-md',
+        'bg-white rounded-xl border transition-all duration-200 ease-in border-gray-light hover:shadow-[0_0_5px_rgba(0,0,0,0.25)]',
         feed?.isNew ? 'animate-shadowPulse' : '',
         className,
       )}
@@ -79,7 +79,7 @@ const Card = ({
       <div className="bg-bg-sub rounded-b-xl">
         {/* 댓글 모달 */}
         {/* 상단 이모지/댓글 토글 바: 라운드 삭제 */}
-        <div className="px-5 py-1.5 flex items-center justify-between">
+        <div className="px-5 py-1 flex items-start justify-between">
           {/*emoji*/}
           <div className="relative flex-1 min-w-0">
             <EmojiPicker
@@ -91,7 +91,7 @@ const Card = ({
           {/* 댓글 토글 버튼 */}
           <button
             type="button"
-            className="group flex-shrink-0 flex items-center gap-1 text-base text-gray-dark hover:cursor-pointer ml-2 transition-all duration-100 hover:text-black"
+            className="group flex-shrink-0 flex items-center gap-1 text-base h-[26px] text-gray-dark hover:cursor-pointer ml-2 transition-all duration-100 hover:text-black"
             onClick={handleToggle}
             aria-expanded={isExpanded}
             aria-label="댓글 보기"

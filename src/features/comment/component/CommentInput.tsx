@@ -29,7 +29,7 @@ const CommentInput = ({ addComment }: Props) => {
         placeholder="댓글을 입력해 주세요."
         showLabel={false}
         ref={inputRef}
-        className="flex-1 bg-white "
+        className="flex-1 bg-white h-9"
         autoFocus
         onKeyDown={(e) => {
           // mac OS 일때는 Composing 방지
@@ -44,7 +44,7 @@ const CommentInput = ({ addComment }: Props) => {
       />
       <Button
         type="button"
-        size="default"
+        size="sm"
         color="default"
         onClick={handleAdd}
         aria-label="댓글 등록"

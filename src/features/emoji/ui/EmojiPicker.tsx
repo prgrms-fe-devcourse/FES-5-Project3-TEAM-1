@@ -47,8 +47,11 @@ export function EmojiPicker({
       ref={wrapperRef}
       className="relative flex items-center gap-2 flex-nowrap"
     >
-      <div className="flex gap-2 overflow-hidden min-h-7">
-        <EmojiButton onClick={handleToggle} />
+      <div className="flex gap-2 min-h-7">
+        <div className="relative">
+          <EmojiButton onClick={handleToggle} />
+          {isOpen && <EmojiGrid onSelect={handleEmojiSelect} />}
+        </div>
 
         <EmojiList>
           {isLoading ? (
@@ -66,7 +69,6 @@ export function EmojiPicker({
             ))
           )}
         </EmojiList>
-        {isOpen && <EmojiGrid onSelect={handleEmojiSelect} />}
       </div>
     </div>
   );
