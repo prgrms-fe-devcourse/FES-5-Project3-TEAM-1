@@ -12,7 +12,7 @@ const CommentItem = ({ comment }: Props) => {
   return (
     <li
       key={comment.id}
-      className="pt-2 border-dashed border-gray-light mb-4 border-b first:pt-0 first:border-t-0"
+      className="pt-1 border-dashed border-gray-light mb-2 border-b first:pt-0 first:border-t-0"
       tabIndex={0}
       role="group"
       aria-label={`작성자 ${comment.nickname}, 작성시간 ${formattedDate}, 내용: ${comment.content}`}
