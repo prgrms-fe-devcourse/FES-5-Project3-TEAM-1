@@ -23,7 +23,7 @@ type CreateModalStep = 'form' | 'success';
 function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const [modalStep, setModalStep] = useState<CreateModalStep>('form');
   const [link, setLink] = useState('');
-
+  const [title, setTitle] = useState('');
   const { userId } = useAuth();
 
   const handleGoToAdminAndClose = () => {
@@ -34,7 +34,6 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [titleError, setTitleError] = useState(false);
 
   useEffect(() => {
     const initUpdateForm = async () => {
@@ -74,12 +73,10 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
     const domain = window.location.origin;
     const link = `${domain}/thread/${id}`;
 
-    if (!title) {
-      setTitleError(true);
+    if (!title.trim()) {
       toastUtils.error('제목을 입력해 주세요.');
       return;
     }
-    setTitleError(false);
 
     await insertThreads({
       id: id,
@@ -113,12 +110,10 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
     const password = passwordRef.current?.value ?? '';
     const isPrivate = password === '' ? false : true;
 
-    if (!title) {
-      setTitleError(true);
+    if (!title.trim()) {
       toastUtils.error('제목을 입력해 주세요.');
       return;
     }
-    setTitleError(false);
 
     if (mode === 'create') {
       await handleCreateInfo();
@@ -169,13 +164,10 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
             tabIndex={0}
             ref={titleRef}
             autoFocus
-            className={titleError ? 'border-red-400' : ''}
+            value={title}
             onChange={(e) => {
-              if (e.target.value.trim()) {
-                setTitleError(false);
-              } else {
-                setTitleError(true);
-              }
+              const value = e.target.value;
+              setTitle(value);
             }}
           />
           <Textarea
@@ -197,6 +189,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
             color="default"
             onClick={handleSubmit}
             fullWidth
+            disabled={title.trim().length === 0}
           >
             {mode === 'create' ? '만들기' : '수정'}
           </Button>
