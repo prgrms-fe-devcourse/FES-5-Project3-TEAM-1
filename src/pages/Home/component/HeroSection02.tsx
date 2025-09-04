@@ -101,16 +101,14 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
         if (!hasReachedBottom) {
           const y = self.progress * wrapperBottomY;
 
-          // x 구불구불 이동
-          const amplitude = 80; // 좌우 이동 폭
-          const frequency = 2; // 주기
+          // 화면 중앙 기준
+          const wrapperWidth = wrapperRef.current!.offsetWidth;
+          const amplitude = Math.min(80, wrapperWidth / 5); // 모바일 화면폭 대응
+          const frequency = 2;
           const x =
             Math.sin(self.progress * frequency * Math.PI * 2) * amplitude;
 
-          gsap.set(nimoWrapper, {
-            y,
-            x,
-          });
+          gsap.set(nimoWrapper, { y, x });
         }
       },
     });
