@@ -1,12 +1,14 @@
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import VirtualFeedItem from './VirtualFeedItem';
 
-import logoUrl from '@/assets/logo.png';
+import logoUrlLight from '@/assets/logo.png';
+import logoUrlDark from '@/assets/logo-dark-mode.png';
 import { useFeedVirtualizer } from '../hooks/useFeedVirtualizer';
 import { useFeedStore } from '../utils/store';
 import EmptyFeed from './feed/EmptyFeed';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   hasMore: boolean;
@@ -47,6 +49,7 @@ const VirtualFeedList = ({
   const virtualItems = rowVirtualizer.getVirtualItems();
   const listContainerRef = useRef<HTMLDivElement>(null);
   const animationPlayed = useRef(false);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   useEffect(() => {
     // 정렬 변경 시 애니메이션 다시 재생
@@ -106,7 +109,15 @@ const VirtualFeedList = ({
       {/* 무한 스크롤 트리거 */}
       {hasMore && (
         <div ref={triggerRef} className="w-full flex justify-center py-10">
-          {isLoading ? <img src={logoUrl} alt="" /> : <div className="h-10" />}
+          {isLoading ? (
+            <img
+              src={isDarkMode ? logoUrlDark : logoUrlLight}
+              alt=""
+              className="w-25"
+            />
+          ) : (
+            <div className="h-10" />
+          )}
         </div>
       )}
     </div>
