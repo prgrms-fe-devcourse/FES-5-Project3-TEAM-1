@@ -73,7 +73,11 @@ export default function ThreadRow({
           <TooltipButton
             label="링크 복사"
             tooltip="링크 복사"
-            onClick={() => handleCopyClipBoard(`${data.link}`)}
+            onClick={() => {
+              handleCopyClipBoard(`${data.link}`).catch((error) => {
+                console.error('링크 복사 중 오류 발생:', error);
+              });
+            }}
           >
             <CopySVG aria-hidden className="text-black" />
           </TooltipButton>
