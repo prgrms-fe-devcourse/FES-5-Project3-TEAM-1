@@ -7,14 +7,14 @@ import {
 import type { EmojiCount } from '@/shared/types/emoji';
 import { useEffect, useState } from 'react';
 import { useEmojiSubscription } from './useEmojiSubscription';
-import { getBrowserTokenFromSession } from '@/shared/utils/token';
+import { getBrowserTokenFromLocalStorage } from '@/shared/utils/token';
 import { useDebounce } from '@/shared/hook/useDebounce';
 
 export const useEmoji = ({ feedId }: { feedId: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [emojiCounts, setEmojiCounts] = useState<EmojiCount[]>([]);
   const [myReactions, setMyReactions] = useState<Set<string>>(new Set());
-  const myToken = getBrowserTokenFromSession();
+  const myToken = getBrowserTokenFromLocalStorage();
 
   // 초기 데이터 fetch
   useEffect(() => {

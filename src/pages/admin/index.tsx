@@ -25,16 +25,16 @@ const AdminPage = () => {
 
   return (
     <div className="flex justify-center py-8 md:py-10 bg-bg-main min-h-[calc(100vh-9.25rem)] md:min-h-[calc(100vh-9.25rem)]">
-      <div className="w-full max-w-[75rem] px-5 ">
-        <div className="flex relative w-full mb-8">
-          <h2 className="text-center w-full text-2xl md:text-[32px]">
+      <div className="w-full max-w-[70rem] ">
+        <div className="flex justify-end items-center relative w-full mb-3 md:mb-8 px-1 md:px-0 h-[2.25rem] md:h-[2.8125rem]">
+          <h2 className="absolute left-1/2 top-0 -translate-x-1/2 text-center text-xl md:text-[32px]">
             내 스레드 관리
           </h2>
           <Button
             onClick={openModal}
             color="default"
             size="sm"
-            className="absolute right-0 top-0 md:top-1.5"
+            className="px-2"
           >
             스레드 만들기
           </Button>

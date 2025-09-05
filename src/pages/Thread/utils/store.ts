@@ -1,7 +1,10 @@
 import type { Feed } from '@/shared/types/feed';
 import { create } from 'zustand';
 
-type FeedWithIsExpanded = Feed & { isExpanded: boolean; isNew?: boolean };
+export type FeedWithIsExpanded = Feed & {
+  isExpanded: boolean;
+  isNew?: boolean;
+};
 
 type Store = {
   feedById: { [feedId: string]: FeedWithIsExpanded };

@@ -148,7 +148,7 @@ const Home = () => {
         <HeroSection02 ref={section02Ref} />
       </div>
 
-      <div className="flex-center gap-2 absolute right-3 top-3">
+      <div className="flex-center gap-2 fixed right-3 top-3">
         <button
           className={`flex justify-center items-center w-8 h-8 rounded-full   ${isDarkMode ? 'bg-[#f7f9fb] shadow-[0_0_10px_2px_rgba(0,0,0,0.4)]' : 'bg-black shadow-[0_0_10px_2px_rgba(255,255,255,0.7)]'}`}
           aria-label="다크 모드"
