@@ -1,7 +1,10 @@
 import tw from '@/shared/utils/style';
 import CardHeader from './CardHeader';
 import { memo, useEffect, useRef } from 'react';
-import { useFeedStore } from '@/pages/Thread/utils/store';
+import {
+  useFeedStore,
+  type FeedWithIsExpanded,
+} from '@/pages/Thread/utils/store';
 import { useEmoji } from '@/features/emoji/hook/useEmoji';
 import { EmojiPicker } from '@/features/emoji/ui/EmojiPicker';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
@@ -9,33 +12,27 @@ import { CommentSection } from '@/features/comment/component/CommentSection';
 import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface CardLayoutProps {
-  feedId: string;
-  content: string;
-  nickname: string;
-  createdAt: string;
-  commentCount: number;
-  isExpanded?: boolean;
   className?: string;
   children?: React.ReactNode;
+  feed: FeedWithIsExpanded;
 }
 
-const Card = ({
-  feedId,
-  content,
-  nickname,
-  createdAt,
-  commentCount,
-  isExpanded,
-  className,
-  children,
-}: CardLayoutProps) => {
+const Card = ({ feed, className, children }: CardLayoutProps) => {
+  const {
+    comment_count: commentCount,
+    id: feedId,
+    created_at: createdAt,
+    nickname,
+    content,
+    isExpanded,
+  } = feed;
+
   const cardRef = useRef<HTMLElement | null>(null);
   const setIsExpanded = useFeedStore((state) => state.setIsExpanded);
   const { emojiCounts, handleEmojiClick, myReactions } = useEmoji({
     feedId,
   });
   const markAsRead = useFeedStore((state) => state.markAsRead);
-  const feed = useFeedStore((state) => state.feedById[feedId]);
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   const handleToggle = () => {
@@ -60,7 +57,7 @@ const Card = ({
 
       return () => clearTimeout(timer);
     }
-  }, [feed?.isNew, feedId, markAsRead]);
+  }, [feed?.isNew, feedId]);
 
   return (
     <article

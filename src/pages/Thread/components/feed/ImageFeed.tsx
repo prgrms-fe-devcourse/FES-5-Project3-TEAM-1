@@ -4,37 +4,15 @@ import { MdOutlineFileDownload } from 'react-icons/md';
 import Card from '@/shared/components/feed-card/Card';
 import { downloadImage } from '../../utils/file';
 import TooltipButton from '@/shared/components/button/TooltipButton';
+import type { FeedWithIsExpanded } from '../../utils/store';
 
 interface ImageCardProps {
-  feedId: string;
-  nickname: string;
-  commentCount: number;
-  createdAt: string;
-  drawingUrl: string;
-  content: string;
-  isExpanded: boolean;
-  className?: string;
+  feed: FeedWithIsExpanded;
 }
-const ImageFeed = ({
-  feedId,
-  nickname,
-  createdAt,
-  content,
-  className,
-  drawingUrl,
-  isExpanded,
-  commentCount,
-}: ImageCardProps) => {
+const ImageFeed = ({ feed }: ImageCardProps) => {
+  const { drawing_url: drawingUrl } = feed;
   return (
-    <Card
-      className={className}
-      nickname={nickname}
-      createdAt={createdAt}
-      commentCount={commentCount}
-      feedId={feedId}
-      content={content}
-      isExpanded={isExpanded}
-    >
+    <Card feed={feed}>
       <div className="px-5 pb-3 before:block before:h-[2px] before:bg-gray-light before:mb-3">
         <div className="flex relative justify-center px-10">
           {drawingUrl && (

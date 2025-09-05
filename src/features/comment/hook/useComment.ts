@@ -7,7 +7,7 @@ import {
   postComment,
   type CommentType,
 } from '@/shared/api/comment';
-import { getBrowserTokenFromSession } from '@/shared/utils/token';
+import { getBrowserTokenFromLocalStorage } from '@/shared/utils/token';
 
 export function useComment(feedId: string) {
   const [comment, setComment] = useState<CommentType[]>([]);
@@ -51,7 +51,7 @@ export function useComment(feedId: string) {
   const addComment = useCallback(
     async (content: string, nickname: string): Promise<boolean> => {
       if (!content.trim()) return false;
-      const myToken = getBrowserTokenFromSession();
+      const myToken = getBrowserTokenFromLocalStorage();
       if (!myToken) return false;
       try {
         const date = await postComment({

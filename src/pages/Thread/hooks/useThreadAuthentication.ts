@@ -2,8 +2,8 @@ import { useThreadStore } from '@/features/thread/utils/store';
 import { generateSimpleFingerprint } from '@/shared/utils/fingerPrint';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import {
-  getBrowserTokenFromSession,
-  setTokenToSession,
+  getBrowserTokenFromLocalStorage,
+  setTokenToLocalStorage,
 } from '@/shared/utils/token';
 import { useEffect, useState } from 'react';
 
@@ -26,7 +26,7 @@ export const useThreadAuthentication = (threadId?: string) => {
 
   // 기존 토큰이 있으면 state에 설정
   useEffect(() => {
-    const currentToken = getBrowserTokenFromSession();
+    const currentToken = getBrowserTokenFromLocalStorage();
     if (!currentToken) {
       genToken();
     } else {
@@ -36,7 +36,7 @@ export const useThreadAuthentication = (threadId?: string) => {
 
   const genToken = async () => {
     const newToken = await generateSimpleFingerprint();
-    setTokenToSession(newToken);
+    setTokenToLocalStorage(newToken);
     setToken(newToken);
   };
 
@@ -44,7 +44,7 @@ export const useThreadAuthentication = (threadId?: string) => {
     if (!threadId) return;
     try {
       // 토큰이 없다면 발급
-      const currentToken = getBrowserTokenFromSession();
+      const currentToken = getBrowserTokenFromLocalStorage();
       if (!currentToken) {
         genToken();
       }
