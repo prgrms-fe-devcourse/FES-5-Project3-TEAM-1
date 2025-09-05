@@ -28,7 +28,7 @@ const AdminPage = () => {
       <div className="w-full max-w-[75rem] px-5 ">
         <div className="flex relative w-full mb-8">
           <h2 className="text-center w-full text-2xl md:text-[32px]">
-            방 관리
+            내 스레드 관리
           </h2>
           <Button
             onClick={openModal}
@@ -36,7 +36,7 @@ const AdminPage = () => {
             size="sm"
             className="absolute right-0 top-0 md:top-1.5"
           >
-            방 만들기
+            스레드 만들기
           </Button>
         </div>
 

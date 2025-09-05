@@ -10,6 +10,7 @@ import Textarea from '@/shared/components/textarea/Textarea';
 import { useEffect, useRef, useState } from 'react';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import { useAuth } from '@/shared/utils/AuthProvider';
+import CopySvg from '@/assets/icon/copy-right-24.svg?react';
 
 interface Props {
   onClose: () => void;
@@ -128,16 +129,18 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
           isPrivate,
         });
 
-        toastUtils.success('방 정보가 수정되었습니다 ✨');
+        toastUtils.success('스레드 정보가 수정되었습니다 ✨');
         onClose();
       }
     } catch (error) {
       console.error(error);
       if (mode === 'create') {
-        toastUtils.error('방 생성에 실패했습니다.');
+        toastUtils.error('스레드 생성에 실패했습니다.');
       } else {
-        toastUtils.error('방 정보 수정에 실패했습니다.');
+        toastUtils.error('스레드 정보 수정에 실패했습니다.');
       }
+      toastUtils.success('스레드 정보가 수정되었습니다 ✨');
+      onClose();
     }
   };
   return (
@@ -145,24 +148,25 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
       title={
         mode === 'create'
           ? modalStep === 'form'
-            ? '방 만들기'
-            : '방 링크'
-          : '방 정보 수정하기'
+            ? '스레드 만들기'
+            : '스레드 링크'
+          : '스레드 정보 수정하기'
       }
       content={
         modalStep === 'form' ? (
           ''
         ) : (
           <p>
-            Anonimo의 익명방을 이용하고 싶은 사람들과
-            <br />이 링크를 공유해보세요.
+            Anonimo의 익명 스레드를
+            <br />
+            이용하고 싶은 사람들과 이 링크를 공유해보세요.
           </p>
         )
       }
       onClose={onClose}
     >
       {/* children */}
-      {/* 방 생성 폼 */}
+      {/* 스레드 생성 폼 */}
       {modalStep === 'form' && (
         <div className="flex flex-col gap-5 text-black">
           <Input
@@ -205,9 +209,9 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
         </div>
       )}
 
-      {/* 방 생성 완료 시 방링크 내용 */}
+      {/* 스레드 생성 완료 시 스레드 링크 내용 */}
       {modalStep === 'success' && (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col relative gap-5">
           <div className="flex items-end gap-3">
             <Input
               label="링크"
@@ -215,23 +219,38 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
               value={link}
               showLabel
               readOnly
+              className="pr-20"
             />
+            <button
+              onClick={() => handleCopyClipBoard(`${link}`)}
+              className="absolute right-0 flex-center gap-1 min-w-[80px] h-12 rounded-2xl opacity-80"
+            >
+              <CopySvg />
+              복사
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <a
+              href={link}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`지금 생성한 스레드로 이동`}
+              className="inline-flex items-center justify-center rounded-xl text-base
+             h-[48px] px-4 bg-primary text-black hover:bg-primary-light
+             w-full transition-transform duration-150 ease-in-out"
+            >
+              지금 생성한 스레드
+            </a>
+
             <Button
               size="default"
-              color="blue"
-              onClick={() => handleCopyClipBoard(`${link}`)}
+              color="default"
+              onClick={handleGoToAdminAndClose}
+              fullWidth
             >
-              복사하기
+              내 스레드 관리
             </Button>
           </div>
-          <Button
-            size="default"
-            color="default"
-            onClick={handleGoToAdminAndClose}
-            fullWidth
-          >
-            관리 페이지로 이동
-          </Button>
         </div>
       )}
     </InputModal>
