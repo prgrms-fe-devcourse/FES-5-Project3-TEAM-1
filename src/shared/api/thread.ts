@@ -1,6 +1,5 @@
 import supabase from '../libs/supabase';
 import type { Tables } from '../types';
-import { toastUtils } from '../utils/toastUtils';
 
 export const insertThreads = async ({
   id,
