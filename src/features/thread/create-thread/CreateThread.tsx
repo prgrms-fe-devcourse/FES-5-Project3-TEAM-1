@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 import {
   getThreadInfo,
   insertThreads,
@@ -7,10 +9,10 @@ import Button from '@/shared/components/button/Button';
 import Input from '@/shared/components/Input';
 import InputModal from '@/shared/components/modals/InputModal';
 import Textarea from '@/shared/components/textarea/Textarea';
-import { useEffect, useRef, useState } from 'react';
 import { toastUtils } from '@/shared/utils/toastUtils';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import CopySvg from '@/assets/icon/copy-right-24.svg?react';
+import QrCode from '@/shared/components/qr/QrCode';
 
 interface Props {
   onClose: () => void;
@@ -26,6 +28,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
   const [link, setLink] = useState('');
   const [title, setTitle] = useState('');
   const { userId } = useAuth();
+  const qrRef = useRef<any>(null);
 
   const handleGoToAdminAndClose = () => {
     onClose();
@@ -229,6 +232,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
               복사
             </button>
           </div>
+          <QrCode qrRef={qrRef} title={title} url={link} />
           <div className="flex gap-2">
             <a
               href={link}
