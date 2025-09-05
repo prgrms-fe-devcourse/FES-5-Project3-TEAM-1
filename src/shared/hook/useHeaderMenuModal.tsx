@@ -37,7 +37,7 @@ export const useHeaderMenuModal = ({
 
       case 'login':
         if (isLoginUser) {
-          logout();
+          modal.openModal('logoutConfirm', { onConfirm: logout });
         } else {
           modal.openModal('login');
         }
