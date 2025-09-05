@@ -4,6 +4,7 @@ import ThreadRow, { type ThreadRowData } from './ThreadRow';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import { getThreadsByUserId, removeThreads } from '@/shared/api/thread';
 import { toastUtils } from '@/shared/utils/toastUtils';
+import ConfirmModal from '@/shared/components/modals/ConfirmModal';
 
 type AdminTableProps = {
   className?: string;
@@ -13,6 +14,8 @@ const AdminTable = ({ className }: AdminTableProps) => {
   const [rows, setRows] = useState<ThreadRowData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [threadToDelete, setThreadToDelete] = useState<string | null>(null); // 추가!
 
   const { userId } = useAuth();
   const modal = useModal();
@@ -43,6 +46,35 @@ const AdminTable = ({ className }: AdminTableProps) => {
     })();
   }, [userId]);
 
+  // 삭제 모달 오픈
+  const handleDeleteClick = (threadId: string) => {
+    setThreadToDelete(threadId);
+    setIsDeleteModalOpen(true);
+  };
+
+  // 삭제 로직
+  const handleConfirmDelete = async () => {
+    if (!threadToDelete) return;
+
+    try {
+      const deleted = await removeThreads(threadToDelete);
+      if (deleted) {
+        setRows((prev) => prev.filter((t) => t.id !== threadToDelete));
+        toastUtils.success('스레드가 삭제되었습니다.');
+      }
+    } catch (error) {
+      toastUtils.error('스레드 삭제에 실패했습니다.');
+      console.error(error);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setThreadToDelete(null);
+    }
+  };
+  // 삭제 취소
+  const handleCancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setThreadToDelete(null);
+  };
   return (
     <div
       className={`relative bg-white w-full rounded-lg shadow-[0_4px_8px_0_rgba(0,0,0,0.20)]  ${className ?? ''}`}
@@ -90,18 +122,7 @@ const AdminTable = ({ className }: AdminTableProps) => {
                   onEdit={(id) =>
                     modal.openModal('createThread', { id, mode: 'update' })
                   }
-                  onDelete={async (id) => {
-                    try {
-                      const deleted = await removeThreads(id);
-                      if (deleted) {
-                        setRows((prev) => prev.filter((t) => t.id !== id));
-                        toastUtils.success('스레드가 삭제되었습니다.');
-                      }
-                    } catch (error) {
-                      toastUtils.error('스레드 삭제에 실패했습니다.');
-                      console.error(error);
-                    }
-                  }}
+                  onDelete={handleDeleteClick}
                 />
               ))
             ) : (
@@ -139,6 +160,15 @@ const AdminTable = ({ className }: AdminTableProps) => {
           />
         </div>
       </div>
+      {isDeleteModalOpen && (
+        <ConfirmModal
+          title="스레드 삭제"
+          content="해당 스레드를 삭제 하시겠습니까?"
+          onClose={handleCancelDelete}
+          onCancel={handleCancelDelete}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
     </div>
   );
 };

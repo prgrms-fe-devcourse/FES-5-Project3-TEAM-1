@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import TarotCard from '@/assets/tarot_back.svg?react';
 
 const FlyingTarotCard = () => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -58,7 +57,7 @@ const FlyingTarotCard = () => {
           filter: 'drop-shadow(0 8px 16px rgba(147, 51, 234, 0.5))',
         }}
       >
-        <TarotCard />
+        <img src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/easter_egg/tarot.webp" />
       </div>
     </div>
   );
