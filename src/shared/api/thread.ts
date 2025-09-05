@@ -95,10 +95,8 @@ export const updateThreads = async (data: {
 
 export const removeThreads = async (threadId: string) => {
   if (!threadId) throw new Error('threadId is required');
-  if (!confirm('스레드가 삭제됩니다. 계속하시겠습니까?')) return;
   const { error } = await supabase.from('threads').delete().eq('id', threadId);
   if (error) throw new Error(`remove thread error : ${error.message}`);
-  toastUtils.success('스레드 삭제 성공😊');
   return true;
 };
 
