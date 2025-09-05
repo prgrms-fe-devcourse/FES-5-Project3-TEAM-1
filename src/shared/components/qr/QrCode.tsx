@@ -31,6 +31,7 @@ const QrCode = ({
           logoImage={logoImage}
           removeQrCodeBehindLogo
           ref={qrRef}
+          logoWidth={32}
         />
         <button
           onClick={handleDownload}

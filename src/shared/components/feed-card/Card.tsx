@@ -6,6 +6,7 @@ import { useEmoji } from '@/features/emoji/hook/useEmoji';
 import { EmojiPicker } from '@/features/emoji/ui/EmojiPicker';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { CommentSection } from '@/features/comment/component/CommentSection';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface CardLayoutProps {
   feedId: string;
@@ -35,6 +36,7 @@ const Card = ({
   });
   const markAsRead = useFeedStore((state) => state.markAsRead);
   const feed = useFeedStore((state) => state.feedById[feedId]);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   const handleToggle = () => {
     setIsExpanded(feedId);
@@ -64,8 +66,11 @@ const Card = ({
     <article
       ref={cardRef}
       className={tw(
-        'bg-white rounded-xl border transition-all duration-200 ease-in border-gray-light hover:shadow-[0_0_5px_rgba(0,0,0,0.25)]',
-        feed?.isNew ? 'animate-shadowPulse' : '',
+        'bg-white rounded-xl border transition-all duration-200 ease-in border-gray-light',
+        isDarkMode
+          ? 'hover:shadow-[0_0_5px_rgba(255,255,255,0.8)]'
+          : 'hover:shadow-[0_0_5px_rgba(0,0,0,0.25)]',
+        feed?.isNew && 'animate-shadowPulse',
         className,
       )}
     >
