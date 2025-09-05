@@ -30,12 +30,15 @@ const Mori = () => {
 
     const aside = document.querySelector('aside[aria-label="설정 메뉴"]');
     const mo = aside ? new MutationObserver(computeOffset) : null;
-    if (aside && mo)
+    if (aside && mo) {
       mo.observe(aside, {
         attributes: true,
         attributeFilter: ['class', 'style'],
       });
-    const time = setTimeout(() => {
+    }
+
+    // 컨페티 실행 (한 번만)
+    setTimeout(() => {
       confetti({
         particleCount: 150,
         spread: 100,
@@ -43,6 +46,7 @@ const Mori = () => {
         origin: { x: 0.9, y: 0.9 },
       });
     }, 1000);
+
     return () => {
       window.removeEventListener('resize', computeOffset);
       mo?.disconnect();
