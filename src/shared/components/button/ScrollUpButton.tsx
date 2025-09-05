@@ -22,7 +22,7 @@ const ScrollUpButton = () => {
   const scrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      // behavior: 'smooth',
     });
   }, []);
 
