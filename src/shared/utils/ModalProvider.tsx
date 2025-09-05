@@ -3,9 +3,10 @@ import { createContext, useContext, useMemo, useState } from 'react';
 import LoginModal from '@/features/login/ui/LoginModal';
 import WelcomeModal from '@/features/login/ui/WelcomeModal';
 import CreateThreads from '@/features/thread/create-thread/CreateThread';
+import ConfirmModal from '../components/modals/ConfirmModal';
 
 // 1. 모달 타입과 인터페이스 정의
-export type ModalType = 'login' | 'welcome' | 'createThread';
+export type ModalType = 'login' | 'welcome' | 'createThread' | 'logoutConfirm';
 
 interface ModalContextType {
   openModal: (type: ModalType, props?: any) => void;
@@ -50,6 +51,21 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             threadId={modal.props.id}
             navigateToAdmin={modal.props.navigateToAdmin}
           ></CreateThreads>
+        );
+      case 'logoutConfirm':
+        return (
+          <ConfirmModal
+            title="로그아웃"
+            content="정말 로그아웃 하시겠습니까?"
+            cancelLabel="아니요"
+            confirmLabel="네"
+            onClose={closeModal}
+            onConfirm={() => {
+              modal.props.onConfirm();
+              closeModal();
+            }}
+            onCancel={closeModal}
+          />
         );
       default:
         return null;

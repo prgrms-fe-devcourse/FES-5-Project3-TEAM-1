@@ -41,18 +41,20 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           'min-w-[80px]',
           'disabled:cursor-not-allowed',
           'enabled:hover:cursor-pointer',
-
           disabled
             ? 'bg-gray text-white'
             : [
-                !isDarkMode
-                  ? color === 'default' &&
-                    'bg-black text-white enabled:hover:bg-black-light'
-                  : 'bg-primary-light text-white enabled:hover:bg-black',
-                !isDarkMode
-                  ? color === 'blue' &&
-                    'bg-primary text-black enabled:hover:bg-primary-light'
-                  : 'bg-primary enabled:hover:bg-primary-light',
+                color === 'default'
+                  ? isDarkMode
+                    ? 'bg-gray text-black enabled:hover:bg-black/40'
+                    : 'bg-black text-white enabled:hover:bg-black-light'
+                  : '',
+
+                color === 'blue'
+                  ? isDarkMode
+                    ? 'bg-primary text-black enabled:hover:bg-primary-light'
+                    : 'bg-primary text-black enabled:hover:bg-primary-light'
+                  : '',
 
                 'enabled:hover:shadow-md',
                 'enabled:active:translate-y-[2px] active:shadow-sm',
