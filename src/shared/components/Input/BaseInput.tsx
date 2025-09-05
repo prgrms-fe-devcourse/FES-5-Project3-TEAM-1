@@ -52,7 +52,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
             id={id ?? userId}
             type={type}
             className={tw(
-              'w-full text-base border-none outline-none',
+              'w-full text-base border-none outline-none text-black',
               readOnly && 'select-none truncate',
               type === 'time' ? 'time-input-custom' : '',
             )}
