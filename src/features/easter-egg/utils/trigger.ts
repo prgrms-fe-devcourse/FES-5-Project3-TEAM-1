@@ -2,6 +2,7 @@ export const TRIGGER_CATEGORIES: Record<string, string[]> = {
   congrats: ['축하', '추카', '생일', '생축'],
   teacher: ['범쌤', '심선범'],
   car: ['슝'],
+  tarot: ['타로'],
 };
 
 // 모든 트리거를 하나의 배열로
