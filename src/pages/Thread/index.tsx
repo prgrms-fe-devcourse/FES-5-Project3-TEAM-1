@@ -38,12 +38,17 @@ const Thread = () => {
   }, [isPasswordRequired, notFound]);
   // 쓰레드 비밀번호 검증 헨들러
   const handlePasswordValidate = async (password: string, threadId: string) => {
-    const result = await validatePassword(password, threadId);
+    try {
+      const result = await validatePassword(password, threadId);
 
-    if (result.success) {
-      setShowPasswordModal(false);
+      if (result.success) {
+        setShowPasswordModal(false);
+      }
+      return result;
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: '검증에 실패했습니다.' };
     }
-    return result;
   };
   // 정렬 핸들러
   const handleSortChange = useCallback((option: FeedSortBy) => {

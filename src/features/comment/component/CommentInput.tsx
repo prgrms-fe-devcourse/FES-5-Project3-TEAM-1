@@ -4,20 +4,31 @@ import { getNicknameFromSession } from '@/shared/utils/nickname';
 import { useRef } from 'react';
 
 interface Props {
-  addComment: (content: string, nickname: string) => void;
+  addComment: (content: string, nickname: string) => Promise<boolean>;
 }
 
 const CommentInput = ({ addComment }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleAdd = () => {
-    if (!inputRef.current) return;
+  const handleAdd = async () => {
+    try {
+      if (!inputRef.current) return;
 
-    const value = inputRef.current.value.trim();
+      const value = inputRef.current.value.trim();
+      if (!value) return;
 
-    if (value) {
-      addComment(value, getNicknameFromSession() ?? 'nimo');
-      inputRef.current.value = '';
+      const success = await addComment(
+        value,
+        getNicknameFromSession() ?? 'nimo',
+      );
+
+      if (success) {
+        inputRef.current.value = '';
+      } else {
+        console.log('댓글 등록 실패');
+      }
+    } catch (error) {
+      console.error('댓글 등록 오류:', error);
     }
   };
 

@@ -115,20 +115,29 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
       return;
     }
 
-    if (mode === 'create') {
-      await handleCreateInfo();
-    } else {
-      if (!threadId) throw new Error('Cannot find threadId');
-      await updateThreads({
-        id: threadId,
-        title,
-        description,
-        password,
-        isPrivate,
-      });
+    try {
+      if (mode === 'create') {
+        await handleCreateInfo();
+      } else {
+        if (!threadId) throw new Error('Cannot find threadId');
+        await updateThreads({
+          id: threadId,
+          title,
+          description,
+          password,
+          isPrivate,
+        });
 
-      toastUtils.success('방 정보가 수정되었습니다 ✨');
-      onClose();
+        toastUtils.success('방 정보가 수정되었습니다 ✨');
+        onClose();
+      }
+    } catch (error) {
+      console.error(error);
+      if (mode === 'create') {
+        toastUtils.error('방 생성에 실패했습니다.');
+      } else {
+        toastUtils.error('방 정보 수정에 실패했습니다.');
+      }
     }
   };
   return (
