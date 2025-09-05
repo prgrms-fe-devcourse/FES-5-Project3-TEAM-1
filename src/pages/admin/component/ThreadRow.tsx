@@ -120,7 +120,6 @@ export default function ThreadRow({
           type="button"
           aria-label="스레드 정보 수정"
           className="inline-flex h-5 w-5 mt-2 items-center justify-center rounded-md hover:bg-gray-light"
-
           onClick={() => onEdit?.(data.id)}
           title="수정"
         >
