@@ -3,10 +3,11 @@ import supabase from '@/shared/libs/supabase';
 function useGoogleLogin() {
   async function signInWithGoogle() {
     try {
+      const currentUrl = window.location.href;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin,
+          redirectTo: currentUrl,
         },
       });
       if (error) throw error;

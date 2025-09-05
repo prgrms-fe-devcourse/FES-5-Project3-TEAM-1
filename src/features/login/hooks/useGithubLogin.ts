@@ -3,10 +3,11 @@ import supabase from '@/shared/libs/supabase';
 function useGithubLogin() {
   async function signInWithGithub() {
     try {
+      const currentUrl = window.location.href;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
-          redirectTo: window.location.origin + '/',
+          redirectTo: currentUrl,
         },
       });
       if (error) throw error;
