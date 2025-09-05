@@ -49,10 +49,10 @@ export function useComment(feedId: string) {
 
   // 댓글 작성
   const addComment = useCallback(
-    async (content: string, nickname: string) => {
-      if (!content.trim()) return;
+    async (content: string, nickname: string): Promise<boolean> => {
+      if (!content.trim()) return false;
       const myToken = getBrowserTokenFromSession();
-      if (!myToken) return;
+      if (!myToken) return false;
       try {
         const date = await postComment({
           feed_id: feedId,
@@ -64,8 +64,13 @@ export function useComment(feedId: string) {
           if (prev.some((c) => c.id === date.id)) return prev;
           return [date, ...prev];
         });
+        return true;
       } catch (error) {
-        if (error instanceof Error) console.error(error.message);
+        console.error(
+          '댓글 작성 오류:',
+          error instanceof Error ? error.message : error,
+        );
+        return false;
       }
     },
     [feedId],

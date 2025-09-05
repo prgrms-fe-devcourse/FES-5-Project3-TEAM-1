@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import ThreadRow, { type ThreadRowData } from './ThreadRow';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import { getThreadsByUserId, removeThreads } from '@/shared/api/thread';
+import { toastUtils } from '@/shared/utils/toastUtils';
 
 type AdminTableProps = {
   className?: string;
@@ -90,9 +91,15 @@ const AdminTable = ({ className }: AdminTableProps) => {
                     modal.openModal('createThread', { id, mode: 'update' })
                   }
                   onDelete={async (id) => {
-                    const deleted = await removeThreads(id);
-                    if (deleted) {
-                      setRows((prev) => prev.filter((t) => t.id !== id));
+                    try {
+                      const deleted = await removeThreads(id);
+                      if (deleted) {
+                        setRows((prev) => prev.filter((t) => t.id !== id));
+                        toastUtils.success('스레드가 삭제되었습니다.');
+                      }
+                    } catch (error) {
+                      toastUtils.error('스레드 삭제에 실패했습니다.');
+                      console.error(error);
                     }
                   }}
                 />
