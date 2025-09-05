@@ -160,9 +160,8 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
           ''
         ) : (
           <p>
-            Anonimo의 익명 스레드를
-            <br />
-            이용하고 싶은 사람들과 이 링크를 공유해보세요.
+            생성된 스레드를
+            <br className="block md:hidden" /> 사람들과 공유해보세요.
           </p>
         )
       }
@@ -215,7 +214,9 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
       {/* 스레드 생성 완료 시 스레드 링크 내용 */}
       {modalStep === 'success' && (
         <div className="flex flex-col relative gap-5">
-          <div className="flex items-end gap-3">
+          <QrCode qrRef={qrRef} title={title} url={link} />
+
+          <div className="flex items-end gap-3 pb-5">
             <Input
               label="링크"
               maxLength={20}
@@ -232,7 +233,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
               복사
             </button>
           </div>
-          <QrCode qrRef={qrRef} title={title} url={link} />
+
           <div className="flex gap-2">
             <a
               href={link}

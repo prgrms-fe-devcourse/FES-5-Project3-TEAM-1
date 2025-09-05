@@ -1,9 +1,11 @@
 import { Link } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NicknameChangeModal from '@/shared/components/modals/NicknameChangeModal';
 import clsx from 'clsx';
 import type { Tables } from '@/shared/types';
 import { useHeaderMenuModal } from '@/shared/hook/useHeaderMenuModal';
+import QrCode from '../qr/QrCode';
+import { useThreadStore } from '@/features/thread/utils/store';
 
 interface Props {
   isOpen: boolean;
@@ -27,6 +29,9 @@ function ThreadMenu({
   // 닉네임 변경 모달 state
   const [isNicknameModalOpen, setIsNicknameModalOpen] =
     useState<boolean>(false);
+  const threadId = useThreadStore.getState().thread?.id;
+  const qrRef = useRef<any>(null);
+  const currentUrl = `${window.location.origin}/thread/${threadId}`;
 
   const { handleActionModal } = useHeaderMenuModal({
     isLoginUser,
@@ -71,6 +76,11 @@ function ThreadMenu({
                     ? data?.description
                     : '설명 없음'}
               </p>
+              <QrCode
+                qrRef={qrRef}
+                title={data?.title ?? ''}
+                url={currentUrl}
+              />
             </div>
 
             <ul className="flex flex-col">
