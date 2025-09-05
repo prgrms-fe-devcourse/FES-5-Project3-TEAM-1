@@ -9,12 +9,14 @@ interface AuthState {
   isLoading: boolean;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   userId: null,
   isFirstLogin: false,
   isLoading: true,
   isLoggedIn: false,
 
-  logout: () => {},
-  firstLogin: () => {},
+  logout: () => {
+    set({ isLoggedIn: false, userId: null });
+  },
+  firstLogin: () => set({ isFirstLogin: false }),
 }));
