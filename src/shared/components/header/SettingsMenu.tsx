@@ -47,7 +47,7 @@ function SettingsMenu({
               onClick={onClose}
               className={({ isActive }) =>
                 clsx(
-                  'block w-full py-2 transition-colors duration-200 ease-in-out hover:bg-gray-light/60',
+                  'block w-full py-2 transition-colors duration-200 ease-in-out hover:bg-gray-light/60 text-black',
                   isActive && 'bg-gray-light',
                 )
               }
@@ -63,7 +63,7 @@ function SettingsMenu({
           <button
             type="button"
             onClick={() => handleActionModal('thread')}
-            className="w-full py-2 transition-colors duration-200 ease-in-out hover:bg-gray-light/60"
+            className="w-full py-2 transition-colors duration-200 ease-in-out hover:bg-gray-light/60 text-black"
           >
             스레드 만들기
           </button>

@@ -157,17 +157,17 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-fit after:block after:absolute after:left-0 after:bottom-0 after:w-full after:h-10 after:bg-[#AA7134]">
         {/* 집 */}
         <div
-          className="absolute pt-10 pb-0 w-[22.5rem] h-[12.5rem] md:h-[21.875rem] rounded-tl-4xl rounded-tr-4xl left-1/2 -translate-x-1/2 bottom-8 bg-white z-9 flex flex-col gap-2 justify-between"
+          className="absolute pt-10 pb-0 w-[22.5rem] h-[12.5rem] md:h-[21.875rem] rounded-tl-4xl rounded-tr-4xl left-1/2 -translate-x-1/2 bottom-8 !bg-[#ffffff] z-9 flex flex-col gap-2 justify-between"
           style={{ boxShadow: '0 -10px 20px rgba(0,0,0,0.15)' }}
         >
           <div className="flex items-center px-5 py-2 gap-10">
-            <span className="relative block w-30 h-30 rounded-full bg-gray-light after:absolute after:block after:right-4 after:top-1/2 after:-translate-y-1/2 after:w-3 after:h-3 after:rounded-full after:bg-black"></span>
+            <span className="relative block w-30 h-30 rounded-full !bg-[#e6e6e6] after:absolute after:block after:right-4 after:top-1/2 after:-translate-y-1/2 after:w-3 after:h-3 after:rounded-full after:bg-[#000000]"></span>
             <div className="flex flex-col gap-5">
               <span className="text-4xl">nimo</span>
               <span className="text-3xl text-gray">welcome!</span>
             </div>
           </div>
-          <div className="bg-gray-light h-10 w-full"></div>
+          <div className="!bg-[#e6e6e6] h-10 w-full"></div>
         </div>
 
         {/* 나무 */}

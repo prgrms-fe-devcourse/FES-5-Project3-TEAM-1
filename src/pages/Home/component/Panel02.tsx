@@ -10,7 +10,9 @@ const Panel02 = forwardRef<HTMLDivElement, Panel02Props>(
     return (
       <div ref={ref} className={`${className}`}>
         <img src={chat} alt="" />
-        <h2 className="text-xl md:text-[3.5rem] text-black">댓글도 나누고</h2>
+        <h2 className="text-xl md:text-[3.5rem] text-real-black">
+          댓글도 나누고
+        </h2>
       </div>
     );
   },

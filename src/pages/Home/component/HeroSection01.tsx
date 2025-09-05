@@ -91,7 +91,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
     <section ref={sectionRef} className="relative h-[150vh] overflow-hidden">
       <Lighter />
 
-      <div className="flex justify-center items-center h-full mix-blend-multiply bg-black">
+      <div className="flex justify-center items-center h-full mix-blend-multiply bg-true-black">
         {/* Shape */}
         <div
           ref={shapeRef}
@@ -138,7 +138,7 @@ const HeroSection01 = forwardRef<HeroSectionProps>((_, ref) => {
 
       {/* 텍스트 */}
       <div className="absolute top-1/2 inset-0 flex flex-col gap-[18.75rem] justify-center items-center">
-        <p ref={textRef} className="text-black text-3xl md:text-[4rem]">
+        <p ref={textRef} className="text-real-black text-3xl md:text-[4rem]">
           진짜 나를 보여주세요,
           <br />
           안전한 익명 공간에서

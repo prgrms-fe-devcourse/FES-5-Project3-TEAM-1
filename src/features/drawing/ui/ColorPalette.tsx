@@ -25,7 +25,7 @@ function ColorPalette({ colors, selectedColor, onSelectedColor }: Props) {
             aria-label={name}
             className={clsx(
               'w-6 h-6 rounded-full',
-              name === '흰색' ? 'border-1 border-black' : '',
+              name === '흰색' || '검정' ? 'border-1 border-black' : '',
               selectedColor === value && 'ring-2 ring-black',
             )}
             style={{ backgroundColor: value }}

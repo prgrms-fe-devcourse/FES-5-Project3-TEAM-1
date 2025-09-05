@@ -200,7 +200,7 @@ const Home = () => {
         >
           <ScrollSvg className="w-8 h-8" />
           <span
-            className="text-black text-3xl"
+            className="text-real-black text-3xl"
             style={{ WebkitTextStroke: '1px white' }}
           >
             Scroll!
