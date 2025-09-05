@@ -4,8 +4,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import nimoHi from '@/assets/nimo/nimo-hi.gif';
 import type { HeroSectionProps } from '../type/Hero';
-import { useModal } from '@/shared/utils/ModalProvider';
 import FeatureList from './FeatureList';
+import { useAuth } from '@/shared/utils/AuthProvider';
+import { useModal } from '@/shared/utils/ModalProvider';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,6 +15,8 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
   const nimoWrapperRef = useRef<HTMLDivElement>(null);
   const titleWrapperRef = useRef<HTMLDivElement>(null);
   const nimoRef = useRef<HTMLImageElement>(null);
+  const loginAuth = useAuth();
+  const isLoginUser = !!loginAuth.userId;
   const modal = useModal();
 
   const nimoJump =
@@ -129,7 +132,15 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
         </h2>
         <button
           type="button"
-          onClick={() => modal.openModal('login')}
+          onClick={() => {
+            if (isLoginUser) {
+              modal.openModal('createThread', {
+                mode: 'create',
+              });
+            } else {
+              modal.openModal('login');
+            }
+          }}
           className="w-auto text-xl md:text-3xl bg-primary rounded-4xl px-4 py-2 transform transition duration-150 ease-in-out hover:translate-y-0.25 active:translate-y-0.25 hover:bg-primary-light"
         >
           서비스 이용하기
