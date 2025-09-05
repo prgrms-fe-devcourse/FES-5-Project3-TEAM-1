@@ -26,10 +26,11 @@ const EasterEggSection = () => {
 
     if (category) {
       const Component = getComponentByCategory(category);
+
       return Component ? <Component /> : null;
     }
   };
 
-  return <div className="fixed -bottom-5 -left-10">{renderComponent()}</div>;
+  return <div>{renderComponent()}</div>;
 };
 export default EasterEggSection;
