@@ -10,7 +10,7 @@ function Footer() {
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-1">
         <address className="flex flex-col md:flex-row gap-1 md:gap-3 not-italic">
           <div className="flex gap-2">
-            <strong className="pr-1 relative after:content-[''] after:block after:absolute after:right-0 after:top-2.5 after:w-0.25 after:h-2 after:bg-slate-900 text-true-black">
+            <strong className="pr-1 relative after:content-[''] after:block after:absolute after:right-0 after:top-2.5 after:w-0.25 after:h-2 after:bg-slate-900 text-[#000000]">
               Contact
             </strong>
             <a
@@ -23,7 +23,7 @@ function Footer() {
             </a>
           </div>
           <div className="flex gap-2">
-            <strong className="pr-1 relative after:content-[''] after:block after:absolute after:right-0 after:top-2.5 after:w-0.25 after:h-2 after:bg-slate-900 text-true-black">
+            <strong className="pr-1 relative after:content-[''] after:block after:absolute after:right-0 after:top-2.5 after:w-0.25 after:h-2 after:bg-slate-900 text-[#000000]">
               Made by
             </strong>
             <a
