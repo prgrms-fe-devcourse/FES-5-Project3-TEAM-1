@@ -139,7 +139,7 @@ function FeedOptionsSection({
                     const file = e.target.files?.[0];
                     if (file) {
                       if (file.size > MAX_FILE_SIZE) {
-                        alert('파일 크기가 5MB를 초과했습니다.');
+                        toastUtils.error('파일 크기가 5MB를 초과했습니다.');
                         return;
                       }
                       setImageFile(file);

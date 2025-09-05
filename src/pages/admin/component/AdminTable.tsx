@@ -117,7 +117,7 @@ const AdminTable = ({ className }: AdminTableProps) => {
                         className="lg:w-40 lg:h-40"
                       />
                       <p className="text-base text-black">
-                        생성된 방이 없습니다.
+                        생성된 스레드가 없습니다.
                       </p>
                     </div>
                   </div>
