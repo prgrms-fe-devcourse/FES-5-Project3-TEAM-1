@@ -4,7 +4,7 @@ import logoDark from '@/assets/logo-dark-mode.png';
 import moonSVG from '@/assets/icon/moon-20.svg';
 import sunSVG from '@/assets/icon/sun-02.svg';
 import settingsSVG from '@/assets/icon/settings-32.svg';
-import usersSVG from '@/assets/icon/users-16.svg';
+// import usersSVG from '@/assets/icon/users-16.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
 import { useAuth } from '@/shared/utils/AuthProvider';
@@ -21,12 +21,14 @@ interface Props {
   hideParticipantCount?: boolean;
 }
 
-function Header({
-  // tabs,
-  // currentTab,
-  // onTabChange,
-  hideParticipantCount,
-}: Props) {
+function Header(
+  {
+    // tabs,
+    // currentTab,
+    // onTabChange,
+    // hideParticipantCount,
+  }: Props,
+) {
   const settingsMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const isThread = location.pathname.startsWith('/thread');
@@ -124,7 +126,7 @@ function Header({
             className="w-5 h-5"
           />
         </button>
-        {!hideParticipantCount && (
+        {/* {!hideParticipantCount && (
           <div className="flex justify-center items-center gap-1 min-w-16 bg-primary rounded-4xl">
             <img
               className="flex w-4 h-4"
@@ -140,7 +142,7 @@ function Header({
               30
             </span>
           </div>
-        )}
+        )} */}
         <div ref={settingsMenuRef} className="w-8 h-8">
           <button
             aria-haspopup="menu"

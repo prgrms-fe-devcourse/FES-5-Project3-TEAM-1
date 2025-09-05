@@ -38,12 +38,17 @@ const Thread = () => {
   }, [isPasswordRequired, notFound]);
   // 쓰레드 비밀번호 검증 헨들러
   const handlePasswordValidate = async (password: string, threadId: string) => {
-    const result = await validatePassword(password, threadId);
+    try {
+      const result = await validatePassword(password, threadId);
 
-    if (result.success) {
-      setShowPasswordModal(false);
+      if (result.success) {
+        setShowPasswordModal(false);
+      }
+      return result;
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: '검증에 실패했습니다.' };
     }
-    return result;
   };
   // 정렬 핸들러
   const handleSortChange = useCallback((option: FeedSortBy) => {
@@ -59,7 +64,10 @@ const Thread = () => {
       {/* 헬맷 */}
       <Helmet>
         <title>{`Anonimo | ${thread?.title}`}</title>
-        <meta name="description" content={thread?.description} />
+        <meta
+          name="description"
+          content={thread?.description ?? '쓰레드 설명 없음'}
+        />
         <meta name="keywords" content="익명, 커뮤니티" />
         <meta name="author" content="team whySmile" />
       </Helmet>

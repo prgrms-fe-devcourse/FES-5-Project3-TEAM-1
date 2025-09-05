@@ -111,7 +111,7 @@ const CreateFeed = ({ threadId, token }: Props) => {
           aria-hidden={!isModalOpen}
           className="fixed left-0 top-0 opacity-0 z-50"
         >
-          <div className="bg-gray-light w-screen h-screen overflow-auto relative ">
+          <div className="bg-white w-screen h-screen overflow-auto relative ">
             <div
               className="flex items-center px-2 py-2 h-12 bg-primary-light"
               aria-hidden
@@ -128,7 +128,7 @@ const CreateFeed = ({ threadId, token }: Props) => {
               type={type}
               imageFile={imageFile}
               setImageFile={setImageFile}
-              className="rounded-none"
+              className="rounded-none shadow-none"
             />
 
             <button

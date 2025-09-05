@@ -46,7 +46,7 @@ const PasswordModal = ({ isOpen, onClose, onValidate, threadId }: Props) => {
 
   return (
     <InputModal
-      title="방 입장하기"
+      title="스레드 입장하기"
       content="비밀번호를 입력해주세요."
       overlayType="blur"
     >

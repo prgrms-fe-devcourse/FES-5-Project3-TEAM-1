@@ -1,3 +1,4 @@
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 import tw from '@/shared/utils/style';
 import { forwardRef } from 'react';
 
@@ -25,6 +26,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
+    const isDarkMode = useThemeStore((state) => state.isDarkMode);
     return (
       <button
         ref={ref}
@@ -43,10 +45,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           disabled
             ? 'bg-gray text-white'
             : [
-                color === 'default' &&
-                  'bg-black text-white enabled:hover:bg-black-light',
-                color === 'blue' &&
-                  'bg-primary text-black enabled:hover:bg-primary-light',
+                !isDarkMode
+                  ? color === 'default' &&
+                    'bg-black text-white enabled:hover:bg-black-light'
+                  : 'bg-primary-light text-white enabled:hover:bg-black',
+                !isDarkMode
+                  ? color === 'blue' &&
+                    'bg-primary text-black enabled:hover:bg-primary-light'
+                  : 'bg-primary enabled:hover:bg-primary-light',
 
                 'enabled:hover:shadow-md',
                 'enabled:active:translate-y-[2px] active:shadow-sm',

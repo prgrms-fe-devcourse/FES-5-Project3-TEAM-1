@@ -11,6 +11,9 @@ import HeroSection02 from './component/HeroSection02';
 import SettingsMenu from '@/shared/components/header/SettingsMenu';
 import useLogout from '@/features/login/hooks/useLogout';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
+import moonSVG from '@/assets/icon/moon-20.svg';
+import sunSVG from '@/assets/icon/sun-02.svg';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 const Home = () => {
@@ -30,6 +33,8 @@ const Home = () => {
   const smootherRef = useRef<ScrollSmoother | null>(null);
   const scrollRef = useRef<HTMLButtonElement>(null);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const handleSwitchTheme = useThemeStore((state) => state.toggleDarkMode);
 
   const [isOpen, setIsOpen] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
@@ -143,29 +148,42 @@ const Home = () => {
         <HeroSection02 ref={section02Ref} />
       </div>
 
-      <div ref={settingsMenuRef} className="absolute right-3 top-3">
+      <div className="flex-center gap-2 absolute right-3 top-3">
         <button
-          aria-haspopup="menu"
-          aria-expanded={isOpen}
-          aria-label="설정"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="group place-items-center grid"
+          className={`flex justify-center items-center w-8 h-8 rounded-full   ${isDarkMode ? 'bg-[#f7f9fb] shadow-[0_0_10px_2px_rgba(0,0,0,0.4)]' : 'bg-black shadow-[0_0_10px_2px_rgba(255,255,255,0.7)]'}`}
+          aria-label="다크 모드"
+          onClick={handleSwitchTheme}
         >
           <img
-            src={settingsSVG}
-            alt=""
+            src={isDarkMode ? sunSVG : moonSVG}
             aria-hidden="true"
-            className="block w-12 origin-center motion-safe:group-hover:animate-[spin_1300ms_linear_infinite]"
+            className="w-5 h-5"
           />
         </button>
+        <div ref={settingsMenuRef}>
+          <button
+            aria-haspopup="menu"
+            aria-expanded={isOpen}
+            aria-label="설정"
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="group place-items-center grid"
+          >
+            <img
+              src={settingsSVG}
+              alt=""
+              aria-hidden="true"
+              className="block w-12 origin-center motion-safe:group-hover:animate-[spin_1300ms_linear_infinite]"
+            />
+          </button>
 
-        <SettingsMenu
-          isOpen={isOpen}
-          isLoginUser={isLoginUser}
-          logout={logout}
-          onClose={() => setIsOpen(false)}
-          className="settings-menu"
-        ></SettingsMenu>
+          <SettingsMenu
+            isOpen={isOpen}
+            isLoginUser={isLoginUser}
+            logout={logout}
+            onClose={() => setIsOpen(false)}
+            className="settings-menu"
+          ></SettingsMenu>
+        </div>
       </div>
 
       {showScrollBtn && (
@@ -182,7 +200,7 @@ const Home = () => {
         >
           <ScrollSvg className="w-8 h-8" />
           <span
-            className="text-black text-3xl"
+            className="text-real-black text-3xl"
             style={{ WebkitTextStroke: '1px white' }}
           >
             Scroll!

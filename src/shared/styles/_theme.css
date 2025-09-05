@@ -20,6 +20,7 @@
   --color-success-400: #16a249;
   --color-error-400: #981b1b;
   --color-info-400: #1e3fae;
+  --color-true-black: var(--color-slate-900);
 }
 
 .dark {

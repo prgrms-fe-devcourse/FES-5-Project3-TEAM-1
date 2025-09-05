@@ -5,6 +5,7 @@ import RefreshSVG from '@/assets/icon/refresh-24.svg?react';
 import type { Tool } from '../types/drawing';
 import TooltipButton from '@/shared/components/button/TooltipButton';
 import { useState } from 'react';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   onSelectedTool: (tool: Tool) => void;
@@ -14,6 +15,7 @@ interface Props {
 
 function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   const handleClick = (btnName: string, action: () => void) => {
     setActiveBtn(btnName);
@@ -22,9 +24,9 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
   };
 
   const toolBtnCss = (btnName: string) =>
-    `rounded-full p-1 transition-colors duration-150 ease-in hover:bg-primary-light ${
+    `rounded-full p-1 transition-colors duration-150 ease-in  ${
       activeBtn === btnName ? 'bg-primary-light' : ''
-    }`;
+    } ${isDarkMode ? 'hover:bg-[#666666]' : 'hover:bg-primary-light'}`;
 
   return (
     <div className="flex justify-end gap-2">
@@ -34,7 +36,7 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('undo', onUndo)}
         className={toolBtnCss('undo')}
       >
-        <BackSVG aria-hidden />
+        <BackSVG aria-hidden className="text-black" />
       </TooltipButton>
       <TooltipButton
         label="지우개"
@@ -42,7 +44,10 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('eraser', () => onSelectedTool('eraser'))}
         className={toolBtnCss('eraser')}
       >
-        <EraserSVG aria-hidden />
+        <EraserSVG
+          aria-hidden
+          className="[--icon-fill-color:var(--color-white)] [--icon-stroke-color:var(--color-black)]"
+        />
       </TooltipButton>
       <TooltipButton
         label="배경 색 바꾸기"
@@ -50,7 +55,10 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('fill', () => onSelectedTool('fill'))}
         className={toolBtnCss('fill')}
       >
-        <FillSVG aria-hidden />
+        <FillSVG
+          aria-hidden
+          className="[--icon-fill-color:var(--color-white)] [--icon-stroke-color:var(--color-black)]"
+        />
       </TooltipButton>
       <TooltipButton
         label="새 그림판"
@@ -58,7 +66,7 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
         onClick={() => handleClick('reset', onReset)}
         className={toolBtnCss('reset')}
       >
-        <RefreshSVG aria-hidden />
+        <RefreshSVG aria-hidden className="text-black" />
       </TooltipButton>
     </div>
   );

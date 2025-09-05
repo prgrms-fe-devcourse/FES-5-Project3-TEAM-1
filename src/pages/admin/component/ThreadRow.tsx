@@ -73,9 +73,13 @@ export default function ThreadRow({
           <TooltipButton
             label="링크 복사"
             tooltip="링크 복사"
-            onClick={() => handleCopyClipBoard(`${data.link}`)}
+            onClick={() => {
+              handleCopyClipBoard(`${data.link}`).catch((error) => {
+                console.error('링크 복사 중 오류 발생:', error);
+              });
+            }}
           >
-            <CopySVG aria-hidden />
+            <CopySVG aria-hidden className="text-black" />
           </TooltipButton>
         </div>
       </td>
@@ -114,12 +118,12 @@ export default function ThreadRow({
       <td className={`${tdCss}`}>
         <button
           type="button"
-          aria-label="방 정보 수정"
-          className="inline-flex h-5 w-5 mt-2 items-center justify-center rounded-md hover:bg-gray-100"
+          aria-label="스레드 정보 수정"
+          className="inline-flex h-5 w-5 mt-2 items-center justify-center rounded-md hover:bg-gray-light"
           onClick={() => onEdit?.(data.id)}
           title="수정"
         >
-          <Edit className="w-5 h-5" aria-hidden />
+          <Edit className="w-5 h-5 text-black" aria-hidden />
         </button>
       </td>
 
@@ -127,12 +131,12 @@ export default function ThreadRow({
       <td className={`${tdCss}`}>
         <button
           type="button"
-          aria-label="방 삭제"
-          className="inline-flex h-5 w-5 mt-2 items-center justify-center rounded-md hover:bg-gray-100"
+          aria-label="스레드 삭제"
+          className="inline-flex h-5 w-5 mt-2 items-center justify-center rounded-md hover:bg-gray-light"
           onClick={() => onDelete?.(data.id)}
           title="삭제"
         >
-          <Delete className="w-5 h-5" aria-hidden />
+          <Delete className="w-5 h-5 text-black" aria-hidden />
         </button>
       </td>
     </tr>
