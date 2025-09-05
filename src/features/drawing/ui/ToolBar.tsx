@@ -5,6 +5,7 @@ import RefreshSVG from '@/assets/icon/refresh-24.svg?react';
 import type { Tool } from '../types/drawing';
 import TooltipButton from '@/shared/components/button/TooltipButton';
 import { useState } from 'react';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   onSelectedTool: (tool: Tool) => void;
@@ -14,6 +15,7 @@ interface Props {
 
 function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   const handleClick = (btnName: string, action: () => void) => {
     setActiveBtn(btnName);
@@ -22,9 +24,9 @@ function ToolBar({ onSelectedTool, onReset, onUndo }: Props) {
   };
 
   const toolBtnCss = (btnName: string) =>
-    `rounded-full p-1 transition-colors duration-150 ease-in hover:bg-primary-light ${
+    `rounded-full p-1 transition-colors duration-150 ease-in  ${
       activeBtn === btnName ? 'bg-primary-light' : ''
-    }`;
+    } ${isDarkMode ? 'hover:bg-[#666666]' : 'hover:bg-primary-light'}`;
 
   return (
     <div className="flex justify-end gap-2">
