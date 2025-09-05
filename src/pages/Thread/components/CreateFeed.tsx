@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import BackSvg from '@/assets/icon/back02-24.svg?react';
 import gsap from 'gsap';
 import { useCloseOnOutsideOrEsc } from '@/shared/hook/useCloseOnOutsideOrEsc';
+import tw from '@/shared/utils/style';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   threadId: string;
@@ -14,6 +16,7 @@ const CreateFeed = ({ threadId, token }: Props) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -83,7 +86,10 @@ const CreateFeed = ({ threadId, token }: Props) => {
       {/* 모바일에서 버튼 클릭으로 모달 열기 */}
       {isMobile ? (
         <button
-          className="flex flex-col w-full px-5 py-6 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10 text-gray-dark text-left"
+          className={tw(
+            'flex flex-col w-full px-5 py-6 rounded-xl bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.20)] mb-10 text-gray-dark text-left',
+            isDarkMode ? 'border border-gray-light' : '',
+          )}
           onClick={() => setIsModalOpen(true)}
         >
           익명으로 자유롭게 의견을 나눠보세요.
@@ -113,7 +119,10 @@ const CreateFeed = ({ threadId, token }: Props) => {
         >
           <div className="bg-white w-screen h-screen overflow-auto relative ">
             <div
-              className="flex items-center px-2 py-2 h-12 bg-primary-light"
+              className={tw(
+                'flex items-center px-2 py-2 h-12',
+                isDarkMode ? 'bg-secondary' : 'bg-primary-light',
+              )}
               aria-hidden
             ></div>
 
@@ -128,7 +137,7 @@ const CreateFeed = ({ threadId, token }: Props) => {
               type={type}
               imageFile={imageFile}
               setImageFile={setImageFile}
-              className="rounded-none shadow-none"
+              className="rounded-none shadow-none "
             />
 
             <button
@@ -136,7 +145,7 @@ const CreateFeed = ({ threadId, token }: Props) => {
               onClick={() => handleCloseModal()}
               aria-label="피드 목록으로 돌아가기"
             >
-              <BackSvg aria-hidden className="w-5 h-5" />
+              <BackSvg aria-hidden className="w-5 h-5 text-black" />
               피드 목록
             </button>
           </div>
