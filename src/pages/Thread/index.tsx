@@ -59,7 +59,10 @@ const Thread = () => {
       {/* 헬맷 */}
       <Helmet>
         <title>{`Anonimo | ${thread?.title}`}</title>
-        <meta name="description" content={thread?.description} />
+        <meta
+          name="description"
+          content={thread?.description ?? '쓰레드 설명 없음'}
+        />
         <meta name="keywords" content="익명, 커뮤니티" />
         <meta name="author" content="team whySmile" />
       </Helmet>
