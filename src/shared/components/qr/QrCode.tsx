@@ -1,7 +1,7 @@
 import { type RefObject } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 
-import logoImage from '/src/assets/nimo/nimo_welcome.png';
+import logoImage from '/favicon.ico';
 import { MdOutlineFileDownload } from 'react-icons/md';
 
 const QrCode = ({
@@ -25,15 +25,21 @@ const QrCode = ({
 
   return (
     <div className="flex justify-center items-end">
-      <QRCode
-        value={url}
-        logoImage={logoImage}
-        removeQrCodeBehindLogo
-        ref={qrRef}
-      />
-      <button onClick={handleDownload} aria-label="다운로드">
-        <MdOutlineFileDownload size={24} aria-hidden="true" />
-      </button>
+      <div className="relative">
+        <QRCode
+          value={url}
+          logoImage={logoImage}
+          removeQrCodeBehindLogo
+          ref={qrRef}
+        />
+        <button
+          onClick={handleDownload}
+          aria-label="다운로드"
+          className="absolute -right-6 bottom-0"
+        >
+          <MdOutlineFileDownload size={24} aria-hidden="true" />
+        </button>
+      </div>
     </div>
   );
 };
