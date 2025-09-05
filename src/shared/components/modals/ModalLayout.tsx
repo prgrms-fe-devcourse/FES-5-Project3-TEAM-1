@@ -2,6 +2,7 @@ import tw from '@/shared/utils/style';
 import CloseSvg from '@/assets/icon/close-24.svg?react';
 import Portal from '../portals/Portal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useThemeStore } from '@/features/dark-mode/hooks/useThemeStore';
 
 interface Props {
   size?: 'sm' | 'md' | 'lg';
@@ -42,6 +43,8 @@ const ModalLayout = ({
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handleClose]);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+
   return (
     <Portal targetId="modal-root" hasOverlay={false}>
       <div
@@ -69,6 +72,10 @@ const ModalLayout = ({
           tabIndex={-1}
           className={tw(
             'relative z-[1] w-[calc(100%-12px)] md:w-full p-5 bg-white rounded-2xl shadow-md',
+            'transition-all duration-200 ease-out',
+            isDarkMode
+              ? 'shadow-[0_0_6px_0_rgba(255,255,255,0.5)]'
+              : 'shadow-md',
             'transition-all duration-200 ease-out',
             isOpen
               ? 'opacity-100 scale-100 translate-y-0'
