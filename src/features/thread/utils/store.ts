@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-import {
-  getAuthenticatedThreadIdsFromSession,
-  setAuthenticatedThreadIdsToSession,
-} from '@/pages/Thread/utils/sessionUtil';
 import { getThreadInfo, getThreadPassword } from '@/shared/api/thread';
 
 import type { Thread, ThreadStore } from './type';
+import {
+  getAuthenticatedThreadIdsFromLocalStorage,
+  setAuthenticatedThreadIdsToLocalStorage,
+} from '@/pages/Thread/utils/localStorageUtil';
 
 export const useThreadStore = create<ThreadStore>((set) => ({
   thread: null,
@@ -20,7 +20,7 @@ export const useThreadStore = create<ThreadStore>((set) => ({
       set({ thread: threadInfo });
 
       // 검증된 세션이 아니고 비밀번호가 필요한 세션이면?
-      const authenticatedThreads = getAuthenticatedThreadIdsFromSession();
+      const authenticatedThreads = getAuthenticatedThreadIdsFromLocalStorage();
       if (!authenticatedThreads.includes(threadId) && threadInfo?.password) {
         set({ isPasswordRequired: true });
       }
@@ -45,9 +45,10 @@ export const useThreadStore = create<ThreadStore>((set) => ({
         set({ isAuthenticated: true });
 
         // 세션 저장 로직
-        const authenticatedThreads = getAuthenticatedThreadIdsFromSession();
+        const authenticatedThreads =
+          getAuthenticatedThreadIdsFromLocalStorage();
         authenticatedThreads.push(threadId);
-        setAuthenticatedThreadIdsToSession(authenticatedThreads);
+        setAuthenticatedThreadIdsToLocalStorage(authenticatedThreads);
 
         return true;
       }

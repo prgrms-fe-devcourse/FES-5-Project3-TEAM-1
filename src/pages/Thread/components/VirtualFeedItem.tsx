@@ -26,24 +26,9 @@ const VirtualFeedItem = ({ rowVirtualizer, virtualItem, feedId }: Props) => {
       <div className="feed-item-inner">
         {/* 실제 피드 컴포넌트 */}
         {feed.type === 'text' ? (
-          <Card
-            feedId={feed.id}
-            content={feed.content}
-            nickname={feed.nickname}
-            createdAt={feed.created_at}
-            commentCount={feed.comment_count}
-            isExpanded={feed.isExpanded}
-          />
+          <Card feed={feed} />
         ) : (
-          <ImageFeed
-            feedId={feed.id}
-            content={feed.content}
-            nickname={feed.nickname}
-            createdAt={feed.created_at}
-            commentCount={feed.comment_count}
-            drawingUrl={feed.drawing_url || ''}
-            isExpanded={feed.isExpanded}
-          />
+          <ImageFeed feed={feed} />
         )}
       </div>
     </div>
