@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router';
-import Button from '../button/Button';
 import { useHeaderMenuModal } from '@/shared/hook/useHeaderMenuModal';
 import tw from '@/shared/utils/style';
+import clsx from 'clsx';
 
 interface Props {
   isOpen: boolean;
@@ -36,37 +36,51 @@ function SettingsMenu({
         className,
       )}
     >
-      {isLoginUser && (
-        <ul className="flex flex-col">
+      <ul className="flex flex-col">
+        {isLoginUser && (
           <li
             role="menuitem"
-            className="py-2 border-b border-b-gray-light text-center"
+            className="border-b border-b-gray-light text-center "
           >
-            <NavLink to="/admin" onClick={onClose}>
+            <NavLink
+              to="/admin"
+              onClick={onClose}
+              className={({ isActive }) =>
+                clsx(
+                  'block w-full py-2 transition-colors duration-200 ease-in-out hover:bg-gray-light/60',
+                  isActive && 'bg-gray-light',
+                )
+              }
+            >
               내 스레드 관리
             </NavLink>
           </li>
-        </ul>
-      )}
-
-      <div className="flex flex-col gap-2">
-        <Button
-          onClick={() => handleActionModal('thread')}
-          size="sm"
-          color="blue"
-          fullWidth
+        )}
+        <li
+          role="menuitem"
+          className="border-b border-b-gray-light text-center"
         >
-          스레드 만들기
-        </Button>
-        <Button
-          size="sm"
-          color="default"
-          fullWidth
-          onClick={() => handleActionModal('login')}
+          <button
+            type="button"
+            onClick={() => handleActionModal('thread')}
+            className="w-full py-2 transition-colors duration-200 ease-in-out hover:bg-gray-light/60"
+          >
+            스레드 만들기
+          </button>
+        </li>
+        <li
+          role="menuitem"
+          className="border-b border-b-gray-light text-center"
         >
-          {isLoginUser ? '로그아웃' : '로그인'}
-        </Button>
-      </div>
+          <button
+            type="button"
+            onClick={() => handleActionModal('login')}
+            className="w-full py-2 text-[#658eff] dark:text-primary font-bold  transition-colors duration-200 ease-in-out hover:bg-gray-light/60"
+          >
+            {isLoginUser ? '로그아웃' : '로그인'}
+          </button>
+        </li>
+      </ul>
     </div>
   );
 }

@@ -47,12 +47,12 @@ const ImageFeed = ({
                   loading="lazy"
                 />
               </div>
-              <div className="absolute right-0 -bottom-2 z-20">
+              <div className="absolute right-0 -bottom-2 z-20 transition-opacity duration-500">
                 <TooltipButton
                   label="이미지 다운로드"
                   tooltip="이미지 다운로드"
                   onClick={() =>
-                    downloadImage(drawingUrl.replace(/_400_\.png$/, '.png'))
+                    downloadImage(drawingUrl.replace(/_400_(?=\.[^.]+$)/, ''))
                   }
                   className="flex-center w-7 h-7 text-gray-dark rounded-full transition-[background] duration-200 hover:bg-primary/30 active:bg-primary/30"
                 >

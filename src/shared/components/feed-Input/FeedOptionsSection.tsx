@@ -5,6 +5,7 @@ import ImageAddSVG from '@/assets/icon/image-add.svg';
 import React from 'react';
 import CloseSvg from '@/assets/icon/close-24.svg?react';
 import { gsap } from 'gsap';
+import { toastUtils } from '@/shared/utils/toastUtils';
 
 interface Props {
   selectedChkbox: string | null;
@@ -26,6 +27,8 @@ function FeedOptionsSection({
   const [isDragActive, setIsDragActive] = useState(false);
   const drawingContainerRef = useRef(null);
   const imageContainerRef = useRef(null);
+
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
   useEffect(() => {
     gsap.to(drawingContainerRef.current, {
@@ -86,6 +89,10 @@ function FeedOptionsSection({
                   setIsDragActive(false);
                   const file = e.dataTransfer.files[0];
                   if (file && file.type.startsWith('image/')) {
+                    if (file.size > MAX_FILE_SIZE) {
+                      toastUtils.error('파일 크기가 5MB를 초과했습니다.');
+                      return;
+                    }
                     setImageFile(file);
                   }
                 }}
@@ -94,8 +101,10 @@ function FeedOptionsSection({
                   // 🔹 이미지가 없을 때: 업로드 안내
                   <>
                     <img src={ImageAddSVG} alt="이미지 추가 버튼" />
-                    <p className="text-[16px] max-w-[174px] text-center text-gray-dark">
+                    <p className="text-[16px] text-center text-gray-dark">
                       이미지를 드래그나 클릭해서 업로드 해주세요
+                      <br />
+                      (파일크기: 5MB 이하)
                     </p>
                   </>
                 ) : (
@@ -127,8 +136,13 @@ function FeedOptionsSection({
                   id="feedOptions-imageInput"
                   className="sr-only"
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setImageFile(e.target.files[0]);
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      if (file.size > MAX_FILE_SIZE) {
+                        toastUtils.error('파일 크기가 5MB를 초과했습니다.');
+                        return;
+                      }
+                      setImageFile(file);
                     }
                   }}
                 />

@@ -14,7 +14,13 @@ function WelcomeModal({ onClose }: Props) {
   return (
     <InputModal
       title={'환영합니다!'}
-      content={'Anónimo의 익명방을 만들고 싶다면 아래 버튼을 이용해 주세요.'}
+      content={
+        <p>
+          Anónimo의 익명 스레드를 만들고 싶다면
+          <br />
+          아래 버튼을 이용해 주세요.
+        </p>
+      }
       onClose={onClose}
       children={
         <div className="items-center flex flex-col gap-[20px] pt-[20px]">
@@ -29,7 +35,7 @@ function WelcomeModal({ onClose }: Props) {
               })
             }
           >
-            방 만들기
+            스레드 만들기
           </button>
         </div>
       }

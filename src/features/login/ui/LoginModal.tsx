@@ -12,7 +12,7 @@ function LoginModal({ onClose }: Props) {
     <InputModal
       title={'로그인'}
       content={
-        ' Anónimo 방 만들기는\n소셜 로그인으로 간편하게 시작할 수 있어요.'
+        ' Anónimo 스레드 만들기는\n소셜 로그인으로 간편하게 시작할 수 있어요.'
       }
       onClose={onClose}
       children={
