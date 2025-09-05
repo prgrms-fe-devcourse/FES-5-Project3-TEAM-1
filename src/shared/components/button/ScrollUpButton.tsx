@@ -4,35 +4,41 @@ import { GoChevronUp } from 'react-icons/go';
 const ScrollUpButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // useCallback으로 함수 최적화
+  // 스크롤 이벤트 최적화
   const toggleVisibility = useCallback(() => {
-    // window.pageYOffset 대신 window.scrollY 사용 (더 표준적)
-    const scrollY =
-      window.scrollY ||
-      window.pageYOffset ||
-      document.documentElement.scrollTop;
-
-    if (scrollY > 100) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  }, []);
-
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({
-      top: 0,
-      // behavior: 'smooth',
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY || 0;
+      setIsVisible(scrollY > 100);
     });
   }, []);
 
-  useEffect(() => {
-    // passive: true 옵션으로 성능 향상
-    const options = { passive: true };
+  // 스크롤
+  const scrollToTop = useCallback(() => {
+    const start = window.scrollY;
+    const duration = 500; // 애니메이션 시간 (ms)
+    const startTime = performance.now();
 
+    const animateScroll = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // easeOutCubic
+      const ease = 1 - Math.pow(1 - progress, 3);
+      window.scrollTo(0, start * (1 - ease));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  }, []);
+
+  useEffect(() => {
+    const options = { passive: true };
     window.addEventListener('scroll', toggleVisibility, options);
 
-    // 초기 상태 설정
+    // 초기 상태
     toggleVisibility();
 
     return () => {
