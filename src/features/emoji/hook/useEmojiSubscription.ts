@@ -67,5 +67,5 @@ export const useEmojiSubscription = ({
     return () => {
       channelRef.current?.unsubscribe();
     };
-  }, [feedId, handleNewEmojiInsert, handleEmojiUpdate]);
+  }, [feedId]);
 };

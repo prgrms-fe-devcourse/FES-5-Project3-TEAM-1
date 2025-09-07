@@ -114,7 +114,7 @@ export const useEmoji = ({ feedId }: { feedId: string }) => {
         }
       }
     },
-    500,
+    150,
   );
 
   // 이모디 등록 및 제거
