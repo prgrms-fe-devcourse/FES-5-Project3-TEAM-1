@@ -136,5 +136,8 @@ export const createEmojiCountSubscription = ({
       },
       onEmojiUpdate,
     )
-    .subscribe();
+    .subscribe((state) => {
+      console.log('feedId', feedId);
+      console.log('state', state);
+    });
 };
