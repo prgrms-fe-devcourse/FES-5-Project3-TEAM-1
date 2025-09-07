@@ -4,11 +4,13 @@ import { useModal } from '@/shared/utils/ModalProvider';
 import { Navigate, useNavigate } from 'react-router';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import { toastUtils } from '@/shared/utils/toastUtils';
+import { useState } from 'react';
 
 const AdminPage = () => {
   const modal = useModal();
   const navigate = useNavigate();
   const { isLoggedIn, isLoading } = useAuth();
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   if (isLoading) return <div>Loading..</div>;
   if (!isLoggedIn) {
@@ -20,6 +22,7 @@ const AdminPage = () => {
     modal.openModal('createThread', {
       navigateToAdmin: () => navigate('/admin'),
       mode: 'create',
+      onSuccess: () => setRefreshTrigger((prev) => prev + 1),
     });
   };
 
@@ -40,7 +43,10 @@ const AdminPage = () => {
           </Button>
         </div>
 
-        <AdminTable></AdminTable>
+        <AdminTable
+          refreshTrigger={refreshTrigger}
+          onRefresh={() => setRefreshTrigger((prev) => prev + 1)}
+        ></AdminTable>
       </div>
     </div>
   );
