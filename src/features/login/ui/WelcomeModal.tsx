@@ -32,6 +32,7 @@ function WelcomeModal({ onClose }: Props) {
               modal.openModal('createThread', {
                 mode: 'create',
                 navigateToAdmin: () => navigate('/admin'),
+                onSuccess: () => console.log(''),
               })
             }
           >
