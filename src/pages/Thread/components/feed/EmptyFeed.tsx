@@ -7,6 +7,8 @@ const EmptyFeed = () => {
         src="https://mehfhzgjbfywylancalx.supabase.co/storage/v1/object/public/assets/ano_search.png"
         loading="lazy"
         className="lg:w-40 lg:h-40"
+        alt=""
+        aria-hidden
       />
       <p className="text-base lg:text-lg text-center text-gray-dark">
         아직 등록한 피드가 없어요..

@@ -14,29 +14,34 @@
 ---
 
 ## 👨‍💻 팀원
-| 김현빈👑 | 김아현 | 송영웅 | 이승은 |
-| --- | --- | --- | --- |
-| <img src="https://avatars.githubusercontent.com/hb-k-3376" width="100"/> | <img src="https://avatars.githubusercontent.com/ahk0413" width="100"/> | <img src="https://avatars.githubusercontent.com/seungdev" width="100"/> | <img src="https://avatars.githubusercontent.com/forntend-developer" width="100"/> |
-| [GitHub](https://github.com/hb-k-3376) | [GitHub](https://github.com/ahk0413) | [GitHub](https://github.com/heroson02) | [GitHub](https://github.com/seungdev) |
+
+| 김현빈👑                                                                 | 김아현                                                                 | 손영웅                                                                   | 이승은                                                                  |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| <img src="https://avatars.githubusercontent.com/hb-k-3376" width="100"/> | <img src="https://avatars.githubusercontent.com/ahk0413" width="100"/> | <img src="https://avatars.githubusercontent.com/heroson02" width="100"/> | <img src="https://avatars.githubusercontent.com/seungdev" width="100"/> |
+| [GitHub](https://github.com/hb-k-3376)                                   | [GitHub](https://github.com/ahk0413)                                   | [GitHub](https://github.com/heroson02)                                   | [GitHub](https://github.com/seungdev)                                   |
 
 ## 🖥️ 핵심 기능
 
 ### 🚪 간편한 방 생성 & 입장
+
 - **스레드 오너**: 소셜 로그인 → 스레드 생성 → 링크 공유
 - **참여자**: 링크 클릭 or Qr code → 바로 입장
 - 비밀번호 설정으로 안전한 방 관리
 
 ### 💬 다양한 피드 작성
+
 - **텍스트**: 기본 메시지 작성
-- **그림**: konva를 활용한 자유로운 그림 그리기  
+- **그림**: konva를 활용한 자유로운 그림 그리기
 - **이미지**: 사진 업로드 및 공유
 
 ### ⚡ 실시간 상호작용
+
 - **이모지 리액션**: 빠른 감정 표현
 - **실시간 댓글**: 즉시 소통 가능
 - **정렬 기능**: 최신순/인기순/댓글순 선택
 
 ### 🎯 편의 기능
+
 - **닉네임 변경**: 언제든 닉네임 수정 가능
 - **관리자 모드**: 스레드 오너의 스레드 설정 관리
 - **모바일 최적화**: 반응형 디자인
@@ -46,11 +51,11 @@
 
 ## 🛠️ 기술 스택
 
-| **Frontend** | **Backend** | **기타** |
-|-------------|-------------|----------|
-| React, TypeScript | Supabase | GSAP (애니메이션) |
-| Vite | Real-time DB | Canvas API |
-| CSS Modules | Authentication | QR Code |
+| **Frontend**      | **Backend**    | **기타**          |
+| ----------------- | -------------- | ----------------- |
+| React, TypeScript | Supabase       | GSAP (애니메이션) |
+| Vite              | Real-time      | konva             |
+| Tailwind CSS      | Authentication | QR Code           |
 
 ---
 
@@ -63,7 +68,6 @@
 - 📱 **반응형 디자인** 및 모바일 최적화
 - ⚙️ **관리자 페이지** (방 설정 관리)
 - 🎉 **숨어있는 이스터에그** 타 팀과의 콜라보까지
-
 
 ---
 

@@ -50,6 +50,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             mode={modal.props.mode}
             threadId={modal.props.id}
             navigateToAdmin={modal.props.navigateToAdmin}
+            onSuccess={modal.props.onSuccess}
           ></CreateThreads>
         );
       case 'logoutConfirm':

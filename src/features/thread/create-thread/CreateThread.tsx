@@ -19,11 +19,18 @@ interface Props {
   mode: 'create' | 'update';
   threadId?: string;
   navigateToAdmin?: () => void;
+  onSuccess: () => void;
 }
 
 type CreateModalStep = 'form' | 'success';
 
-function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
+function CreateThreads({
+  onClose,
+  mode,
+  threadId,
+  navigateToAdmin,
+  onSuccess,
+}: Props) {
   const [modalStep, setModalStep] = useState<CreateModalStep>('form');
   const [link, setLink] = useState('');
   const [title, setTitle] = useState('');
@@ -96,6 +103,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
 
     setLink(link);
     setModalStep('success');
+    onSuccess();
   };
 
   const handleCopyClipBoard = async (text: string) => {
@@ -133,6 +141,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
         });
 
         toastUtils.success('스레드 정보가 수정되었습니다 ✨');
+        onSuccess();
         onClose();
       }
     } catch (error) {
@@ -142,7 +151,7 @@ function CreateThreads({ onClose, mode, threadId, navigateToAdmin }: Props) {
       } else {
         toastUtils.error('스레드 정보 수정에 실패했습니다.');
       }
-      toastUtils.success('스레드 정보가 수정되었습니다 ✨');
+      // toastUtils.success('스레드 정보가 수정되었습니다 ✨');
       onClose();
     }
   };
