@@ -1,26 +1,85 @@
-#### 메인 라이브러리
+<h1 align="center">
+  <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Anonimo;새로운+소통의+패러다임;🤝&color=7B68EE" />
+</h1>
 
-- React ^19.1.1
-- React Router ^7.8.1
-- Zustand ^5.0.7
-- @supabase/supabase-js ^2.55.0
+익명으로 자연스럽게 친해지는 실시간 소통 플랫폼  
+어색함은 잠시, 재미있는 상호작용으로 빠르게 친목을 도모하세요.
 
-#### 스타일링
+---
 
-- TailwindCSS ^4.1.12
-- tailwind-merge ^3.3.1
-- clsx ^2.1.1
+## 📖 서비스 소개
 
-#### UI 컴포넌트
+**Anonimo**는 팀 프로젝트나 조 모임 그리고 워크샵에서 느끼는 어색함을 해소하고, 익명 기반의 자연스러운 소통을 통해 빠르게 친해질 수 있는 실시간 상호작용 플랫폼입니다.
 
-- react-hot-toast ^2.6.0
-- @dr.pogodin/react-helmet ^3.0.2
+---
 
-#### 개발 도구
+## 👨‍💻 팀원
+| 김현빈👑 | 김아현 | 송영웅 | 이승은 |
+| --- | --- | --- | --- |
+| <img src="https://avatars.githubusercontent.com/hb-k-3376" width="100"/> | <img src="https://avatars.githubusercontent.com/ahk0413" width="100"/> | <img src="https://avatars.githubusercontent.com/seungdev" width="100"/> | <img src="https://avatars.githubusercontent.com/forntend-developer" width="100"/> |
+| [GitHub](https://github.com/hb-k-3376) | [GitHub](https://github.com/ahk0413) | [GitHub](https://github.com/heroson02) | [GitHub](https://github.com/seungdev) |
 
-- Vite ^7.1.2
-- TypeScript ~5.8.3
+## 🖥️ 핵심 기능
 
-#### 기타
+### 🚪 간편한 방 생성 & 입장
+- **스레드 오너**: 소셜 로그인 → 스레드 생성 → 링크 공유
+- **참여자**: 링크 클릭 or Qr code → 바로 입장
+- 비밀번호 설정으로 안전한 방 관리
 
-- Husky ^9.1.7
+### 💬 다양한 피드 작성
+- **텍스트**: 기본 메시지 작성
+- **그림**: konva를 활용한 자유로운 그림 그리기  
+- **이미지**: 사진 업로드 및 공유
+
+### ⚡ 실시간 상호작용
+- **이모지 리액션**: 빠른 감정 표현
+- **실시간 댓글**: 즉시 소통 가능
+- **정렬 기능**: 최신순/인기순/댓글순 선택
+
+### 🎯 편의 기능
+- **닉네임 변경**: 언제든 닉네임 수정 가능
+- **관리자 모드**: 스레드 오너의 스레드 설정 관리
+- **모바일 최적화**: 반응형 디자인
+- **다크모드**: 테마 변경 지원
+
+---
+
+## 🛠️ 기술 스택
+
+| **Frontend** | **Backend** | **기타** |
+|-------------|-------------|----------|
+| React, TypeScript | Supabase | GSAP (애니메이션) |
+| Vite | Real-time DB | Canvas API |
+| CSS Modules | Authentication | QR Code |
+
+---
+
+## 🎯 개발 현황
+
+- 🔐 **소셜 로그인** 및 방 생성/입장
+- 💬 **실시간 피드** 작성 및 출력 (텍스트/그림/이미지)
+- ⚡ **실시간 댓글/리액션** 기능
+- 🎨 **GSAP 애니메이션** 및 마이크로 인터랙션
+- 📱 **반응형 디자인** 및 모바일 최적화
+- ⚙️ **관리자 페이지** (방 설정 관리)
+- 🎉 **숨어있는 이스터에그** 타 팀과의 콜라보까지
+
+
+---
+
+## 💡 차별점
+
+- **🔓 로그인 없는 참여**: 링크만으로 간편 접속
+- **🎨 다양한 표현**: 텍스트, 그림, 이미지로 자유로운 소통
+- **⚡ 실시간 반응**: 즉시 피드백과 상호작용
+- **🎭 익명 환경**: 부담 없는 자연스러운 소통
+
+---
+
+## 🎉 기대효과
+
+**빠른 친목 형성** → **높은 참여도** → **자유로운 소통** → **팀 역학 이해**
+
+---
+
+**Anonimo와 함께 어색함은 잠시, 재미있는 소통을 시작해보세요! 🎭✨**
