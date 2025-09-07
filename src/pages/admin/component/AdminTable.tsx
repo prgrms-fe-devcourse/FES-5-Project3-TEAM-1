@@ -1,5 +1,5 @@
 import { useModal } from '@/shared/utils/ModalProvider';
-import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
 import ThreadRow, { type ThreadRowData } from './ThreadRow';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import { getThreadsByUserId, removeThreads } from '@/shared/api/thread';
