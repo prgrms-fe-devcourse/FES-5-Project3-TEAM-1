@@ -136,6 +136,7 @@ const HeroSection02 = forwardRef<HeroSectionProps>((_, ref) => {
             if (isLoginUser) {
               modal.openModal('createThread', {
                 mode: 'create',
+                onSuccess: () => console.log(''),
               });
             } else {
               modal.openModal('login');
