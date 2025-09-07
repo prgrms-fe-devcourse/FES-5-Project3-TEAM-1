@@ -32,6 +32,7 @@ export const useHeaderMenuModal = ({
         modal.openModal('createThread', {
           mode: 'create',
           navigateToAdmin: () => navigate('/admin'),
+          onSuccess: () => console.log(''),
         });
         break;
 
