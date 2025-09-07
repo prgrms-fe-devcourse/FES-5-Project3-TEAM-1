@@ -1,5 +1,5 @@
 import { useModal } from '@/shared/utils/ModalProvider';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import ThreadRow, { type ThreadRowData } from './ThreadRow';
 import { useAuth } from '@/shared/utils/AuthProvider';
 import { getThreadsByUserId, removeThreads } from '@/shared/api/thread';
@@ -8,9 +8,15 @@ import ConfirmModal from '@/shared/components/modals/ConfirmModal';
 
 type AdminTableProps = {
   className?: string;
+  refreshTrigger?: number;
+  onRefresh: () => void;
 };
 
-const AdminTable = ({ className }: AdminTableProps) => {
+const AdminTable = ({
+  className,
+  refreshTrigger,
+  onRefresh,
+}: AdminTableProps) => {
   const [rows, setRows] = useState<ThreadRowData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +50,7 @@ const AdminTable = ({ className }: AdminTableProps) => {
         setIsLoading(false);
       }
     })();
-  }, [userId]);
+  }, [userId, refreshTrigger]);
 
   // 삭제 모달 오픈
   const handleDeleteClick = (threadId: string) => {
@@ -120,7 +126,11 @@ const AdminTable = ({ className }: AdminTableProps) => {
                   index={i + 1}
                   data={t}
                   onEdit={(id) =>
-                    modal.openModal('createThread', { id, mode: 'update' })
+                    modal.openModal('createThread', {
+                      id,
+                      mode: 'update',
+                      onSuccess: onRefresh,
+                    })
                   }
                   onDelete={handleDeleteClick}
                 />
