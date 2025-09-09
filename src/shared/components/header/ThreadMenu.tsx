@@ -1,11 +1,14 @@
 import { Link } from 'react-router';
 import { useEffect, useRef, useState } from 'react';
-import NicknameChangeModal from '@/shared/components/modals/NicknameChangeModal';
+
 import clsx from 'clsx';
+
+import QrCode from '../qr/QrCode';
+import NicknameChangeModal from '@/shared/components/modals/NicknameChangeModal';
 import type { Tables } from '@/shared/types';
 import { useHeaderMenuModal } from '@/shared/hook/useHeaderMenuModal';
-import QrCode from '../qr/QrCode';
 import { useThreadStore } from '@/features/thread/utils/store';
+import { RxExternalLink } from 'react-icons/rx';
 
 interface Props {
   isOpen: boolean;
@@ -66,6 +69,14 @@ function ThreadMenu({
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-3 pb-2 md:pb-5">
+              <a
+                className="flex justify-start items-center gap-1 border-b border-dotted text-black text-sm pb-2 mb-3 hover:text-red-700 active:scale-[0.99]"
+                href="https://github.com/prgrms-fe-devcourse/FES-5-Project3-TEAM-1/discussions"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                서비스 개선사항 보내기 <RxExternalLink size={20} />
+              </a>
               <h2 className="text-base">
                 {loading ? '타이틀 가져오는 중 😴' : (data?.title ?? '')}
               </h2>
